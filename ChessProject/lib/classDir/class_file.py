@@ -20,17 +20,18 @@ class Pawn(Piece):
         elif move_list[1] > 1 or move_list[0] > 2 or move_list[0] < 1 or move_list[1] < 0:
             return 'error: this move is impossible for a pawn'
         elif move_list[1] == 1:
-            if move_list[0] == 1:      #If this kills another piece - no piece of the same color + piece of teh other color needed
-
+            if move_list[0] == 1:      #If this kills another piece - no piece of the same color + piece of the other color needed
+                return True
             else:
                 return 'error: this pawn cannot do this move'
         elif move_list[1] == 0:
             if move_list[0] == 2:
                 if self.nb_plays == 0:      #First time this pawn plays, it can advance 2 cases if there is no piece where it wants to go
-
+                    return True
                 elif self.nb_plays > 0:
                     return 'error: this pawn cannot do this move'
             if move_list[0] == 1:      #The pawn can play if there is no piece where it wants to go
+                return True
         self.nb_plays = self.nb_plays + 1     #The pawn has played, it won't be its first play again
 
 
@@ -38,20 +39,32 @@ class Rook(Piece):
     def __init__(self, color):
         super().__init__("R", color, 0)
 
+    def __str__(self):
+        return self.name
+
 
 class Bishop(Piece):
     def __init__(self, color):
         super().__init__("B", color, 0)
+
+    def __str__(self):
+       return self.name
 
 
 class Queen(Piece):
     def __init__(self, color):
         super().__init__("Q", color, 0)
 
+    def __str__(self):
+        return self.name
+
 
 class Knight(Piece):
     def __init__(self, color):
         super().__init__("Kn", color, 0)
+
+    def __str__(self):
+        return self.name
 
 
 class King(Piece):
@@ -61,6 +74,10 @@ class King(Piece):
     def is_dead(self):
         if self.dead == 1:
             pass                    #must break the while loop
+
+    def __str__(self):
+        return self.name
+
 
 
 pieces = {'rook': {}, 'bishop': {}, 'pawn': {}, 'king': {}, 'knight': {}, 'queen': {}}
@@ -92,3 +109,46 @@ def creation_pieces():
             pieces['pawn'][i] = Pawn('white')
         else:
             pieces['pawn'][i] = Pawn('black')
+
+def initial_game(black_or_white = "white"):
+    if black_or_white == "white":
+        key_in_pieces = pieces.keys()
+        for names in key_in_pieces:
+            for id in range(len(names)):
+                if names == "rook":
+                    if pieces[names][id].color == "black":
+                        if id % 2 == 0:
+                            pieces[names][id].position = "a1"
+                            chessboard[1]["a"] = pieces[names][id].name
+                        else:
+                            pieces[names][id].position = "h1"
+                            chessboard[1]["h"] = pieces[names][id].name
+                    else:
+                        if id % 2 == 0:
+                            pieces[names][id].position = "a8"
+                            chessboard[8]["a"] = pieces[names][id].name
+                        else:
+                            pieces[names][id].position = "h8"
+                            chessboard[8]["h"] = pieces[names][id].name
+                elif names == "bishop":
+                    if pieces[names][id].color == "black":
+                        if id % 2 == 0:
+                            pieces[names][id].position = "a1"
+                            chessboard[1]["a"] = pieces[names][id].name
+                        else:
+                            pieces[names][id].position = "h1"
+                            chessboard[1]["h"] = pieces[names][id].name
+                    else:
+                        if id % 2 == 0:
+                            pieces[names][id].position = "a8"
+                            chessboard[8]["a"] = pieces[names][id].name
+                        else:
+                            pieces[names][id].position = "h8"
+                            chessboard[8]["h"] = pieces[names][id].name
+
+
+
+    elif black_or_white == "black":
+
+    else:
+        return "That's not a correct parameter (enter 'white' or 'black') !"
