@@ -1,7 +1,8 @@
-from lib.utility.util import chessboard
+from lib.utility.util import chessboard, show_chessboard
+
 
 class Piece:
-    def __init__(self, name, color, dead, position):
+    def __init__(self, name, color, dead, position = ""):
         self.color = color
         self.name = name
         self.dead = dead
@@ -13,6 +14,8 @@ class Pawn(Piece):
         super().__init__("P", color, 0)
         self.nb_plays = 0
 
+    def __str__(self):
+        return str(self.name)
 
     def move(self, move_list):
         if len(move_list) != 2:       #Wrong move
@@ -21,11 +24,7 @@ class Pawn(Piece):
             return 'error: this move is impossible for a pawn'
         elif move_list[1] == 1:
             if move_list[0] == 1:      #If this kills another piece - no piece of the same color + piece of the other color needed
-<<<<<<< HEAD
-
-=======
                 return True
->>>>>>> 91f73ded3a1658d5af1176a9cbb21cfbd823ec84
             else:
                 return 'error: this pawn cannot do this move'
         elif move_list[1] == 0:
@@ -44,7 +43,7 @@ class Rook(Piece):
         super().__init__("R", color, 0)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class Bishop(Piece):
@@ -52,7 +51,7 @@ class Bishop(Piece):
         super().__init__("B", color, 0)
 
     def __str__(self):
-       return self.name
+       return str(self.name)
 
 
 class Queen(Piece):
@@ -60,7 +59,7 @@ class Queen(Piece):
         super().__init__("Q", color, 0)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class Knight(Piece):
@@ -68,7 +67,7 @@ class Knight(Piece):
         super().__init__("Kn", color, 0)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class King(Piece):
@@ -80,8 +79,7 @@ class King(Piece):
             pass                    #must break the while loop
 
     def __str__(self):
-        return self.name
-
+        return str(self.name)
 
 
 pieces = {'rook': {}, 'bishop': {}, 'pawn': {}, 'king': {}, 'knight': {}, 'queen': {}}
@@ -114,45 +112,171 @@ def creation_pieces():
         else:
             pieces['pawn'][i] = Pawn('black')
 
+
 def initial_game(black_or_white = "white"):
+    """
+    :param black_or_white: decide what is the color who is going to play the first player
+    First we verify if it's white or black (or false value)
+    Secondly we take every value in the pieces' dictonnary to implement them in their initial place
+    Finally we put "x" value in the empty places
+    """
+    list_of_letter = ["a", "b", "c", "d", "e", "f", "g", "h"]
     if black_or_white == "white":
         key_in_pieces = pieces.keys()
         for names in key_in_pieces:
-            for id in range(len(names)):
+            id_in_names = pieces[names].keys()
+            for id_ in id_in_names:
                 if names == "rook":
-                    if pieces[names][id].color == "black":
-                        if id % 2 == 0:
-                            pieces[names][id].position = "a1"
-                            chessboard[1]["a"] = pieces[names][id].name
+                    if pieces[names][id_].color == "black":
+                        if id_ % 2 == 0:
+                            pieces[names][id_].position = "a1"
+                            chessboard[1]["a"] = pieces[names][id_]
                         else:
-                            pieces[names][id].position = "h1"
-                            chessboard[1]["h"] = pieces[names][id].name
+                            pieces[names][id_].position = "h1"
+                            chessboard[1]["h"] = pieces[names][id_]
                     else:
-                        if id % 2 == 0:
-                            pieces[names][id].position = "a8"
-                            chessboard[8]["a"] = pieces[names][id].name
+                        if id_ % 2 == 0:
+                            pieces[names][id_].position = "a8"
+                            chessboard[8]["a"] = pieces[names][id_]
                         else:
-                            pieces[names][id].position = "h8"
-                            chessboard[8]["h"] = pieces[names][id].name
+                            pieces[names][id_].position = "h8"
+                            chessboard[8]["h"] = pieces[names][id_]
                 elif names == "bishop":
-                    if pieces[names][id].color == "black":
-                        if id % 2 == 0:
-                            pieces[names][id].position = "a1"
-                            chessboard[1]["a"] = pieces[names][id].name
+                    if pieces[names][id_].color == "black":
+                        if id_ % 2 == 0:
+                            pieces[names][id_].position = "c1"
+                            chessboard[1]["c"] = pieces[names][id_]
                         else:
-                            pieces[names][id].position = "h1"
-                            chessboard[1]["h"] = pieces[names][id].name
+                            pieces[names][id_].position = "f1"
+                            chessboard[1]["f"] = pieces[names][id_]
                     else:
-                        if id % 2 == 0:
-                            pieces[names][id].position = "a8"
-                            chessboard[8]["a"] = pieces[names][id].name
+                        if id_ % 2 == 0:
+                            pieces[names][id_].position = "c8"
+                            chessboard[8]["c"] = pieces[names][id_]
                         else:
-                            pieces[names][id].position = "h8"
-                            chessboard[8]["h"] = pieces[names][id].name
-
-
-
+                            pieces[names][id_].position = "f8"
+                            chessboard[8]["f"] = pieces[names][id_]
+                elif names == "pawn":
+                    if pieces[names][id_].color == "white":
+                        if id_ < 8:
+                            pieces[names][id_].position = list_of_letter[id_] + "7"
+                            chessboard[7][list_of_letter[id_]] = pieces[names][id_]
+                    else:
+                        if id_ >= 8:
+                            pieces[names][id_].position = list_of_letter[id_ - 8] + "2"
+                            chessboard[2][list_of_letter[id_ - 8]] = pieces[names][id_]
+                elif names == "king":
+                    if pieces[names][id_].color == "black":
+                        pieces[names][id_].position = "e1"
+                        chessboard[1]["e"] = pieces[names][id_]
+                    else:
+                        pieces[names][id_].position = "e8"
+                        chessboard[8]["e"] = pieces[names][id_]
+                elif names == "queen":
+                    if pieces[names][id_].color == "black":
+                        pieces[names][id_].position = "d1"
+                        chessboard[1]["d"] = pieces[names][id_]
+                    else:
+                        pieces[names][id_].position = "d8"
+                        chessboard[8]["d"] = pieces[names][id_]
+                elif names == "knight":
+                    if pieces[names][id_].color == "black":
+                        if id_ % 2 == 0:
+                            pieces[names][id_].position = "b1"
+                            chessboard[1]["b"] = pieces[names][id_]
+                        else:
+                            pieces[names][id_].position = "g1"
+                            chessboard[1]["g"] = pieces[names][id_]
+                    else:
+                        if id_ % 2 == 0:
+                            pieces[names][id_].position = "b8"
+                            chessboard[8]["b"] = pieces[names][id_]
+                        else:
+                            pieces[names][id_].position = "g8"
+                            chessboard[8]["g"] = pieces[names][id_]
+        for numbers_x in range(3, 7):
+            for numbers_in_letters in range(len(list_of_letter)):
+                chessboard[numbers_x][numbers_in_letters] = "x"
     elif black_or_white == "black":
-
+        key_in_pieces = pieces.keys()
+        for names in key_in_pieces:
+            id_in_names = pieces[names].keys()
+            for id_ in id_in_names:
+                if names == "rook":
+                    if pieces[names][id_].color == "white":
+                        if id_ % 2 == 0:
+                            pieces[names][id_].position = "a1"
+                            chessboard[1]["a"] = pieces[names][id_]
+                        else:
+                            pieces[names][id_].position = "h1"
+                            chessboard[1]["h"] = pieces[names][id_]
+                    else:
+                        if id_ % 2 == 0:
+                            pieces[names][id_].position = "a8"
+                            chessboard[8]["a"] = pieces[names][id_]
+                        else:
+                            pieces[names][id_].position = "h8"
+                            chessboard[8]["h"] = pieces[names][id_]
+                elif names == "bishop":
+                    if pieces[names][id_].color == "white":
+                        if id_ % 2 == 0:
+                            pieces[names][id_].position = "c1"
+                            chessboard[1]["c"] = pieces[names][id_]
+                        else:
+                            pieces[names][id_].position = "f1"
+                            chessboard[1]["f"] = pieces[names][id_]
+                    else:
+                        if id_ % 2 == 0:
+                            pieces[names][id_].position = "c8"
+                            chessboard[8]["c"] = pieces[names][id_]
+                        else:
+                            pieces[names][id_].position = "f8"
+                            chessboard[8]["f"] = pieces[names][id_]
+                elif names == "pawn":
+                    if pieces[names][id_].color == "white":
+                        if id_ < 8:
+                            pieces[names][id_].position = list_of_letter[id_] + "2"
+                            chessboard[2][list_of_letter[id_]] = pieces[names][id_]
+                    else:
+                        if id_ >= 8:
+                            pieces[names][id_].position = list_of_letter[id_ - 8] + "7"
+                            chessboard[7][list_of_letter[id_ - 8]] = pieces[names][id_]
+                elif names == "king":
+                    if pieces[names][id_].color == "white":
+                        pieces[names][id_].position = "e1"
+                        chessboard[1]["e"] = pieces[names][id_]
+                    else:
+                        pieces[names][id_].position = "e8"
+                        chessboard[8]["e"] = pieces[names][id_]
+                elif names == "queen":
+                    if pieces[names][id_].color == "white":
+                        pieces[names][id_].position = "d1"
+                        chessboard[1]["d"] = pieces[names][id_]
+                    else:
+                        pieces[names][id_].position = "d8"
+                        chessboard[8]["d"] = pieces[names][id_]
+                elif names == "knight":
+                    if pieces[names][id_].color == "white":
+                        if id_ % 2 == 0:
+                            pieces[names][id_].position = "b1"
+                            chessboard[1]["b"] = pieces[names][id_]
+                        else:
+                            pieces[names][id_].position = "g1"
+                            chessboard[1]["g"] = pieces[names][id_]
+                    else:
+                        if id_ % 2 == 0:
+                            pieces[names][id_].position = "b8"
+                            chessboard[8]["b"] = pieces[names][id_]
+                        else:
+                            pieces[names][id_].position = "g8"
+                            chessboard[8]["g"] = pieces[names][id_]
+        for numbers_x in range(3, 7):
+            for numbers_in_letters in range(len(list_of_letter)):
+                chessboard[numbers_x][numbers_in_letters] = "x"
     else:
         return "That's not a correct parameter (enter 'white' or 'black') !"
+
+
+creation_pieces()
+initial_game()
+show_chessboard()
