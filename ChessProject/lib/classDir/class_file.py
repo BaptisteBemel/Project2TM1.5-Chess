@@ -20,7 +20,7 @@ class Pawn(Piece):
         elif move_list[1] > 1 or move_list[0] > 2 or move_list[0] < 1 or move_list[1] < 0:
             return 'error: this move is impossible for a pawn'
         elif move_list[1] == 1:
-            if move_list[0] == 1:      #If this kills another piece - no piece of the same color + piece of teh other color needed
+            if move_list[0] == 1:      #If this kills another piece - no piece of the same color + piece of the other color needed
 
             else:
                 return 'error: this pawn cannot do this move'
