@@ -2,7 +2,7 @@
  
 Pièce et règles du jeu les "échecs":
 
-Rook = Tour
+Rook = Tour/n
 Bishop = Fou
 Pawn = Pion
 King = Roi
