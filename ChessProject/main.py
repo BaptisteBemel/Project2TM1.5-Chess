@@ -1,6 +1,6 @@
-from lib.utility.util import show_chess_board
-import lib.classDir.classFile
+from lib.utility.util import show_chessboard
+import lib.classDir.class_file
 
 
 if __name__ == "__main__":
-    show_chess_board()
+    show_chessboard()
