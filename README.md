@@ -2,9 +2,9 @@
  
 Pièce et règles du jeu les "échecs":
 
-Rook = Tour/n
-Bishop = Fou
-Pawn = Pion
-King = Roi
-Queen = Reine
+Rook = Tour,
+Bishop = Fou,
+Pawn = Pion,
+King = Roi,
+Queen = Reine,
 Knight = Cavalier
