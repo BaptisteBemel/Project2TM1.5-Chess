@@ -1,6 +1,12 @@
 from lib.utility.util import chessboard, show_chessboard
 
 
+pieces = {'rook': {}, 'bishop': {}, 'pawn': {}, 'king': {}, 'knight': {}, 'queen': {}}
+
+
+symbol_to_name = {'P': 'pawn', 'R': 'rook', 'B': 'bishop', 'Q': 'queen', 'Kn': 'knight', 'K': 'king'}
+
+
 def get_position(piece_name, nb):
     list_position = pieces[piece_name][nb].position.split()
     list_position = sorted(list_position)
@@ -33,7 +39,9 @@ class Pawn(Piece):
             return 'error: this move is impossible for a pawn'
         elif move_list[1] == 1:
             if move_list[0] == 1:      #If this kills another piece - no piece of the same color + piece of the other color needed
-                return True
+                if chessboard[next_position[0]][next_position[1]] == 'x':
+                    return  'error: this move is impossible for a pawn'
+                elif #SI CEST LA MEME COULEUR QUE LUI ERREUR
             else:
                 return 'error: this pawn cannot do this move'
         elif move_list[1] == 0:
@@ -89,9 +97,6 @@ class King(Piece):
 
     def __str__(self):
         return str(self.name)
-
-
-pieces = {'rook': {}, 'bishop': {}, 'pawn': {}, 'king': {}, 'knight': {}, 'queen': {}}
 
 
 #Creation of the pieces instead of creating 32 objects one by one
@@ -205,7 +210,7 @@ def initial_game(black_or_white = "white"):
                             chessboard[8]["g"] = pieces[names][id_]
         for numbers_x in range(3, 7):
             for numbers_in_letters in range(len(list_of_letter)):
-                chessboard[numbers_x][numbers_in_letters] = "x "
+                chessboard[numbers_x][numbers_in_letters] = "x"
     elif black_or_white == "black":
         key_in_pieces = pieces.keys()
         for names in key_in_pieces:
@@ -281,7 +286,7 @@ def initial_game(black_or_white = "white"):
                             chessboard[8]["g"] = pieces[names][id_]
         for numbers_x in range(3, 7):
             for numbers_in_letters in range(len(list_of_letter)):
-                chessboard[numbers_x][numbers_in_letters] = "x "
+                chessboard[numbers_x][numbers_in_letters] = "x"
     else:
         return "That's not a correct parameter (enter 'white' or 'black') !"
 
