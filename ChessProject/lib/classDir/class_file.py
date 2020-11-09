@@ -4,7 +4,7 @@ from lib.utility.util import chessboard, show_chessboard
 pieces = {'rook': {}, 'bishop': {}, 'pawn': {}, 'king': {}, 'knight': {}, 'queen': {}}
 
 
-symbol_to_name = {'P': 'pawn', 'R': 'rook', 'B': 'bishop', 'Q': 'queen', 'Kn': 'knight', 'K': 'king'}
+symbol_to_name = {'P': 'pawn', 'R': 'rook', 'B': 'bishop', 'Q': 'queen', 'N': 'knight', 'K': 'king'}
 
 
 def get_position(piece_name, nb):
@@ -40,8 +40,9 @@ class Pawn(Piece):
         elif move_list[1] == 1:
             if move_list[0] == 1:      #If this kills another piece - no piece of the same color + piece of the other color needed
                 if chessboard[next_position[0]][next_position[1]] == 'x':
-                    return  'error: this move is impossible for a pawn'
-                elif #SI CEST LA MEME COULEUR QUE LUI ERREUR
+                    return 'error: this move is impossible for a pawn'
+                elif True: #SI CEST LA MEME COULEUR QUE LUI ERREUR
+                    return True
             else:
                 return 'error: this pawn cannot do this move'
         elif move_list[1] == 0:
@@ -68,7 +69,7 @@ class Bishop(Piece):
         super().__init__("B", color, 0, id_piece)
 
     def __str__(self):
-       return str(self.name)
+        return str(self.name)
 
 
 class Queen(Piece):
@@ -81,7 +82,7 @@ class Queen(Piece):
 
 class Knight(Piece):
     def __init__(self, color, id_piece):
-        super().__init__("Kn", color, 0, id_piece)
+        super().__init__("N", color, 0, id_piece)
 
     def __str__(self):
         return str(self.name)
@@ -97,6 +98,9 @@ class King(Piece):
 
     def __str__(self):
         return str(self.name)
+
+    #def move(self):
+
 
 
 #Creation of the pieces instead of creating 32 objects one by one
@@ -129,7 +133,7 @@ def creation_pieces():
 
 def initial_game(black_or_white = "white"):
     """
-    :param black_or_white: decide what is the color who is going to play the first player
+    :param black_or_white: decide what is the color which is going to play the first player
     First we verify if it's white or black (or false value)
     Secondly we take every value in the pieces' dictonnary to implement them in their initial place
     Finally we put "x" value in the empty places
@@ -208,9 +212,6 @@ def initial_game(black_or_white = "white"):
                         else:
                             pieces[names][id_].position = "g 8"
                             chessboard[8]["g"] = pieces[names][id_]
-        for numbers_x in range(3, 7):
-            for numbers_in_letters in range(len(list_of_letter)):
-                chessboard[numbers_x][numbers_in_letters] = "x"
     elif black_or_white == "black":
         key_in_pieces = pieces.keys()
         for names in key_in_pieces:
@@ -284,13 +285,12 @@ def initial_game(black_or_white = "white"):
                         else:
                             pieces[names][id_].position = "g 8"
                             chessboard[8]["g"] = pieces[names][id_]
-        for numbers_x in range(3, 7):
-            for numbers_in_letters in range(len(list_of_letter)):
-                chessboard[numbers_x][numbers_in_letters] = "x"
     else:
         return "That's not a correct parameter (enter 'white' or 'black') !"
+    for numbers_x in range(3, 7):
+        for numbers_in_letters in list_of_letter:
+            chessboard[numbers_x][numbers_in_letters] = "."
 
-
-creation_pieces()
-initial_game()
-show_chessboard()
+#creation_pieces()
+#initial_game()
+#show_chessboard()

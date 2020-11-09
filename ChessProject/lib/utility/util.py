@@ -9,8 +9,7 @@ chessboard = {1: {"a": "T", "b": "C", "c": "F", "d": "Q", "e": "K", "f": "F", "g
 
 
 def show_chessboard():
-    stri = ""
-    stri += "  A B C D E F G H  \n"
+    stri = "  A B C D E F G H  \n"
     for id_in_chessboard in range(1, 9):
         stri += str(id_in_chessboard) + " " + str(chessboard[id_in_chessboard]["a"]) + " " + \
               str(chessboard[id_in_chessboard]["b"]) + " " + \
@@ -20,3 +19,22 @@ def show_chessboard():
               str(id_in_chessboard) + "\n"
     stri += "  A B C D E F G H  \n"
     print(stri)
+
+
+def verify_position(position):
+    if position == "exit":
+        exit()
+    elif len(position) == 3:
+        if (position[0].isalpha() is False) | (position[1] != " ") | (position[2].isnumeric() is False):
+            while True:
+                retry = input("Retry ! Which object do you want to play ? (use position name like 'd 4')")
+                if (len(retry) == 3) & (retry[0].isalpha() is True) & (retry[1] == " ") & (retry[2].isnumeric() is True):
+                    print("It's a good value !")
+                    return retry
+                elif retry == "exit":
+                    exit()
+        else:
+            print("It's a good value !")
+            return position
+    else:
+        verify_position(input("Retry !"))
