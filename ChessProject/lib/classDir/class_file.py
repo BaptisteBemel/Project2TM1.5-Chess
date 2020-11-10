@@ -7,13 +7,10 @@ pieces = {'rook': {}, 'bishop': {}, 'pawn': {}, 'king': {}, 'knight': {}, 'queen
 symbol_to_name = {'P': 'pawn', 'R': 'rook', 'B': 'bishop', 'Q': 'queen', 'N': 'knight', 'K': 'king'}
 
 
-next_position = []  #idk how to make the function below with creating this global variable :/
-
-
-def whats_on_case():
-    kind_piece = chessboard[next_position[0]][next_position[1]]
+def whats_on_case(pos):
+    kind_piece = chessboard[pos[0]][pos[1]]
     for piece in range(len(pieces[kind_piece])):
-        if pieces[kind_piece][piece].position == next_position[1] + str(next_position[0]):
+        if pieces[kind_piece][piece].position == pos[1] + str(pos[0]):
             return pieces[kind_piece][piece]
     return 'error: piece can not be found'
 
@@ -43,6 +40,7 @@ class Pawn(Piece):
     def move(self, move_list):        #move must be number then letter
         actual_position = get_position('pawn', self.id_piece)
         next_position = [int(actual_position[0]) + move_list[0], chr(ord(actual_position[1]) + move_list[1])]
+        piece_next_case = whats_on_case(next_position)
         if len(move_list) != 2:       #Wrong move
             return 'error: 2 arguments needed'
         elif move_list[1] > 1 or move_list[0] > 2 or move_list[0] < 1 or move_list[1] < 0:
@@ -51,8 +49,11 @@ class Pawn(Piece):
             if move_list[0] == 1:      #If this kills another piece - no piece of the same color + piece of the other color needed
                 if chessboard[next_position[0]][next_position[1]] == '.':
                     return 'error: this move is impossible for a pawn'
-                elif True: #SI CEST LA MEME COULEUR QUE LUI ERREUR
-                    return True
+                elif piece_next_case.color == self.color: #if that's the same color
+                    return 'error: there is already another piece of the same color on this case'
+                elif piece_next_case.color != self.color: #Other color: it can kill it, the piece which moves take its position and the other disappears
+                    self.position = next_position[1] + str(next_position[0])
+                    piece_next_case.position = '' #JESAISPASSIILFAUTTRETURNQQCH
             else:
                 return 'error: this pawn cannot do this move'
         elif move_list[1] == 0:

@@ -12,7 +12,7 @@ if __name__ == "__main__":
         print("Welcome to our chess game ! Good luck and you can start the game !")
         while True:
             show_chessboard()
-            play = input("Which object do you want to play ? (use position name like 'd 4')")
+            play = input("Which object do you want to play ? (use position name like 'd4')")
             if play == "exit":
                 exit()
             else:
