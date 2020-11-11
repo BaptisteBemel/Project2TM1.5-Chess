@@ -37,34 +37,48 @@ class Pawn(Piece):
     def __str__(self):
         return str(self.name)
 
-    def move(self, move_list):        #move must be number then letter
+    def move(self, move_list):                                      #move must be number then letter
         actual_position = get_position('pawn', self.id_piece)
         next_position = [int(actual_position[0]) + move_list[0], chr(ord(actual_position[1]) + move_list[1])]
         piece_next_case = whats_on_case(next_position)
-        if len(move_list) != 2:       #Wrong move
+        if len(move_list) != 2:                                    #Wrong move
             return 'error: 2 arguments needed'
         elif move_list[1] > 1 or move_list[0] > 2 or move_list[0] < 1 or move_list[1] < 0:
             return 'error: this move is impossible for a pawn'
         elif move_list[1] == 1:
-            if move_list[0] == 1:      #If this kills another piece - no piece of the same color + piece of the other color needed
+            if move_list[0] == 1:                                  #If this kills another piece - no piece of the same color + piece of the other color needed
                 if chessboard[next_position[0]][next_position[1]] == '.':
                     return 'error: this move is impossible for a pawn'
-                elif piece_next_case.color == self.color: #if that's the same color
+                elif piece_next_case.color == self.color:           #if that's the same color
                     return 'error: there is already another piece of the same color on this case'
-                elif piece_next_case.color != self.color: #Other color: it can kill it, the piece which moves take its position and the other disappears
+                elif piece_next_case.color != self.color:              #Other color: it can kill it, the piece which moves take its position and the other disappears
                     self.position = next_position[1] + str(next_position[0])
-                    piece_next_case.position = '' #JESAISPASSIILFAUTTRETURNQQCH
+                    piece_next_case.position = ''
+                    chessboard[actual_position[0]][actual_position[1]] = '.'
+                    chessboard[next_position[0]][next_position[1]] = self.name
+                    self.nb_plays = self.nb_plays + 1                 #The pawn has played, it won't be its first play again
+                    return chessboard
             else:
                 return 'error: this pawn cannot do this move'
         elif move_list[1] == 0:
-            if move_list[0] == 2:
-                if self.nb_plays == 0:      #First time this pawn plays, it can advance 2 cases if there is no piece where it wants to go
-                    return True
-                elif self.nb_plays > 0:
-                    return 'error: this pawn cannot do this move'
-            if move_list[0] == 1:      #The pawn can play if there is no piece where it wants to go
-                return True
-        self.nb_plays = self.nb_plays + 1     #The pawn has played, it won't be its first play again
+            if chessboard[next_position[0]][next_position[1]] != '.':  # Next position must be free
+                return 'error: there is already another piece there'
+            else:
+                if move_list[0] == 2:
+                    if self.nb_plays == 0:                              #First time this pawn plays, it can advance 2 cases
+                        self.position = next_position[1] + str(next_position[0])
+                        chessboard[actual_position[0]][actual_position[1]] = '.'
+                        chessboard[next_position[0]][next_position[1]] = self.name
+                        self.nb_plays = self.nb_plays + 1
+                        return chessboard
+                    elif self.nb_plays > 0:
+                        return 'error: this pawn cannot do this move'
+                if move_list[0] == 1:
+                    self.position = next_position[1] + str(next_position[0])
+                    chessboard[actual_position[0]][actual_position[1]] = '.'
+                    chessboard[next_position[0]][next_position[1]] = self.name
+                    self.nb_plays = self.nb_plays + 1
+                    return chessboard
 
 
 class Rook(Piece):

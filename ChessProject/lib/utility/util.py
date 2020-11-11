@@ -24,11 +24,11 @@ def show_chessboard():
 def verify_position(position):
     if position == "exit":
         exit()
-    elif len(position) == 3:
-        if (position[0].isalpha() is False) | (position[1] != " ") | (position[2].isnumeric() is False):
+    elif len(position) == 2:
+        if (position[0].isalpha() is False) | (position[1].isnumeric() is False):
             while True:
-                retry = input("Retry ! Which object do you want to play ? (use position name like 'd 4')")
-                if (len(retry) == 3) & (retry[0].isalpha() is True) & (retry[1] == " ") & (retry[2].isnumeric() is True):
+                retry = input("Retry ! Which object do you want to play ? (use position name like 'd4') ")
+                if (len(retry) == 2) & (retry[0].isalpha() is True) & (retry[1].isnumeric() is True):
                     print("It's a good value !")
                     return retry
                 elif retry == "exit":
