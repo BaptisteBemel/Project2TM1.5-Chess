@@ -124,8 +124,9 @@ class King(Piece):
     def __str__(self):
         return str(self.name)
 
-    #def move(self):
-
+    def move(self, move):
+        actual_pos = self.position
+        #if move[]
 
 
 #Creation of the pieces instead of creating 32 objects one by one

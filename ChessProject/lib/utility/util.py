@@ -29,12 +29,23 @@ def verify_position(position):
             while True:
                 retry = input("Retry ! Which object do you want to play ? (use position name like 'd4') ")
                 if (len(retry) == 2) & (retry[0].isalpha() is True) & (retry[1].isnumeric() is True):
-                    print("It's a good value !")
-                    return retry
+                    letter_chessboard = "abcdefgh"
+                    for letter in range(len(letter_chessboard)):
+                        if retry[0] == letter_chessboard[letter]:
+                            for number in range(1, 9):
+                                if number == int(retry[1]):
+                                    return retry
                 elif retry == "exit":
                     exit()
         else:
-            print("It's a good value !")
-            return position
+            while True:
+                if (len(position) == 2) & (position[0].isalpha() is True) & (position[1].isnumeric() is True):
+                    letter_chessboard = "abcdefgh"
+                    for letter in range(8):
+                        if position[0] == letter_chessboard[letter]:
+                            for number in range(1, 9):
+                                if number == int(position[1]):
+                                    return position
+                position = input("Retry ! Which object do you want to play ? (use position name like 'd4') ")
     else:
         verify_position(input("Retry !"))
