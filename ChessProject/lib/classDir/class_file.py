@@ -1,4 +1,4 @@
-from lib.utility.util import chessboard
+from lib.utility.util import *
 
 
 pieces = {'rook': {}, 'bishop': {}, 'pawn': {}, 'king': {}, 'knight': {}, 'queen': {}}
@@ -126,7 +126,37 @@ class King(Piece):
 
     def move(self, move):
         actual_pos = self.position
-        #if move[]
+        alpha_string = "abcdefgh"
+        number = 0
+        if_exit(move)
+        while True:
+            for letter in range(8):
+                if alpha_string[letter] == actual_pos[0]:
+                    number = letter
+            if ((int(actual_pos[1]) - move[0]) > 1) | ((int(actual_pos[1]) - move[0]) < -1) | \
+                    ((number - move[1]) > 1) | ((number - move[1]) < -1):
+                print("Bad value ! Retry !")
+                retry = input("Target position : ")
+                if_exit(retry)
+                next = verify_position(retry)
+                move = convert_to_list(next)
+            elif move[1] == number & move[0] == int(actual_pos[1]):
+                print("It's the same place ! Change the position !")
+                retry = input("Target position : ")
+                if_exit(retry)
+                next = verify_position(retry)
+                move = convert_to_list(next)
+            elif chessboard[move[0]][alpha_string[number]].color == self.color:
+                print("The target position is used by a same color object !")
+                retry = input("Target position : ")
+                if_exit(retry)
+                next = verify_position(retry)
+                move = convert_to_list(next)
+            else:
+                chessboard[move[0]][alpha_string[number]] = chessboard[actual_pos[1]][actual_pos[0]]
+                chessboard[actual_pos[1]][actual_pos[0]] = '.'
+                print("Player x has played ! Next !")
+                return 1
 
 
 #Creation of the pieces instead of creating 32 objects one by one

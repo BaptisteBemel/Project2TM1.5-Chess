@@ -22,30 +22,47 @@ def show_chessboard():
 
 
 def verify_position(position):
-    if position == "exit":
-        exit()
-    elif len(position) == 2:
-        if (position[0].isalpha() is False) | (position[1].isnumeric() is False):
-            while True:
-                retry = input("Retry ! Which object do you want to play ? (use position name like 'd4') ")
-                if (len(retry) == 2) & (retry[0].isalpha() is True) & (retry[1].isnumeric() is True):
-                    letter_chessboard = "abcdefgh"
-                    for letter in range(len(letter_chessboard)):
-                        if retry[0] == letter_chessboard[letter]:
-                            for number in range(1, 9):
-                                if number == int(retry[1]):
-                                    return retry
-                elif retry == "exit":
-                    exit()
+    while True:
+        if position == "exit":
+            exit()
+        elif len(position) == 2:
+            if (position[0].isalpha() is False) | (position[1].isnumeric() is False):
+                while True:
+                    retry = input("Retry ! (use position name like 'd4') ")
+                    if (len(retry) == 2) & (retry[0].isalpha() is True) & (retry[1].isnumeric() is True):
+                        letter_chessboard = "abcdefgh"
+                        for letter in range(len(letter_chessboard)):
+                            if retry[0] == letter_chessboard[letter]:
+                                for number in range(1, 9):
+                                    if number == int(retry[1]):
+                                        return retry
+                    elif retry == "exit":
+                        exit()
+            else:
+                while True:
+                    if (len(position) == 2) & (position[0].isalpha() is True) & (position[1].isnumeric() is True):
+                        letter_chessboard = "abcdefgh"
+                        for letter in range(8):
+                            if position[0] == letter_chessboard[letter]:
+                                for number in range(1, 9):
+                                    if number == int(position[1]):
+                                        return position
+                    position = input("Retry ! (use position name like 'd4') ")
         else:
-            while True:
-                if (len(position) == 2) & (position[0].isalpha() is True) & (position[1].isnumeric() is True):
-                    letter_chessboard = "abcdefgh"
-                    for letter in range(8):
-                        if position[0] == letter_chessboard[letter]:
-                            for number in range(1, 9):
-                                if number == int(position[1]):
-                                    return position
-                position = input("Retry ! Which object do you want to play ? (use position name like 'd4') ")
-    else:
-        verify_position(input("Retry !"))
+            position = input("Retry !")
+
+
+def convert_to_list(string):
+    alpha_string = "abcdefgh"
+    return_list = [int(string[1])]
+    for letter in range(8):
+        if alpha_string[letter] == string[0]:
+            return_list.append(letter)
+            return return_list
+    return "Error of string !"
+
+
+def if_exit(string):
+    if string == "exit":
+        exit()
+    return 1
