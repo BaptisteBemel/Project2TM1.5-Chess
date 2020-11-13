@@ -143,6 +143,7 @@
       <workItem from="1605101753998" duration="3963000" />
       <workItem from="1605178826795" duration="23000" />
       <workItem from="1605282610312" duration="876000" />
+      <workItem from="1605289509757" duration="2123000" />
     </task>
     <servers />
   </component>
@@ -171,53 +172,25 @@
     </state>
     <state x="526" y="193" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1604773754973" />
     <state x="739" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604766913505" />
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    <state width="1323" height="238" key="GridCell.Tab.0.bottom" timestamp="1605288168743">
+    <state width="1323" height="352" key="GridCell.Tab.0.bottom" timestamp="1605291536970">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="238" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1605288168743" />
+    <state width="1323" height="352" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1605291536970" />
     <state width="1899" height="303" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1605029233802" />
-    <state width="1323" height="238" key="GridCell.Tab.0.center" timestamp="1605288168743">
+    <state width="1323" height="352" key="GridCell.Tab.0.center" timestamp="1605291536970">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="238" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1605288168743" />
+    <state width="1323" height="352" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1605291536970" />
     <state width="1899" height="303" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1605029233802" />
-    <state width="1323" height="238" key="GridCell.Tab.0.left" timestamp="1605288168743">
+    <state width="1323" height="352" key="GridCell.Tab.0.left" timestamp="1605291536970">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="238" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1605288168743" />
+    <state width="1323" height="352" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1605291536970" />
     <state width="1899" height="303" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1605029233802" />
-    <state width="1323" height="238" key="GridCell.Tab.0.right" timestamp="1605288168743">
+    <state width="1323" height="352" key="GridCell.Tab.0.right" timestamp="1605291536970">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="238" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1605288168743" />
-=======
-=======
->>>>>>> Stashed changes
-    <state width="1323" height="238" key="GridCell.Tab.0.bottom" timestamp="1605184117978">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1323" height="238" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1605184117978" />
-    <state width="1899" height="303" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1605029233802" />
-    <state width="1323" height="238" key="GridCell.Tab.0.center" timestamp="1605184117978">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1323" height="238" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1605184117978" />
-    <state width="1899" height="303" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1605029233802" />
-    <state width="1323" height="238" key="GridCell.Tab.0.left" timestamp="1605184117977">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1323" height="238" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1605184117977" />
-    <state width="1899" height="303" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1605029233802" />
-    <state width="1323" height="238" key="GridCell.Tab.0.right" timestamp="1605184117978">
-      <screen x="0" y="0" width="1366" height="728" />
-    </state>
-    <state width="1323" height="238" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1605184117978" />
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+    <state width="1323" height="352" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1605291536970" />
     <state width="1899" height="303" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1605029233802" />
     <state x="134" y="12" key="SettingsEditor" timestamp="1604773759005">
       <screen x="0" y="0" width="1366" height="728" />
@@ -235,14 +208,6 @@
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604763723004" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    <SUITE FILE_PATH="coverage/main_py$main.coverage" NAME="main Coverage Results" MODIFIED="1605288123443" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-=======
-    <SUITE FILE_PATH="coverage/main_py$main.coverage" NAME="main Coverage Results" MODIFIED="1605178835659" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
->>>>>>> Stashed changes
-=======
-    <SUITE FILE_PATH="coverage/main_py$main.coverage" NAME="main Coverage Results" MODIFIED="1605178835659" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
->>>>>>> Stashed changes
+    <SUITE FILE_PATH="coverage/main_py$main.coverage" NAME="main Coverage Results" MODIFIED="1605291536936" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

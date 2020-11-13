@@ -17,12 +17,7 @@ def whats_on_case(pos):
         for piece in range(len(pieces[kind_piece])):
             if pieces[kind_piece][piece].position == pos:
                 return pieces[kind_piece][piece]
-    return 'error: piece can not be found'
-
-
-def get_position(piece_name, nb):
-    list_position = convert_to_list(pieces[piece_name][nb].position)
-    return list_position
+    print('error: piece can not be found')
 
 
 class Piece:
@@ -44,47 +39,50 @@ class Pawn(Piece):
 
 
     def move(self, next_position):
-        actual_position = get_position('pawn', self.id_piece)
+        actual_position = convert_to_list(pieces['pawn'][self.id_piece].position)
+        list_actual_position = sorted(pieces['pawn'][self.id_piece].position)
+        list_actual_position[0] = int(list_actual_position[0])
         piece_next_case = whats_on_case(next_position)
+        list_next_position = sorted(next_position)
+        list_next_position[0] = int(list_next_position[0])
         next_position = convert_to_list(next_position)
-        move_list = [(next_position[0]) - actual_position[0], (next_position[1]) - (actual_position[1])]    #deplacement in columns then lines
+        move_list = [abs((next_position[0]) - actual_position[0]), abs((next_position[1]) - (actual_position[1]))]    #deplacement in columns then lines
         if len(move_list) != 2:                                    #Wrong move
-            return 'error: 2 arguments needed'
+            print('error: 2 arguments needed')
         elif move_list[1] > 1 or move_list[0] > 2 or move_list[0] < 1 or move_list[1] < 0:
-            return 'error: this move is impossible for a pawn'
+            print('error: this move is impossible for a pawn')
         elif move_list[1] == 1:
             if move_list[0] == 1:                                  # If this kills another piece - no piece of the same color + piece of the other color needed
-                if chessboard[next_position[0]][next_position[1]] == '.':
-                    return 'error: this move is impossible for a pawn'
+                if chessboard[next_position[0]][list_next_position[1]] == '.':
+                    print('error: this move is impossible for a pawn')
                 elif piece_next_case.color == self.color:           # if that's the same color
-                    return 'error: there is already another piece of the same color on this case'
+                    print('error: there is already another piece of the same color on this case')
                 elif piece_next_case.color != self.color:              # Other color: it can kill it, the piece which moves take its position and the other disappears
-                    self.position = next_position[1] + str(next_position[0])
+                    self.position = list_next_position[1] + str(list_next_position[0])
                     piece_next_case.position = ''
-                    chessboard[actual_position[0]][actual_position[1]] = '.'
-                    chessboard[next_position[0]][next_position[1]] = self.name
+                    chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                    chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                     self.nb_plays = self.nb_plays + 1                 # The pawn has played, it won't be its first play again
                     return chessboard
             else:
-                return 'error: this pawn cannot do this move'
+                print('error: this pawn cannot do this move')
         elif move_list[1] == 0:
-            if chessboard[next_position[0]][next_position[1]] != '.':  # Next position must be free
-                return 'error: there is already another piece there'
+            if chessboard[list_next_position[0]][list_next_position[1]] != '.':  # Next position must be free
+                print('error: there is already another piece there')
             else:
                 if move_list[0] == 2:
                     if self.nb_plays == 0:                              # First time this pawn plays, it can advance 2 cases
-                        self.position = next_position[1] + str(next_position[0])
-                        chessboard[actual_position[0]][actual_position[1]] = '.'
-                        chessboard[next_position[0]][next_position[1]] = self.name
+                        self.position = list_next_position[1] + str(list_next_position[0])
+                        chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                        chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                         self.nb_plays = self.nb_plays + 1
-                        print(chessboard[5]['a'])
                         return chessboard
                     elif self.nb_plays > 0:
-                        return 'error: this pawn cannot do this move'
+                        print('error: this pawn cannot do this move')
                 if move_list[0] == 1:
-                    self.position = next_position[1] + str(next_position[0])
-                    chessboard[actual_position[0]][actual_position[1]] = '.'
-                    chessboard[next_position[0]][next_position[1]] = self.name
+                    self.position = list_next_position[1] + str(list_next_position[0])
+                    chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                    chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                     self.nb_plays = self.nb_plays + 1
                     return chessboard
 
