@@ -41,7 +41,7 @@ class Pawn(Piece):
         actual_position = get_position('pawn', self.id_piece)
         next_position = [int(actual_position[0]) + move_list[0], chr(ord(actual_position[1]) + move_list[1])]
         piece_next_case = whats_on_case(next_position)
-        if len(move_list) != 2:                                    #Wrong move
+        if len(move_list) != 2:                                    #Wrong move00000000000
             return 'error: 2 arguments needed'
         elif move_list[1] > 1 or move_list[0] > 2 or move_list[0] < 1 or move_list[1] < 0:
             return 'error: this move is impossible for a pawn'
@@ -88,6 +88,48 @@ class Rook(Piece):
     def __str__(self):
         return str(self.name)
 
+    def move(self, move_on_chessboard):
+        move = convert_to_list((move_on_chessboard))
+        actual_position = self.position
+        alpha_string = "abcdefgh"
+        number = 0
+        if_exit(move)
+        max = 0
+        min = 0
+        is_good_way = True
+        while True:
+            for letter in range(8):
+                if alpha_string[letter] == move[1]:
+                    number = letter
+            if (move[0] != actual_position[1] & alpha_string[move[1]] != actual_position[0]) | (move[0] == actual_position[1] & alpha_string[move[1]] == actual_position[0]):
+                print("The value is the same of the position of the object or your rook can not move the abscissa and \
+                the ordinate at the same time")
+                retry = input("Choose an another position : ")
+                if_exit(retry)
+                move = convert_to_list(verify_position(retry))
+            elif chessboard[move[0]][alpha_string[move[1]]] != "." & chessboard[move[0]][alpha_string[move[1]]].color == self.color:
+                print("The color of the object on the position entered is the same")
+                retry = input("Choose an another position : ")
+                if_exit(retry)
+                move = convert_to_list(verify_position(retry))
+            elif move[0] != actual_position[1] & alpha_string[move[1]] == actual_position[0]:
+                if move[0] > int(actual_position[1]):
+                    max = move[0]
+                    min = int(actual_position[1])
+                max = int(actual_position[1])
+                min = move[0]
+                for ordonate in range(min + 1, max):
+                    if chessboard[ordonate][actual_position[0]] != ".":
+                        is_good_way = False
+                        print("There is an object on the way of the rook !")
+                        retry = input("Choose an another position : ")
+                        if_exit(retry)
+                        move = convert_to_list(verify_position(retry))
+                if is_good_way is True:
+                    pass
+            elif move[0] == actual_position[1] & alpha_string[move[1]] != actual_position[0]:
+                pass
+
 
 class Bishop(Piece):
     def __init__(self, color, id_piece):
@@ -124,7 +166,8 @@ class King(Piece):
     def __str__(self):
         return str(self.name)
 
-    def move(self, move):
+    def move(self, move_on_chessboard):
+        move = convert_to_list(move_on_chessboard)
         actual_pos = self.position
         alpha_string = "abcdefgh"
         number = 0
@@ -138,23 +181,21 @@ class King(Piece):
                 print("Bad value ! Retry !")
                 retry = input("Target position : ")
                 if_exit(retry)
-                next = verify_position(retry)
-                move = convert_to_list(next)
+                move = convert_to_list(verify_position(retry))
             elif move[1] == number & move[0] == int(actual_pos[1]):
                 print("It's the same place ! Change the position !")
                 retry = input("Target position : ")
                 if_exit(retry)
-                next = verify_position(retry)
-                move = convert_to_list(next)
+                move = convert_to_list(verify_position(retry))
             elif chessboard[move[0]][alpha_string[number]].color == self.color:
                 print("The target position is used by a same color object !")
                 retry = input("Target position : ")
                 if_exit(retry)
-                next = verify_position(retry)
-                move = convert_to_list(next)
+                move = convert_to_list(verify_position(retry))
             else:
                 chessboard[move[0]][alpha_string[number]] = chessboard[actual_pos[1]][actual_pos[0]]
                 chessboard[actual_pos[1]][actual_pos[0]] = '.'
+                chessboard[move[0]][alpha_string[number]].position = str(alpha_string[move[1]]) + str(move[0])
                 print("Player x has played ! Next !")
                 return 1
 

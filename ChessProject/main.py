@@ -18,7 +18,7 @@ if __name__ == "__main__":
                     exit()
                 else:
                     position_want_to_play = verify_position(play)
-                    position_move = convert_to_list(verify_position(input("Enter the position where you want to move the object : ")))
+                    position_move = verify_position(input("Enter the position where you want to move the object : "))
                     chessboard[int(position_want_to_play[1])][position_want_to_play[0]].move(position_move)
         elif first_question == "exit":
             exit()
