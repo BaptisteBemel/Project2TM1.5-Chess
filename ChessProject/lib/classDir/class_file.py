@@ -37,11 +37,16 @@ class Pawn(Piece):
     def __str__(self):
         return str(self.name)
 
-    def move(self, move_list):                                      #move must be number then letter
+    def move(self, next_position):                                      #move must be number then letter
         actual_position = get_position('pawn', self.id_piece)
-        next_position = [int(actual_position[0]) + move_list[0], chr(ord(actual_position[1]) + move_list[1])]
+        #next_position = [int(actual_position[0]) + move_list[0], chr(ord(actual_position[1]) + move_list[1])] Je vais devoir la delete
         piece_next_case = whats_on_case(next_position)
+<<<<<<< Updated upstream
         if len(move_list) != 2:                                    #Wrong move00000000000
+=======
+        move_list = [next_position[0] - actual_position[0], ord(next_position[1]) - ord(actual_position[1])]
+        if len(move_list) != 2:                                    #Wrong move
+>>>>>>> Stashed changes
             return 'error: 2 arguments needed'
         elif move_list[1] > 1 or move_list[0] > 2 or move_list[0] < 1 or move_list[1] < 0:
             return 'error: this move is impossible for a pawn'
