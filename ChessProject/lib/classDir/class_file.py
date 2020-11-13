@@ -43,17 +43,23 @@ class Pawn(Piece):
         return str(self.name)
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     def move(self, next_position):
         actual_position = get_position('pawn', self.id_piece)
         piece_next_case = whats_on_case(next_position)
         next_position = convert_to_list(next_position)
         move_list = [(next_position[0]) - actual_position[0], (next_position[1]) - (actual_position[1])]    #deplacement in columns then lines
 =======
+=======
+>>>>>>> Stashed changes
     def move(self, next_position):                                      #move must be number then letter
         actual_position = get_position('pawn', self.id_piece)
         #next_position = [int(actual_position[0]) + move_list[0], chr(ord(actual_position[1]) + move_list[1])] Je vais devoir la delete
         piece_next_case = whats_on_case(next_position)
         move_list = [next_position[0] - actual_position[0], ord(next_position[1]) - ord(actual_position[1])]
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         if len(move_list) != 2:                                    #Wrong move
             return 'error: 2 arguments needed'
