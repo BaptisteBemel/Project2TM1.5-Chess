@@ -8,15 +8,20 @@ symbol_to_name = {'P': 'pawn', 'R': 'rook', 'B': 'bishop', 'Q': 'queen', 'N': 'k
 
 
 def whats_on_case(pos):
-    kind_piece = chessboard[pos[0]][pos[1]]
-    for piece in range(len(pieces[kind_piece])):
-        if pieces[kind_piece][piece].position == pos[1] + str(pos[0]):
-            return pieces[kind_piece][piece]
+    position = sorted(pos)
+    position[0] = int(position[0])
+    kind_piece = chessboard[position[0]][position[1]]
+    if kind_piece == '.':
+        return kind_piece
+    else:
+        for piece in range(len(pieces[kind_piece])):
+            if pieces[kind_piece][piece].position == pos:
+                return pieces[kind_piece][piece]
     return 'error: piece can not be found'
 
 
 def get_position(piece_name, nb):
-    list_position = sorted(pieces[piece_name][nb].position)
+    list_position = convert_to_list(pieces[piece_name][nb].position)
     return list_position
 
 
@@ -37,16 +42,12 @@ class Pawn(Piece):
     def __str__(self):
         return str(self.name)
 
-    def move(self, next_position):                                      #move must be number then letter
+    def move(self, next_position):
         actual_position = get_position('pawn', self.id_piece)
-        #next_position = [int(actual_position[0]) + move_list[0], chr(ord(actual_position[1]) + move_list[1])] Je vais devoir la delete
         piece_next_case = whats_on_case(next_position)
-<<<<<<< Updated upstream
-        if len(move_list) != 2:                                    #Wrong move00000000000
-=======
-        move_list = [next_position[0] - actual_position[0], ord(next_position[1]) - ord(actual_position[1])]
+        next_position = convert_to_list(next_position)
+        move_list = [(next_position[0]) - actual_position[0], (next_position[1]) - (actual_position[1])]    #deplacement in columns then lines
         if len(move_list) != 2:                                    #Wrong move
->>>>>>> Stashed changes
             return 'error: 2 arguments needed'
         elif move_list[1] > 1 or move_list[0] > 2 or move_list[0] < 1 or move_list[1] < 0:
             return 'error: this move is impossible for a pawn'
@@ -75,6 +76,7 @@ class Pawn(Piece):
                         chessboard[actual_position[0]][actual_position[1]] = '.'
                         chessboard[next_position[0]][next_position[1]] = self.name
                         self.nb_plays = self.nb_plays + 1
+                        print(chessboard[5]['a'])
                         return chessboard
                     elif self.nb_plays > 0:
                         return 'error: this pawn cannot do this move'
