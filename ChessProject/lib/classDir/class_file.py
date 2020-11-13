@@ -37,31 +37,28 @@ class Pawn(Piece):
     def __str__(self):
         return str(self.name)
 
-    def move(self, next_position):                                      #move must be number then letter
+    def move(self, next_position):                                      # move must be number then letter
         actual_position = get_position('pawn', self.id_piece)
-        #next_position = [int(actual_position[0]) + move_list[0], chr(ord(actual_position[1]) + move_list[1])] Je vais devoir la delete
+        # next_position = [int(actual_position[0]) + move_list[0], chr(ord(actual_position[1]) + move_list[1])] Je vais devoir la delete
         piece_next_case = whats_on_case(next_position)
-<<<<<<< Updated upstream
-        if len(move_list) != 2:                                    #Wrong move00000000000
-=======
-        move_list = [next_position[0] - actual_position[0], ord(next_position[1]) - ord(actual_position[1])]
-        if len(move_list) != 2:                                    #Wrong move
->>>>>>> Stashed changes
+        if len(next_position) != 2:                                    # Wrong move00000000000
+            move_list = [next_position[0] - actual_position[0], ord(next_position[1]) - ord(actual_position[1])]
+        if len(move_list) != 2:                                    # Wrong move
             return 'error: 2 arguments needed'
         elif move_list[1] > 1 or move_list[0] > 2 or move_list[0] < 1 or move_list[1] < 0:
             return 'error: this move is impossible for a pawn'
         elif move_list[1] == 1:
-            if move_list[0] == 1:                                  #If this kills another piece - no piece of the same color + piece of the other color needed
+            if move_list[0] == 1:                                  # If this kills another piece - no piece of the same color + piece of the other color needed
                 if chessboard[next_position[0]][next_position[1]] == '.':
                     return 'error: this move is impossible for a pawn'
-                elif piece_next_case.color == self.color:           #if that's the same color
+                elif piece_next_case.color == self.color:           # if that's the same color
                     return 'error: there is already another piece of the same color on this case'
-                elif piece_next_case.color != self.color:              #Other color: it can kill it, the piece which moves take its position and the other disappears
+                elif piece_next_case.color != self.color:              # Other color: it can kill it, the piece which moves take its position and the other disappears
                     self.position = next_position[1] + str(next_position[0])
                     piece_next_case.position = ''
                     chessboard[actual_position[0]][actual_position[1]] = '.'
                     chessboard[next_position[0]][next_position[1]] = self.name
-                    self.nb_plays = self.nb_plays + 1                 #The pawn has played, it won't be its first play again
+                    self.nb_plays = self.nb_plays + 1                 # The pawn has played, it won't be its first play again
                     return chessboard
             else:
                 return 'error: this pawn cannot do this move'
@@ -70,7 +67,7 @@ class Pawn(Piece):
                 return 'error: there is already another piece there'
             else:
                 if move_list[0] == 2:
-                    if self.nb_plays == 0:                              #First time this pawn plays, it can advance 2 cases
+                    if self.nb_plays == 0:                              # First time this pawn plays, it can advance 2 cases
                         self.position = next_position[1] + str(next_position[0])
                         chessboard[actual_position[0]][actual_position[1]] = '.'
                         chessboard[next_position[0]][next_position[1]] = self.name
@@ -94,36 +91,37 @@ class Rook(Piece):
         return str(self.name)
 
     def move(self, move_on_chessboard):
-        move = convert_to_list((move_on_chessboard))
+        move = convert_to_list(move_on_chessboard)  # Convert the string (example 'h8') in list '[8, 7]
         actual_position = self.position
         alpha_string = "abcdefgh"
-        number = 0
         if_exit(move)
-        max = 0
-        min = 0
+        max_value = 0
+        min_value = 0
         is_good_way = True
         while True:
-            for letter in range(8):
-                if alpha_string[letter] == move[1]:
-                    number = letter
-            if (move[0] != actual_position[1] & alpha_string[move[1]] != actual_position[0]) | (move[0] == actual_position[1] & alpha_string[move[1]] == actual_position[0]):
+            # Verify if it's a good translation for the rook
+            if ((move[0] != actual_position[1]) & (alpha_string[move[1]] != actual_position[0])) | ((move[0] == actual_position[1]) & (alpha_string[move[1]] == actual_position[0])):
                 print("The value is the same of the position of the object or your rook can not move the abscissa and \
                 the ordinate at the same time")
                 retry = input("Choose an another position : ")
                 if_exit(retry)
                 move = convert_to_list(verify_position(retry))
-            elif chessboard[move[0]][alpha_string[move[1]]] != "." & chessboard[move[0]][alpha_string[move[1]]].color == self.color:
+            # Verify if the position where the object is moving is used by an other object with an opposite color
+            elif (chessboard[move[0]][alpha_string[move[1]]] != ".") & (chessboard[move[0]][alpha_string[move[1]]].color == self.color):
                 print("The color of the object on the position entered is the same")
                 retry = input("Choose an another position : ")
                 if_exit(retry)
                 move = convert_to_list(verify_position(retry))
-            elif move[0] != actual_position[1] & alpha_string[move[1]] == actual_position[0]:
+            # Verify if the object is moving on the abscissa
+            elif (move[0] != actual_position[1]) & (alpha_string[move[1]] == actual_position[0]):
                 if move[0] > int(actual_position[1]):
-                    max = move[0]
-                    min = int(actual_position[1])
-                max = int(actual_position[1])
-                min = move[0]
-                for ordonate in range(min + 1, max):
+                    max_value = move[0]
+                    min_value = int(actual_position[1])
+                else:
+                    max_value = int(actual_position[1])
+                    min_value = move[0]
+                # Verify if there is something on the way of the rook
+                for ordonate in range(min_value + 1, max_value):
                     if chessboard[ordonate][actual_position[0]] != ".":
                         is_good_way = False
                         print("There is an object on the way of the rook !")
@@ -131,9 +129,41 @@ class Rook(Piece):
                         if_exit(retry)
                         move = convert_to_list(verify_position(retry))
                 if is_good_way is True:
-                    pass
-            elif move[0] == actual_position[1] & alpha_string[move[1]] != actual_position[0]:
-                pass
+                    chessboard[move[0]][alpha_string[move[1]]] = chessboard[actual_position[1]][actual_position[0]]
+                    chessboard[actual_position[1]][actual_position[0]] = "."
+                    chessboard[move[0]][alpha_string[move[1]]].position = str(alpha_string[move[1]]) + str(move[0])
+                    return 1
+            # Verify if the object is moving on the ordonate
+            elif (move[0] == actual_position[1]) & (alpha_string[move[1]] != actual_position[0]):
+                number_actual = 0
+                number = 0
+                for letter in range(8):
+                    if alpha_string[letter] == move[1]:
+                        number = letter
+                        break
+                for letter in range(8):
+                    if alpha_string[letter] == actual_position[0]:
+                        number_actual = letter
+                        break
+                if number > number_actual:
+                    max_value = number
+                    min_value = number_actual
+                else:
+                    max_value = number_actual
+                    min_value = number
+                # Verify if there is something on the way of the rook
+                for abscissa in range(min_value, max_value):
+                    if chessboard[actual_position[1]][alpha_string[abscissa]] != ".":
+                        is_good_way = False
+                        print("There is an object on the way of the rook !")
+                        retry = input("Choose an another position : ")
+                        if_exit(retry)
+                        move = convert_to_list(verify_position(retry))
+                if is_good_way is True:
+                    chessboard[move[0]][alpha_string[move[1]]] = chessboard[actual_position[1]][actual_position[0]]
+                    chessboard[actual_position[1]][actual_position[0]] = "."
+                    chessboard[move[0]][alpha_string[move[1]]].position = str(alpha_string[move[1]]) + str(move[0])
+                    return 1
 
 
 class Bishop(Piece):
@@ -166,13 +196,13 @@ class King(Piece):
 
     def is_dead(self):
         if self.dead == 1:
-            pass                    #must break the while loop
+            pass                    # must break the while loop
 
     def __str__(self):
         return str(self.name)
 
     def move(self, move_on_chessboard):
-        move = convert_to_list(move_on_chessboard)
+        move = convert_to_list(move_on_chessboard)  # convert
         actual_pos = self.position
         alpha_string = "abcdefgh"
         number = 0
@@ -205,7 +235,7 @@ class King(Piece):
                 return 1
 
 
-#Creation of the pieces instead of creating 32 objects one by one
+# Creation of the pieces instead of creating 32 objects one by one
 def creation_pieces():
     for i in range(16):
         if i == 0:
