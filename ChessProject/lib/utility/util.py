@@ -63,6 +63,13 @@ def convert_to_list(string):
 
 
 def if_exit(string):
-    if string == "exit":
+    if (string == "exit") | (string == "ex"):
         exit()
     return 1
+
+
+def change_object(string):
+    from main import position_want_to_play
+    if string == "change" | string == "ch":
+        position_want_to_play = input("Change your object you wanted to play : ")
+        return position_want_to_play
