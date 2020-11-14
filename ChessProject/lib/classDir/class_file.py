@@ -14,7 +14,8 @@ def whats_on_case(pos):
     if kind_piece == '.':
         return kind_piece
     else:
-        for piece in range(len(pieces[kind_piece])):
+        kind_piece = symbol_to_name[str(kind_piece)]
+        for piece in range(len(pieces[kind_piece].keys())):
             if pieces[kind_piece][piece].position == pos:
                 return pieces[kind_piece][piece]
     print('error: piece can not be found')
