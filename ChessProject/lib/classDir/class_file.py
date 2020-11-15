@@ -197,11 +197,11 @@ class Bishop(Piece):
 
         if move_list[0] > 0:
             if move_list[1] > 0:
-                for case in range(1, len(move_list_abs[0])):
+                for case in range(1, move_list_abs[0]):
                     if chessboard[list_actual_position[0] + case][chr(ord(list_actual_position[1]) + case)] != '.':
                         sth_on_way = True
             elif move_list[1] < 0:
-                for case in range(1, len(move_list_abs[0])):
+                for case in range(1, move_list_abs[0]):
                     if chessboard[list_actual_position[0] + case][chr(ord(list_actual_position[1]) - case)] != '.':
                         sth_on_way = True
         elif move_list[0] < 0:
@@ -210,13 +210,11 @@ class Bishop(Piece):
                     if chessboard[list_actual_position[0] - case][chr(ord(list_actual_position[1]) - case)] != '.':
                         sth_on_way = True
             elif move_list[1] > 0:
-                for case in range(1, len(move_list_abs[0])):
+                for case in range(1, move_list_abs[0]):
                     if chessboard[list_actual_position[0] - case][chr(ord(list_actual_position[1]) + case)] != '.':
                         sth_on_way = True
 
         if move_list_abs[0] != move_list_abs[1]: #must be a diagonal
-            print('error: the bishop cannot do this move')
-        elif piece_next_case.color == self.color or piece_next_case.position == actual_position: #must be free or other color / must move
             print('error: the bishop cannot do this move')
         elif sth_on_way:
             print('error: something is on the way')
@@ -226,6 +224,14 @@ class Bishop(Piece):
                 chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
                 chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                 return chessboard
+            elif piece_next_case != '.':
+                if piece_next_case.color == self.color or piece_next_case.position == actual_position: #must be free or other color / must move
+                    print('error: the bishop cannot do this move')
+                else:        #kills
+                    piece_next_case.position = ''
+                    self.position = list_next_position[1] + str(list_next_position[0])
+                    chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                    chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
 
 
     def __str__(self):
