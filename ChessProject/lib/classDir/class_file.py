@@ -192,7 +192,7 @@ class Bishop(Piece):
         list_next_position[0] = int(list_next_position[0])
         next_position = convert_to_list(next_position)
         move_list = [next_position[0] - actual_position[0], next_position[1] - actual_position[1]]
-        move_list_abs = [abs(next_position[0] - actual_position[0]), abs(next_position[1] - actual_position[1])]
+        move_list_abs = [abs(move_list[0]), abs(move_list[1])]
         sth_on_way = False
 
         if move_list[0] > 0:
@@ -233,7 +233,6 @@ class Bishop(Piece):
                     chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
                     chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
 
-
     def __str__(self):
         return str(self.name)
 
@@ -249,6 +248,35 @@ class Queen(Piece):
 class Knight(Piece):
     def __init__(self, color, id_piece):
         super().__init__("N", color, 0, id_piece)
+
+    def move(self, next_position):
+
+        actual_position = convert_to_list(pieces['knight'][self.id_piece].position)
+        list_actual_position = sorted(pieces['knight'][self.id_piece].position)
+        list_actual_position[0] = int(list_actual_position[0])
+        piece_next_case = whats_on_case(next_position)
+        list_next_position = sorted(next_position)
+        list_next_position[0] = int(list_next_position[0])
+        next_position = convert_to_list(next_position)
+        move_list = [next_position[0] - actual_position[0], next_position[1] - actual_position[1]]
+        move_list_abs = [abs(move_list[0]), abs(move_list[1])]
+
+        if move_list_abs[0] == 2 and move_list_abs[1] == 1 or move_list_abs[0] == 1 and move_list_abs[1] == 2:
+            if piece_next_case == '.':
+                self.position = list_next_position[1] + str(list_next_position[0])
+                chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+                return chessboard
+            else:
+                if piece_next_case.color == self.color or piece_next_case.position == actual_position: #must be free or other color / must move
+                    print('error: there is already a piece there')
+                else:        #kills
+                    piece_next_case.position = ''
+                    self.position = list_next_position[1] + str(list_next_position[0])
+                    chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                    chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+        else:
+            print('error: the knight cannot do this move')
 
     def __str__(self):
         return str(self.name)
