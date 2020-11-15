@@ -23,9 +23,8 @@ def show_chessboard():
 
 def verify_position(position):
     while True:
-        if position == "exit":
-            exit()
-        elif len(position) == 2:
+        if_exit(position)
+        if len(position) == 2:
             if (position[0].isalpha() is False) | (position[1].isnumeric() is False):
                 while True:
                     retry = input("Retry ! (use position name like 'd4') ")
@@ -36,8 +35,7 @@ def verify_position(position):
                                 for number in range(1, 9):
                                     if number == int(retry[1]):
                                         return retry
-                    elif retry == "exit":
-                        exit()
+                    if_exit(retry)
             else:
                 while True:
                     if (len(position) == 2) & (position[0].isalpha() is True) & (position[1].isnumeric() is True):
@@ -49,7 +47,7 @@ def verify_position(position):
                                         return position
                     position = input("Retry ! (use position name like 'd4') ")
         else:
-            position = input("Retry !")
+            position = input("Retry ! ")
 
 
 def convert_to_list(string):
@@ -69,7 +67,24 @@ def if_exit(string):
 
 
 def change_object(string):
-    from main import position_want_to_play
     if string == "change" | string == "ch":
-        position_want_to_play = input("Change your object you wanted to play : ")
-        return position_want_to_play
+        position = input("Change your object you wanted to play : ")
+        return position
+
+
+def is_object(position):
+    if position == "":
+        while True:
+            position = verify_position(position)
+            if position == "":
+                pass
+            elif chessboard[int(position[1])][position[0]] != ".":
+                return position
+            position = input("This position is not an object, please change : ")
+    elif chessboard[int(position[1])][position[0]] == ".":
+        while True:
+            position = input("This position is not an object, please change : ")
+            position = verify_position(position)
+            if chessboard[int(position[1])][position[0]] != ".":
+                return position
+    return position
