@@ -140,10 +140,6 @@ class Rook(Piece):
                         if_exit(retry)
                         move = convert_to_list(verify_position(retry))
                 if is_good_way is True:
-                    if chessboard[move[0]][alpha_string[move[1]]] != ".":
-                        chessboard[move[0]][alpha_string[move[1]]].position = ""
-                        del chessboard[move[0]][alpha_string[move[1]]]
-                    chessboard[move[0]][alpha_string[move[1]]] = ""
                     chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][actual_position[0]]
                     chessboard[int(actual_position[1])][actual_position[0]] = "."
                     chessboard[move[0]][alpha_string[move[1]]].position = str(alpha_string[move[1]]) + str(move[0])
@@ -175,10 +171,6 @@ class Rook(Piece):
                         if_exit(retry)
                         move = convert_to_list(verify_position(retry))
                 if is_good_way is True:
-                    if chessboard[move[0]][alpha_string[move[1]]] != ".":
-                        chessboard[move[0]][alpha_string[move[1]]].position = ""
-                        del chessboard[move[0]][alpha_string[move[1]]]
-                    chessboard[move[0]][alpha_string[move[1]]] = ""
                     chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][actual_position[0]]
                     chessboard[int(actual_position[1])][actual_position[0]] = "."
                     chessboard[move[0]][alpha_string[move[1]]].position = str(alpha_string[move[1]]) + str(move[0])
@@ -248,9 +240,6 @@ class King(Piece):
                     if_exit(retry)
                     move = convert_to_list(verify_position(retry))
                 else:
-                    chessboard[move[0]][alpha_string[move[1]]].position = ""
-                    del chessboard[move[0]][alpha_string[move[1]]]
-                    chessboard[move[0]][alpha_string[number]] = ""
                     chessboard[move[0]][alpha_string[number]] = chessboard[int(actual_pos[1])][actual_pos[0]]
                     chessboard[int(actual_pos[1])][actual_pos[0]] = '.'
                     chessboard[move[0]][alpha_string[number]].position = str(alpha_string[move[1]]) + str(move[0])
