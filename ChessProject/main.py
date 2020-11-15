@@ -14,13 +14,12 @@ if __name__ == "__main__":
             while True:
                 show_chessboard()
                 play = input("Which object do you want to play ? (use position name like 'd4') ")
-                if play == "exit":
-                    exit()
-                else:
-                    position_want_to_play = verify_position(play)
-                    position_move = verify_position(input("Enter the position where you want to move the object : "))
-                    chessboard[int(position_want_to_play[1])][position_want_to_play[0]].move(position_move)
-        elif first_question == "exit":
+                if_exit(play)
+                play = is_object(play)
+                position_want_to_play = verify_position(play)
+                position_move = verify_position(input("Enter the position where you want to move the object : "))
+                chessboard[int(position_want_to_play[1])][position_want_to_play[0]].move(position_move)
+        elif (first_question == "exit") | (first_question == "ex"):
             exit()
         else:
             print("Your response is wrong please retry !")
