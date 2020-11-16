@@ -10,17 +10,16 @@ symbol_to_name = {'P': 'pawn', 'R': 'rook', 'B': 'bishop', 'Q': 'queen', 'N': 'k
 
 
 def whats_on_case(pos):
-    if chessboard[int(pos[1])][pos[0]].color != ".":
-        position = sorted(pos)
-        position[0] = int(position[0])
-        kind_piece = chessboard[position[0]][position[1]]
-        if kind_piece == '.':
-            return kind_piece
-        else:
-            kind_piece = symbol_to_name[str(kind_piece)]
-            for piece in range(len(pieces[kind_piece].keys())):
-                if pieces[kind_piece][piece].position == pos:
-                    return pieces[kind_piece][piece]
+    position = sorted(pos)
+    position[0] = int(position[0])
+    kind_piece = chessboard[position[0]][position[1]]
+    if kind_piece == '.':
+        return kind_piece
+    else:
+        kind_piece = symbol_to_name[str(kind_piece)]
+        for piece in range(len(pieces[kind_piece].keys())):
+            if pieces[kind_piece][piece].position == pos:
+                return pieces[kind_piece][piece]
     print('error: piece can not be found')
 
 
