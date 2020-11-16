@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 from lib.utility.util import *
 from colored import fg, attr
 
@@ -9,16 +10,17 @@ symbol_to_name = {'P': 'pawn', 'R': 'rook', 'B': 'bishop', 'Q': 'queen', 'N': 'k
 
 
 def whats_on_case(pos):
-    position = sorted(pos)
-    position[0] = int(position[0])
-    kind_piece = chessboard[position[0]][position[1]]
-    if kind_piece == '.':
-        return kind_piece
-    else:
-        kind_piece = symbol_to_name[str(kind_piece)]
-        for piece in range(len(pieces[kind_piece].keys())):
-            if pieces[kind_piece][piece].position == pos:
-                return pieces[kind_piece][piece]
+    if chessboard[int(pos[1])][pos[0]].color != ".":
+        position = sorted(pos)
+        position[0] = int(position[0])
+        kind_piece = chessboard[position[0]][position[1]]
+        if kind_piece == '.':
+            return kind_piece
+        else:
+            kind_piece = symbol_to_name[str(kind_piece)]
+            for piece in range(len(pieces[kind_piece].keys())):
+                if pieces[kind_piece][piece].position == pos:
+                    return pieces[kind_piece][piece]
     print('error: piece can not be found')
 
 
@@ -154,12 +156,12 @@ class Rook(Piece):
                             actual_position[0]]
                         chessboard[int(actual_position[1])][actual_position[0]] = "."
                         self.position = str(alpha_string[move[1]]) + str(move[0])
-                        return chessboard
+                        return 1
                 elif is_good_way is True:
                     chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][actual_position[0]]
                     chessboard[int(actual_position[1])][actual_position[0]] = "."
                     self.position = str(alpha_string[move[1]]) + str(move[0])
-                    return chessboard
+                    return 1
             # Verify if the object is moving on the abscissa
             elif (move[0] == int(actual_position[1])) & (alpha_string[move[1]] != actual_position[0]):
                 is_good_way = True
@@ -201,12 +203,12 @@ class Rook(Piece):
                             actual_position[0]]
                         chessboard[int(actual_position[1])][actual_position[0]] = "."
                         self.position = str(alpha_string[move[1]]) + str(move[0])
-                        return chessboard
+                        return 1
                 elif is_good_way is True:
                     chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][actual_position[0]]
                     chessboard[int(actual_position[1])][actual_position[0]] = "."
                     self.position = str(alpha_string[move[1]]) + str(move[0])
-                    return chessboard
+                    return 1
 
 
 class Bishop(Piece):
@@ -224,7 +226,7 @@ class Bishop(Piece):
         list_next_position[0] = int(list_next_position[0])
         next_position = convert_to_list(next_position)
         move_list = [next_position[0] - actual_position[0], next_position[1] - actual_position[1]]
-        move_list_abs = [abs(next_position[0] - actual_position[0]), abs(next_position[1] - actual_position[1])]
+        move_list_abs = [abs(move_list[0]), abs(move_list[1])]
         sth_on_way = False
 
         if move_list[0] > 0:
@@ -265,7 +267,6 @@ class Bishop(Piece):
                     chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
                     chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
 
-
     def __str__(self):
         if self.color == "black":
             return str("%s" + self.name + "%s") % (fg(1), attr(0))
@@ -285,11 +286,194 @@ class Queen(Piece):
 
     def move(self, move_on_chessboard):
         move = convert_to_list(move_on_chessboard)
+        actual_position = self.position
+        alpha_string = "abcdefgh"
+        if_exit(move)
+        max_value = 0
+        min_value = 0
+        number_abscissa = 0
+        while True:
+            # Verify if it's not the same place of the Queen
+            if (move[0] == int(actual_position[1])) & (alpha_string[move[1]] == actual_position[0]):
+                print("The value is the same of the position of the object !")
+                retry = input("Choose an another position : ")
+                if_exit(retry)
+                move = convert_to_list(verify_position(retry))
+            # Verify if the object is moving on the ordonate
+            elif (move[0] != int(actual_position[1])) & (alpha_string[move[1]] == actual_position[0]):
+                is_good_way = True
+                if move[0] > int(actual_position[1]):
+                    max_value = move[0]
+                    min_value = int(actual_position[1]) + 1
+                else:
+                    max_value = int(actual_position[1])
+                    min_value = move[0] + 1
+                if min_value != max_value:
+                    # Verify if there is something on the way of the Queen
+                    for ordonate in range(min_value, max_value):
+                        if chessboard[ordonate][actual_position[0]] != ".":
+                            is_good_way = False
+                            print("There is an object on the way of the Queen !")
+                            retry = input("Choose an another position : ")
+                            if_exit(retry)
+                            move = convert_to_list(verify_position(retry))
+                            break
+                # Verify if the position where the object is moving is used by an other object with an opposite color
+                if (chessboard[move[0]][alpha_string[move[1]]] != ".") & (is_good_way is True):
+                    if chessboard[move[0]][alpha_string[move[1]]].color == self.color:
+                        print("The color of the object on the position entered is the same")
+                        retry = input("Choose an another position : ")
+                        if_exit(retry)
+                        move = convert_to_list(verify_position(retry))
+                    else:
+                        chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][
+                            actual_position[0]]
+                        chessboard[int(actual_position[1])][actual_position[0]] = "."
+                        self.position = str(alpha_string[move[1]]) + str(move[0])
+                        return chessboard
+                elif is_good_way is True:
+                    chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][actual_position[0]]
+                    chessboard[int(actual_position[1])][actual_position[0]] = "."
+                    self.position = str(alpha_string[move[1]]) + str(move[0])
+                    return chessboard
+            # Verify if the object is moving on the abscissa
+            elif (move[0] == int(actual_position[1])) & (alpha_string[move[1]] != actual_position[0]):
+                is_good_way = True
+                number_actual = 0
+                number = 0
+                for letter in range(8):
+                    if alpha_string[letter] == alpha_string[move[1]]:
+                        number = letter
+                        break
+                for letter in range(8):
+                    if alpha_string[letter] == actual_position[0]:
+                        number_actual = letter
+                        break
+                if number > number_actual:
+                    max_value = number
+                    min_value = number_actual + 1
+                elif (number_actual - number) > 1:
+                    max_value = number_actual
+                    min_value = number + 1
+                if min_value != max_value:
+                    # Verify if there is something on the way of the Queen
+                    for abscissa in range(min_value, max_value):
+                        if chessboard[move[0]][alpha_string[abscissa]] != ".":
+                            is_good_way = False
+                            print("There is an object on the way of the Queen !")
+                            retry = input("Choose an another position : ")
+                            if_exit(retry)
+                            move = convert_to_list(verify_position(retry))
+                            break
+                # Verify if the position where the object is moving is used by an other object with an opposite color
+                if (chessboard[move[0]][alpha_string[move[1]]] != ".") & (is_good_way is True):
+                    if chessboard[move[0]][alpha_string[move[1]]].color == self.color:
+                        print("The color of the object on the position entered is the same")
+                        retry = input("Choose an another position : ")
+                        if_exit(retry)
+                        move = convert_to_list(verify_position(retry))
+                    else:
+                        chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][
+                            actual_position[0]]
+                        chessboard[int(actual_position[1])][actual_position[0]] = "."
+                        self.position = str(alpha_string[move[1]]) + str(move[0])
+                        return 1
+                elif is_good_way is True:
+                    chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][actual_position[0]]
+                    chessboard[int(actual_position[1])][actual_position[0]] = "."
+                    self.position = str(alpha_string[move[1]]) + str(move[0])
+                    return 1
+            #Verify is a diagonal movement
+            elif (move[0] != int(actual_position[1])) & (alpha_string[move[1]] != actual_position[0]):
+                actual_position = convert_to_list(pieces['queen'][self.id_piece].position)
+                list_actual_position = sorted(pieces['queen'][self.id_piece].position)
+                list_actual_position[0] = int(list_actual_position[0])
+                piece_next_case = whats_on_case(move_on_chessboard)
+                list_next_position = sorted(move_on_chessboard)
+                list_next_position[0] = int(list_next_position[0])
+                move_on_chessboard = convert_to_list(move_on_chessboard)
+                move_list = [move_on_chessboard[0] - actual_position[0], move_on_chessboard[1] - actual_position[1]]
+                move_list_abs = [abs(move_list[0]), abs(move_list[1])]
+                sth_on_way = False
+
+                if move_list[0] > 0:
+                    if move_list[1] > 0:
+                        for case in range(1, move_list_abs[0]):
+                            if chessboard[list_actual_position[0] + case][
+                                chr(ord(list_actual_position[1]) + case)] != '.':
+                                sth_on_way = True
+                    elif move_list[1] < 0:
+                        for case in range(1, move_list_abs[0]):
+                            if chessboard[list_actual_position[0] + case][
+                                chr(ord(list_actual_position[1]) - case)] != '.':
+                                sth_on_way = True
+                elif move_list[0] < 0:
+                    if move_list[1] < 0:
+                        for case in range(1, move_list_abs[0]):
+                            if chessboard[list_actual_position[0] - case][
+                                chr(ord(list_actual_position[1]) - case)] != '.':
+                                sth_on_way = True
+                    elif move_list[1] > 0:
+                        for case in range(1, move_list_abs[0]):
+                            if chessboard[list_actual_position[0] - case][
+                                chr(ord(list_actual_position[1]) + case)] != '.':
+                                sth_on_way = True
+                if sth_on_way:
+                    print("There is something on the way of the Queen !")
+                    retry = input("Choose an another position : ")
+                    if_exit(retry)
+                    move = convert_to_list(verify_position(retry))
+                else:
+                    if piece_next_case == '.':
+                        self.position = list_next_position[1] + str(list_next_position[0])
+                        chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][
+                            list_actual_position[1]]
+                        chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+                        return chessboard
+                    elif piece_next_case != '.':
+                        # must be free or other color / must move
+                        if piece_next_case.color == self.color or piece_next_case.position == actual_position:
+                            print('error: the Queen cannot do this move')
+                        else:  # kills
+                            piece_next_case.position = ''
+                            self.position = list_next_position[1] + str(list_next_position[0])
+                            chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][
+                                list_actual_position[1]]
+                            chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
 
 
 class Knight(Piece):
     def __init__(self, color, id_piece):
         super().__init__("N", color, 0, id_piece)
+
+    def move(self, next_position):
+
+        actual_position = convert_to_list(pieces['knight'][self.id_piece].position)
+        list_actual_position = sorted(pieces['knight'][self.id_piece].position)
+        list_actual_position[0] = int(list_actual_position[0])
+        piece_next_case = whats_on_case(next_position)
+        list_next_position = sorted(next_position)
+        list_next_position[0] = int(list_next_position[0])
+        next_position = convert_to_list(next_position)
+        move_list = [next_position[0] - actual_position[0], next_position[1] - actual_position[1]]
+        move_list_abs = [abs(move_list[0]), abs(move_list[1])]
+
+        if move_list_abs[0] == 2 and move_list_abs[1] == 1 or move_list_abs[0] == 1 and move_list_abs[1] == 2:
+            if piece_next_case == '.':
+                self.position = list_next_position[1] + str(list_next_position[0])
+                chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+                return chessboard
+            else:
+                if piece_next_case.color == self.color or piece_next_case.position == actual_position: #must be free or other color / must move
+                    print('error: there is already a piece there')
+                else:        #kills
+                    piece_next_case.position = ''
+                    self.position = list_next_position[1] + str(list_next_position[0])
+                    chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                    chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+        else:
+            print('error: the knight cannot do this move')
 
     def __str__(self):
         if self.color == "black":
@@ -303,8 +487,8 @@ class King(Piece):
         super().__init__("K", color, 0, id_piece)
 
     def is_dead(self):
-        if self.dead == 1:
-            pass                    # must break the while loop
+        self.dead = 1
+        # must break the while loop
 
     def __str__(self):
         if self.color == "black":

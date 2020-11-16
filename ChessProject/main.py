@@ -1,7 +1,9 @@
+# -*- coding: utf8 -*-
 from lib.utility.util import *
-from lib.classDir.class_file import creation_pieces, initial_game
+from lib.classDir.class_file import creation_pieces, initial_game, pieces
 
 position_want_to_play = ""
+who_is_playing = 0
 
 if __name__ == "__main__":
     while True:
@@ -19,7 +21,11 @@ if __name__ == "__main__":
                 position_want_to_play = verify_position(play)
                 position_move = verify_position(input("Enter the position where you want to move the object : "))
                 chessboard[int(position_want_to_play[1])][position_want_to_play[0]].move(position_move)
+                if (pieces["king"][0].dead == 1) | (pieces["king"][1].dead == 1):
+                    print("It's the end of this game ! We thank you for playing !")
+                    break
         elif (first_question == "exit") | (first_question == "ex"):
             exit()
         else:
             print("Your response is wrong please retry !")
+        who_is_playing += 1
