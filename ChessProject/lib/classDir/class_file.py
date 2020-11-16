@@ -114,7 +114,6 @@ class Rook(Piece):
         if_exit(move)
         max_value = 0
         min_value = 0
-        is_good_way = True
         while True:
             # Verify if it's a good translation for the rook
             if ((move[0] != int(actual_position[1])) & (alpha_string[move[1]] != actual_position[0])) | \
@@ -283,6 +282,9 @@ class Queen(Piece):
             return str("%s" + self.name + "%s") % (fg(1), attr(0))
         else:
             return str(self.name)
+
+    def move(self, move_on_chessboard):
+        move = convert_to_list(move_on_chessboard)
 
 
 class Knight(Piece):
@@ -541,7 +543,3 @@ def initial_game(black_or_white = "white"):
     for numbers_x in range(3, 7):
         for numbers_in_letters in list_of_letter:
             chessboard[numbers_x][numbers_in_letters] = "."
-
-#creation_pieces()
-#initial_game()
-#show_chessboard()
