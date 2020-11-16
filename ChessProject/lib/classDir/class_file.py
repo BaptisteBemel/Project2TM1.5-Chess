@@ -53,7 +53,7 @@ class Pawn(Piece):
         list_next_position[0] = int(list_next_position[0])
         next_position = convert_to_list(next_position)
         move_list = [next_position[0] - actual_position[0], next_position[1] - actual_position[1]]    #deplacement in columns then lines
-        while(True):
+        while True:
             if self.color == 'white' and move_list[0] > -1:
                 print('error: the pawn cannot move back')
             elif self.color == 'black' and move_list[0] < 1:
@@ -216,7 +216,6 @@ class Bishop(Piece):
     def __init__(self, color, id_piece):
         super().__init__("B", color, 0, id_piece)
 
-
     def move(self, next_position):
 
         actual_position = convert_to_list(pieces['bishop'][self.id_piece].position)
@@ -230,7 +229,7 @@ class Bishop(Piece):
         move_list_abs = [abs(move_list[0]), abs(move_list[1])]
         sth_on_way = False
 
-        while(True):
+        while True:
             if move_list[0] > 0:
                 if move_list[1] > 0:
                     for case in range(1, move_list_abs[0]):
@@ -390,11 +389,11 @@ class Queen(Piece):
                 actual_position = convert_to_list(pieces['queen'][self.id_piece].position)
                 list_actual_position = sorted(pieces['queen'][self.id_piece].position)
                 list_actual_position[0] = int(list_actual_position[0])
-                piece_next_case = whats_on_case(move_on_chessboard)
+                piece_next_case = chessboard[move[0]][alpha_string[move[1]]]
                 list_next_position = sorted(move_on_chessboard)
                 list_next_position[0] = int(list_next_position[0])
-                move_on_chessboard = convert_to_list(move_on_chessboard)
-                move_list = [move_on_chessboard[0] - actual_position[0], move_on_chessboard[1] - actual_position[1]]
+                move_on = convert_to_list(move_on_chessboard)
+                move_list = [move_on[0] - actual_position[0], move_on[1] - actual_position[1]]
                 move_list_abs = [abs(move_list[0]), abs(move_list[1])]
                 sth_on_way = False
 
@@ -436,6 +435,9 @@ class Queen(Piece):
                         # must be free or other color / must move
                         if piece_next_case.color == self.color or piece_next_case.position == actual_position:
                             print('error: the Queen cannot do this move')
+                            retry = input("Retry : ")
+                            if_exit(retry)
+                            move = convert_to_list(verify_position(retry))
                         else:  # kills
                             piece_next_case.position = ''
                             self.position = list_next_position[1] + str(list_next_position[0])
@@ -460,7 +462,7 @@ class Knight(Piece):
         move_list = [next_position[0] - actual_position[0], next_position[1] - actual_position[1]]
         move_list_abs = [abs(move_list[0]), abs(move_list[1])]
 
-        while(True):
+        while True:
             if move_list_abs[0] == 2 and move_list_abs[1] == 1 or move_list_abs[0] == 1 and move_list_abs[1] == 2:
                 if piece_next_case == '.':
                     self.position = list_next_position[1] + str(list_next_position[0])
