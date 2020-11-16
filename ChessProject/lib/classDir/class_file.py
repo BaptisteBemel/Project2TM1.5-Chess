@@ -200,6 +200,8 @@ class Rook(Piece):
                         if_exit(retry)
                         move = convert_to_list(verify_position(retry))
                     else:
+                        if chessboard[move[0]][alpha_string[move[1]]].name == 'K':
+                            chessboard[move[0]][alpha_string[move[1]]].is_dead()
                         chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][
                             actual_position[0]]
                         chessboard[int(actual_position[1])][actual_position[0]] = "."
@@ -327,6 +329,8 @@ class Queen(Piece):
                         if_exit(retry)
                         move = convert_to_list(verify_position(retry))
                     else:
+                        if chessboard[move[0]][alpha_string[move[1]]].name == 'K':
+                            chessboard[move[0]][alpha_string[move[1]]].is_dead()
                         chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][
                             actual_position[0]]
                         chessboard[int(actual_position[1])][actual_position[0]] = "."
@@ -374,6 +378,8 @@ class Queen(Piece):
                         if_exit(retry)
                         move = convert_to_list(verify_position(retry))
                     else:
+                        if chessboard[move[0]][alpha_string[move[1]]].name == 'K':
+                            chessboard[move[0]][alpha_string[move[1]]].is_dead()
                         chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][
                             actual_position[0]]
                         chessboard[int(actual_position[1])][actual_position[0]] = "."
@@ -439,6 +445,8 @@ class Queen(Piece):
                             if_exit(retry)
                             move = convert_to_list(verify_position(retry))
                         else:  # kills
+                            if chessboard[move[0]][alpha_string[move[1]]].name == 'K':
+                                chessboard[move[0]][alpha_string[move[1]]].is_dead()
                             piece_next_case.position = ''
                             self.position = list_next_position[1] + str(list_next_position[0])
                             chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][
@@ -532,6 +540,8 @@ class King(Piece):
                     if_exit(retry)
                     move = convert_to_list(verify_position(retry))
                 else:
+                    if chessboard[move[0]][alpha_string[move[1]]].name == 'K':
+                        chessboard[move[0]][alpha_string[move[1]]].is_dead()
                     chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_pos[1])][actual_pos[0]]
                     chessboard[int(actual_pos[1])][actual_pos[0]] = '.'
                     self.position = str(alpha_string[move[1]]) + str(move[0])

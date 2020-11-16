@@ -90,3 +90,9 @@ def is_object(position):
             if chessboard[int(position[1])][position[0]] != ".":
                 return position
     return position
+
+def is_good_color(pos):
+    if chessboard[int(pos[1])][pos[0]].color == 'black':
+        return "black"
+    else:
+        return "white"
