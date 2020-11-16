@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 chessboard = {1: {"a": "T", "b": "C", "c": "F", "d": "Q", "e": "K", "f": "F", "g": "C", "h": "T"},
               2: {"a": "P", "b": "P", "c": "P", "d": "P", "e": "P", "f": "P", "g": "P", "h": "P"},
               3: {"a": "x", "b": "x", "c": "x", "d": "x", "e": "x", "f": "x", "g": "x", "h": "x"},
@@ -66,13 +67,14 @@ def if_exit(string):
     return 1
 
 
-def change_object(string):
-    if string == "change" | string == "ch":
+def if_change_object(string):
+    if (string == "change") | (string == "ch"):
         position = input("Change your object you wanted to play : ")
         return position
 
 
 def is_object(position):
+    position = verify_position(position)
     if position == "":
         while True:
             position = verify_position(position)
@@ -88,3 +90,9 @@ def is_object(position):
             if chessboard[int(position[1])][position[0]] != ".":
                 return position
     return position
+
+def is_good_color(pos):
+    if chessboard[int(pos[1])][pos[0]].color == 'black':
+        return "black"
+    else:
+        return "white"
