@@ -1,5 +1,5 @@
 from lib.utility.util import *
-from colored import fg, attr, style
+from colored import fg, attr # , style
 
 
 pieces = {'rook': {}, 'bishop': {}, 'pawn': {}, 'king': {}, 'knight': {}, 'queen': {}}
@@ -29,7 +29,6 @@ def whats_on_case(pos):
             if pieces[kind_piece][piece].position == pos:
                 return pieces[kind_piece][piece]
     print('error: piece can not be found')'''
->>>>>>> 03a46ecab0e72880fd248cf7cf9ab02a9e559fc8
 
 
 class Piece:
@@ -48,12 +47,12 @@ class Pawn(Piece):
 
     def __str__(self):
         if self.color == "black":
-            return str("%s" + self.name + "%s") % (fg(1), attr(0))
+            return str(self.name)
         else:
             return str(self.name)
 
     def move(self, nxt_position):
-        while(True):
+        while True:
 
             if_exit(nxt_position)
             actual_position = convert_to_list(pieces['pawn'][self.id_piece].position)
@@ -63,7 +62,8 @@ class Pawn(Piece):
             list_next_position[0] = int(list_next_position[0])
             piece_next_case = chessboard[list_next_position[0]][list_next_position[1]]
             next_position = convert_to_list(nxt_position)
-            move_list = [next_position[0] - actual_position[0], next_position[1] - actual_position[1]]  # deplacement in columns then lines
+            # deplacement in columns then lines
+            move_list = [next_position[0] - actual_position[0], next_position[1] - actual_position[1]]
 
             if self.color == 'white' and move_list[0] > -1:
                 print('error: the pawn cannot move back')
@@ -114,7 +114,8 @@ class Pawn(Piece):
                                 nxt_position = input("Choose an another position : ")
                         if move_list_abs[0] == 1:
                             self.position = list_next_position[1] + str(list_next_position[0])
-                            chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                            chessboard[list_next_position[0]][list_next_position[1]] = chessboard[
+                                list_actual_position[0]][list_actual_position[1]]
                             chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                             self.nb_plays = self.nb_plays + 1
                             return chessboard
@@ -126,7 +127,7 @@ class Rook(Piece):
 
     def __str__(self):
         if self.color == "black":
-            return str("%s" + self.name + "%s") % (fg(1), attr(0))
+            return str(self.name)
         else:
             return str(self.name)
 
@@ -239,7 +240,7 @@ class Bishop(Piece):
 
 
     def move(self, nxt_position):
-        while(True):
+        while True:
 
             if_exit(nxt_position)
             actual_position = convert_to_list(pieces['bishop'][self.id_piece].position)
@@ -296,7 +297,7 @@ class Bishop(Piece):
 
     def __str__(self):
         if self.color == "black":
-            return str("%s" + self.name + "%s") % (fg(1), attr(0))
+            return str(self.name)
         else:
             return str(self.name)
 
@@ -307,7 +308,7 @@ class Queen(Piece):
 
     def __str__(self):
         if self.color == "black":
-            return str("%s" + self.name + "%s") % (fg(1), attr(0))
+            return str(self.name)
         else:
             return str(self.name)
 
@@ -353,7 +354,7 @@ class Knight(Piece):
 
     def __str__(self):
         if self.color == "black":
-            return str("%s" + self.name + "%s") % (fg(1), attr(0))
+            return str(self.name)
         else:
             return str(self.name)
 
@@ -368,7 +369,7 @@ class King(Piece):
 
     def __str__(self):
         if self.color == "black":
-            return str("%s" + self.name + "%s") % (fg(1), attr(0))
+            return str(self.name)
         else:
             return str(self.name)
 
@@ -603,7 +604,3 @@ def initial_game(black_or_white = "white"):
     for numbers_x in range(3, 7):
         for numbers_in_letters in list_of_letter:
             chessboard[numbers_x][numbers_in_letters] = "."
-
-#creation_pieces()
-#initial_game()
-#show_chessboard()
