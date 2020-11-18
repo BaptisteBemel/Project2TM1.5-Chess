@@ -282,7 +282,7 @@ class Bishop(Piece):
                     chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                     return chessboard
                 elif piece_next_case != '.':
-                    if piece_next_case.color == self.color or piece_next_case.position == actual_position: #must be free or other color / must move
+                    if piece_next_case.color == self.color or convert_to_list(piece_next_case.position) == actual_position: #must be free or other color / must move
                         print('error: the bishop cannot do this move')
                         nxt_position = input("Choose an another position : ")
                     else:        #kills
@@ -290,6 +290,7 @@ class Bishop(Piece):
                         self.position = list_next_position[1] + str(list_next_position[0])
                         chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
                         chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+                        return chessboard
 
     def __str__(self):
         if self.color == "black":
@@ -337,7 +338,8 @@ class Knight(Piece):
                     chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                     return chessboard
                 else:
-                    if piece_next_case.color == self.color or piece_next_case.position == actual_position: #must be free or other color / must move
+                    if piece_next_case.color == self.color or convert_to_list(piece_next_case.position) == actual_position: #must be free or other color / must move
+                        print(piece_next_case)
                         print('error: there is already a piece there')
                         nxt_position = input("Choose an another position : ")
                     else:        #kills
@@ -345,6 +347,7 @@ class Knight(Piece):
                         self.position = list_next_position[1] + str(list_next_position[0])
                         chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
                         chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+                        return chessboard
             else:
                 print('error: the knight cannot do this move')
                 nxt_position = input("Choose an another position : ")
