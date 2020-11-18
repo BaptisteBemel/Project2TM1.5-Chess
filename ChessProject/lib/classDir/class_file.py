@@ -1,5 +1,5 @@
 from lib.utility.util import *
-from colored import fg, attr # , style
+# from colored import fg, attr
 
 
 pieces = {'rook': {}, 'bishop': {}, 'pawn': {}, 'king': {}, 'knight': {}, 'queen': {}}
@@ -311,6 +311,108 @@ class Queen(Piece):
             return str(self.name)
         else:
             return str(self.name)
+
+    def move(self, move_on_chessboard):
+        move = convert_to_list(move_on_chessboard)  # Convert the string (example 'h8') in list '[8, 7]
+        actual_position = self.position
+        alpha_string = "abcdefgh"
+        if_exit(move)
+        max_value = 0
+        min_value = 0
+        is_good_way = True
+        while True:
+            # Verify if it's a good translation for the rook
+            if ((move[0] != int(actual_position[1])) & (alpha_string[move[1]] != actual_position[0])) | \
+                    ((move[0] == int(actual_position[1])) & (alpha_string[move[1]] == actual_position[0])):
+                print("The value is the same of the position of the object or your rook can not move the abscissa " + \
+                      "and the ordinate at the same time")
+                retry = input("Choose an another position : ")
+                if_exit(retry)
+                move = convert_to_list(verify_position(retry))
+            # Verify if the object is moving on the ordonate
+            elif (move[0] != int(actual_position[1])) & (alpha_string[move[1]] == actual_position[0]):
+                is_good_way = True
+                if move[0] > int(actual_position[1]):
+                    max_value = move[0]
+                    min_value = int(actual_position[1]) + 1
+                else:
+                    max_value = int(actual_position[1])
+                    min_value = move[0] + 1
+                if min_value != max_value:
+                    # Verify if there is something on the way of the rook
+                    for ordonate in range(min_value, max_value):
+                        if chessboard[ordonate][actual_position[0]] != ".":
+                            is_good_way = False
+                            print("There is an object on the way of the rook !")
+                            retry = input("Choose an another position : ")
+                            if_exit(retry)
+                            move = convert_to_list(verify_position(retry))
+                            break
+                # Verify if the position where the object is moving is used by an other object with an opposite color
+                if (chessboard[move[0]][alpha_string[move[1]]] != ".") & (is_good_way is True):
+                    if chessboard[move[0]][alpha_string[move[1]]].color == self.color:
+                        print("The color of the object on the position entered is the same")
+                        retry = input("Choose an another position : ")
+                        if_exit(retry)
+                        move = convert_to_list(verify_position(retry))
+                    else:
+                        chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][
+                            actual_position[0]]
+                        chessboard[int(actual_position[1])][actual_position[0]] = "."
+                        self.position = str(alpha_string[move[1]]) + str(move[0])
+                        return chessboard
+                elif is_good_way is True:
+                    chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][actual_position[0]]
+                    chessboard[int(actual_position[1])][actual_position[0]] = "."
+                    self.position = str(alpha_string[move[1]]) + str(move[0])
+                    return chessboard
+            # Verify if the object is moving on the abscissa
+            elif (move[0] == int(actual_position[1])) & (alpha_string[move[1]] != actual_position[0]):
+                is_good_way = True
+                number_actual = 0
+                number = 0
+                for letter in range(8):
+                    if alpha_string[letter] == alpha_string[move[1]]:
+                        number = letter
+                        break
+                for letter in range(8):
+                    if alpha_string[letter] == actual_position[0]:
+                        number_actual = letter
+                        break
+                if number > number_actual:
+                    max_value = number
+                    min_value = number_actual + 1
+                elif (number_actual - number) > 1:
+                    max_value = number_actual
+                    min_value = number + 1
+                if min_value != max_value:
+                    # Verify if there is something on the way of the rook
+                    for abscissa in range(min_value, max_value):
+                        if chessboard[move[0]][alpha_string[abscissa]] != ".":
+                            is_good_way = False
+                            print("There is an object on the way of the rook !")
+                            retry = input("Choose an another position : ")
+                            if_exit(retry)
+                            move = convert_to_list(verify_position(retry))
+                            break
+                # Verify if the position where the object is moving is used by an other object with an opposite color
+                if (chessboard[move[0]][alpha_string[move[1]]] != ".") & (is_good_way is True):
+                    if chessboard[move[0]][alpha_string[move[1]]].color == self.color:
+                        print("The color of the object on the position entered is the same")
+                        retry = input("Choose an another position : ")
+                        if_exit(retry)
+                        move = convert_to_list(verify_position(retry))
+                    else:
+                        chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][
+                            actual_position[0]]
+                        chessboard[int(actual_position[1])][actual_position[0]] = "."
+                        self.position = str(alpha_string[move[1]]) + str(move[0])
+                        return chessboard
+                elif is_good_way is True:
+                    chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][actual_position[0]]
+                    chessboard[int(actual_position[1])][actual_position[0]] = "."
+                    self.position = str(alpha_string[move[1]]) + str(move[0])
+                    return chessboard
 
 
 class Knight(Piece):
