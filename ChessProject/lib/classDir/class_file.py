@@ -42,12 +42,15 @@ class Pawn(Piece):
             return str(self.name)
 
     def move(self, nxt_position):
+
+        if_exit(nxt_position)
+        actual_position = convert_to_list(pieces['pawn'][self.id_piece].position)
+        list_actual_position = sorted(pieces['pawn'][self.id_piece].position)
+        list_actual_position[0] = int(list_actual_position[0])
+
         while True:
 
             if_exit(nxt_position)
-            actual_position = convert_to_list(pieces['pawn'][self.id_piece].position)
-            list_actual_position = sorted(pieces['pawn'][self.id_piece].position)
-            list_actual_position[0] = int(list_actual_position[0])
             list_next_position = sorted(nxt_position)
             list_next_position[0] = int(list_next_position[0])
             piece_next_case = whats_on_case(nxt_position)
@@ -230,12 +233,15 @@ class Bishop(Piece):
 
 
     def move(self, nxt_position):
+
+        if_exit(nxt_position)
+        actual_position = convert_to_list(pieces['bishop'][self.id_piece].position)
+        list_actual_position = sorted(pieces['bishop'][self.id_piece].position)
+        list_actual_position[0] = int(list_actual_position[0])
+
         while True:
 
             if_exit(nxt_position)
-            actual_position = convert_to_list(pieces['bishop'][self.id_piece].position)
-            list_actual_position = sorted(pieces['bishop'][self.id_piece].position)
-            list_actual_position[0] = int(list_actual_position[0])
             list_next_position = sorted(nxt_position)
             list_next_position[0] = int(list_next_position[0])
             piece_next_case = whats_on_case(nxt_position)
@@ -308,12 +314,14 @@ class Knight(Piece):
         super().__init__("N", color, 0, id_piece)
 
     def move(self, nxt_position):
+
+        if_exit(nxt_position)
+        actual_position = convert_to_list(pieces['knight'][self.id_piece].position)
+        list_actual_position = sorted(pieces['knight'][self.id_piece].position)
+        list_actual_position[0] = int(list_actual_position[0])
+
         while(True):
 
-            if_exit(nxt_position)
-            actual_position = convert_to_list(pieces['knight'][self.id_piece].position)
-            list_actual_position = sorted(pieces['knight'][self.id_piece].position)
-            list_actual_position[0] = int(list_actual_position[0])
             if_exit(nxt_position)
             list_next_position = sorted(nxt_position)
             list_next_position[0] = int(list_next_position[0])
