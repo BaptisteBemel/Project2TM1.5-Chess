@@ -1,5 +1,5 @@
 from lib.utility.util import *
-from colored import fg, attr, style
+
 
 
 pieces = {'rook': {}, 'bishop': {}, 'pawn': {}, 'king': {}, 'knight': {}, 'queen': {}}
@@ -7,7 +7,7 @@ pieces = {'rook': {}, 'bishop': {}, 'pawn': {}, 'king': {}, 'knight': {}, 'queen
 
 symbol_to_name = {'P': 'pawn', 'R': 'rook', 'B': 'bishop', 'Q': 'queen', 'N': 'knight', 'K': 'king'}
 
-'''
+
 def whats_on_case(pos):
     position = sorted(pos)
     position[0] = int(position[0])
@@ -15,13 +15,11 @@ def whats_on_case(pos):
     if kind_piece == '.':
         return kind_piece
     else:
-        kind_piece = str(kind_piece)
-        kind_piece = fg('white')
-        kind_piece = symbol_to_name[kind_piece]
+        kind_piece = symbol_to_name[str(kind_piece)]
         for piece in range(len(pieces[kind_piece].keys())):
             if pieces[kind_piece][piece].position == pos:
                 return pieces[kind_piece][piece]
-    print('error: piece can not be found')'''
+    print('error: piece can not be found')
 
 
 class Piece:
@@ -53,7 +51,7 @@ class Pawn(Piece):
             list_actual_position[0] = int(list_actual_position[0])
             list_next_position = sorted(nxt_position)
             list_next_position[0] = int(list_next_position[0])
-            piece_next_case = chessboard[list_next_position[0]][list_next_position[1]]
+            piece_next_case = whats_on_case(nxt_position)
             next_position = convert_to_list(nxt_position)
             move_list = [next_position[0] - actual_position[0], next_position[1] - actual_position[1]]  # deplacement in columns then lines
 
@@ -239,7 +237,7 @@ class Bishop(Piece):
             list_actual_position[0] = int(list_actual_position[0])
             list_next_position = sorted(nxt_position)
             list_next_position[0] = int(list_next_position[0])
-            piece_next_case = chessboard[list_next_position[0]][list_next_position[1]]
+            piece_next_case = whats_on_case(nxt_position)
             next_position = convert_to_list(nxt_position)
             move_list = [next_position[0] - actual_position[0], next_position[1] - actual_position[1]]
             move_list_abs = [abs(move_list[0]), abs(move_list[1])]
@@ -319,10 +317,11 @@ class Knight(Piece):
             if_exit(nxt_position)
             list_next_position = sorted(nxt_position)
             list_next_position[0] = int(list_next_position[0])
-            piece_next_case = chessboard[list_next_position[0]][list_next_position[1]]
+            piece_next_case = whats_on_case(nxt_position)
             next_position = convert_to_list(nxt_position)
             move_list = [next_position[0] - actual_position[0], next_position[1] - actual_position[1]]
             move_list_abs = [abs(move_list[0]), abs(move_list[1])]
+            print(piece_next_case)
 
             if move_list_abs[0] == 2 and move_list_abs[1] == 1 or move_list_abs[0] == 1 and move_list_abs[1] == 2:
                 if piece_next_case == '.':
