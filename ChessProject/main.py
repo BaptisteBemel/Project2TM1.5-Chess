@@ -4,6 +4,10 @@ from lib.classDir.class_file import creation_pieces, initial_game, pieces
 
 position_want_to_play = ""
 who_is_playing = 0
+# Cache use to turn back in the game
+cache = ""
+# Temporary is use to have one game difference with the cache
+temp_cache = chessboard
 
 if __name__ == "__main__":
     while True:
@@ -27,11 +31,15 @@ if __name__ == "__main__":
                     position_want_to_play = verify_position(play)
                     position_move = verify_position(input("Enter the position where you want to move the object : "))
                     chessboard[int(position_want_to_play[1])][position_want_to_play[0]].move(position_move)
+                    cache = temp_cache
+                    temp_cache = chessboard
                     who_is_playing += 1
                 elif (who_is_playing % 2 == 1) & (color == "black"):
                     position_want_to_play = verify_position(play)
                     position_move = verify_position(input("Enter the position where you want to move the object : "))
                     chessboard[int(position_want_to_play[1])][position_want_to_play[0]].move(position_move)
+                    cache = temp_cache
+                    temp_cache = chessboard
                     who_is_playing += 1
                 else:
                     print("You can not move this color ! Retry !")
