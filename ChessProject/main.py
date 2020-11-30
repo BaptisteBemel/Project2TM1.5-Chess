@@ -1,22 +1,24 @@
 # -*- coding: utf8 -*-
 from lib.utility.util import *
 from lib.classDir.class_file import creation_pieces, initial_game, pieces
+import kivy
+from kivy.app import App
+from kivy.uix.button import Button
+from kivy.lang import Builder
+kivy.require('2.0.0')
 
-position_want_to_play = ""
-who_is_playing = 0
-# Cache use to turn back in the game
-cache = ""
-# Temporary is use to have one game difference with the cache
-temp_cache = chessboard
 
-if __name__ == "__main__":
+def start_game():
+    position_want_to_play = ""
+    who_is_playing = 0
+    # Cache use to turn back in the game
+    cache = ""
+    # Temporary is use to have one game difference with the cache
+    temp_cache = chessboard
     while True:
         first_question = input("What do you want to do ? ('play' or 'exit') ")
         if first_question == "play":
-            creation_pieces()
-            initial_game()
-            print("Welcome to our chess game ! Good luck and you can start the game !")
-            print("(You can enter 'exit' anytime you want to quit the game) \n")
+            start()
             while True:
                 if who_is_playing % 2 == 0:
                     print("Player 1")
@@ -50,4 +52,15 @@ if __name__ == "__main__":
             exit()
         else:
             print("Your response is wrong please retry !")
+
+
+class ChessGame(App):
+    def build(self):
+        wid = Builder.unload_file("./chess_game.kv")
+        return wid
+
+
+if __name__ == "__main__":
+    ChessGame().run()
+    # start_game()
 
