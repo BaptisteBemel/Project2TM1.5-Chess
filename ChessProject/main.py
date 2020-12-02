@@ -4,7 +4,11 @@ from lib.classDir.class_file import creation_pieces, initial_game, pieces
 import kivy
 from kivy.app import App
 from kivy.uix.button import Button
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.widget import Widget
 from kivy.lang import Builder
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
 kivy.require('2.0.0')
 
 
@@ -54,13 +58,48 @@ def start_game():
             print("Your response is wrong please retry !")
 
 
-class ChessGame(App):
+kv = """
+<ChessGame>:
+    container: container_id
+    canvas.before:
+        Color:
+            rgba: .5, .5, .5, 1
+        Line:
+            width: 2
+    GridLayout:
+        id: container_id
+        cols: 8
+        rows: 8
+        padding: 15
+        """
+
+
+class ChessGame(GridLayout):
+    """def __init__(self, **kwargs):
+        super(ChessGame, self).__init__(**kwargs)
+        self.padding = 100
+        self.cols = 8
+        self.rows = 8
+        self.add_widget(Label(text="No You !"))
+        self.name = TextInput(multiline=False)
+        self.add_widget(self.name)
+
+        self.add_widget(Label(text="No ME !"))
+        self.name = TextInput(multiline=False)
+        self.add_widget(self.name)
+
+        self.add_widget(Label(text="No Everybody !"))
+        self.name = TextInput(multiline=False)
+        self.add_widget(self.name)"""
+    pass
+
+
+class ChessApp(App):
     def build(self):
-        wid = Builder.unload_file("./chess_game.kv")
-        return wid
+        return ChessGame()
 
 
 if __name__ == "__main__":
-    ChessGame().run()
+    # Builder.load_string(kv)
+    ChessApp().run()
     # start_game()
-
