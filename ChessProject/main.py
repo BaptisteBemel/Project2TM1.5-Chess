@@ -72,9 +72,7 @@ def start_game():
 
 
 class MainWindow(Screen):
-    def start_chess_game(self):
-        start_game()
-
+    pass
 
 
 class WindowManager(ScreenManager):
@@ -86,6 +84,9 @@ class ChessGame(Screen):
         super(ChessGame, self).__init__(**kwargs)
         grid = GridLayout()
         self.add_widget(grid)
+        self.number = 0
+        self.pos = [0, 0]
+        self.pos_move = [0, 0]
         grid.cols = 8
         grid.rows = 8
         grid.padding = 100
@@ -102,7 +103,7 @@ class ChessGame(Screen):
                     grid.add_widget(btn)
                 max_eight += 1
                 btn.id = list_of_position_chessboard[i]
-                btn.bind(on_press=self.call_target)
+                btn.bind(on_press=self.move)
             else:
                 if i % 2 == 0:
                     btn = Button()
@@ -114,10 +115,16 @@ class ChessGame(Screen):
                     max_eight = -1
                 max_eight += 1
                 btn.id = list_of_position_chessboard[i]
-                btn.bind(on_press=self.call_target)
+                btn.bind(on_press=self.move)
 
-    def call_target(self, button):
-        print(button.id)
+    def move(self, button):
+        if self.number == 0:
+            self.pos = convert_to_list(button.id)
+            self.number += 1
+        elif self.number == 1:
+            self.pos_move = convert_to_list(button.id)
+            self.number = 0
+            chessboard[int(self.pos[1])][self.pos[0]].move(self.pos_move)
 
     def start_chess_game(self):
         start_game()
@@ -126,14 +133,6 @@ class ChessGame(Screen):
 class ChessApp(App):
     def build(self):
         return Builder.load_file("chess.kv")
-
-
-def parent():
-    ChessApp().run()
-
-
-def child():
-    start_game()
 
 
 if __name__ == "__main__":
