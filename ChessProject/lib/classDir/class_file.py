@@ -8,6 +8,11 @@ symbol_to_name = {'P': 'pawn', 'R': 'rook', 'B': 'bishop', 'Q': 'queen', 'N': 'k
 
 
 def whats_on_case(pos):
+    """
+
+    :param pos:
+    :return:
+    """
     position = sorted(pos)
     position[0] = int(position[0])
     kind_piece = chessboard[position[0]][position[1]]
