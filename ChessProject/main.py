@@ -2,6 +2,7 @@
 from lib.utility.util import *
 from lib.classDir.class_file import creation_pieces, initial_game, pieces
 import kivy
+import multiprocessing
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
@@ -9,7 +10,19 @@ from kivy.uix.widget import Widget
 from kivy.lang import Builder
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.screenmanager import Screen, ScreenManager
 kivy.require('2.0.0')
+
+
+list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
+                               "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2",
+                               "a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3",
+                               "a4", "b4", "c4", "d4", "e4", "f4", "g4", "h4",
+                               "a5", "b5", "c5", "d5", "e5", "f5", "g5", "h5",
+                               "a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6",
+                               "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7",
+                               "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"]
 
 
 def start_game():
@@ -58,48 +71,71 @@ def start_game():
             print("Your response is wrong please retry !")
 
 
-kv = """
-<ChessGame>:
-    container: container_id
-    canvas.before:
-        Color:
-            rgba: .5, .5, .5, 1
-        Line:
-            width: 2
-    GridLayout:
-        id: container_id
-        cols: 8
-        rows: 8
-        padding: 15
-        """
+class MainWindow(Screen):
+    def start_chess_game(self):
+        start_game()
 
 
-class ChessGame(GridLayout):
-    """def __init__(self, **kwargs):
-        super(ChessGame, self).__init__(**kwargs)
-        self.padding = 100
-        self.cols = 8
-        self.rows = 8
-        self.add_widget(Label(text="No You !"))
-        self.name = TextInput(multiline=False)
-        self.add_widget(self.name)
 
-        self.add_widget(Label(text="No ME !"))
-        self.name = TextInput(multiline=False)
-        self.add_widget(self.name)
-
-        self.add_widget(Label(text="No Everybody !"))
-        self.name = TextInput(multiline=False)
-        self.add_widget(self.name)"""
+class WindowManager(ScreenManager):
     pass
+
+
+class ChessGame(Screen):
+    def __init__(self, **kwargs):
+        super(ChessGame, self).__init__(**kwargs)
+        grid = GridLayout()
+        self.add_widget(grid)
+        grid.cols = 8
+        grid.rows = 8
+        grid.padding = 100
+        grid.size = 600, 600
+        max_eight = 0
+        for i in range(len(list_of_position_chessboard)):
+            btn = ""
+            if max_eight < 8:
+                if i % 2 == 0:
+                    btn = Button(background_color=(1, 0, 0, 1))
+                    grid.add_widget(btn)
+                else:
+                    btn = Button()
+                    grid.add_widget(btn)
+                max_eight += 1
+                btn.id = list_of_position_chessboard[i]
+                btn.bind(on_press=self.call_target)
+            else:
+                if i % 2 == 0:
+                    btn = Button()
+                    grid.add_widget(btn)
+                else:
+                    btn = Button(background_color=(1, 0, 0, 1), background_normal="./img/white_pawn.png")
+                    grid.add_widget(btn)
+                if max_eight == 15:
+                    max_eight = -1
+                max_eight += 1
+                btn.id = list_of_position_chessboard[i]
+                btn.bind(on_press=self.call_target)
+
+    def call_target(self, button):
+        print(button.id)
+
+    def start_chess_game(self):
+        start_game()
 
 
 class ChessApp(App):
     def build(self):
-        return ChessGame()
+        return Builder.load_file("chess.kv")
+
+
+def parent():
+    ChessApp().run()
+
+
+def child():
+    start_game()
 
 
 if __name__ == "__main__":
-    # Builder.load_string(kv)
     ChessApp().run()
     # start_game()
