@@ -22,6 +22,14 @@ def show_chessboard():
     print(stri)
 
 
+def start():
+    from lib.classDir.class_file import creation_pieces, initial_game
+    creation_pieces()
+    initial_game()
+    print("Welcome to our chess game ! Good luck and you can start the game !")
+    print("(You can enter 'exit' anytime you want to quit the game) \n")
+
+
 def verify_position(position):
     while True:
         if_exit(position)

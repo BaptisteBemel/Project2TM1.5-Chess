@@ -433,20 +433,22 @@ class Queen(Piece):
                     return 1
             # Verify it's a diagonal movement
             elif (move[0] != int(actual_position[1])) & (alpha_string[move[1]] != actual_position[0]):
+                if_exit(move_on_chessboard)
                 actual_position = convert_to_list(pieces['queen'][self.id_piece].position)
                 list_actual_position = sorted(pieces['queen'][self.id_piece].position)
                 list_actual_position[0] = int(list_actual_position[0])
-                piece_next_case = chessboard[move[0]][alpha_string[move[1]]]
                 list_next_position = sorted(move_on_chessboard)
                 list_next_position[0] = int(list_next_position[0])
-                move_on = convert_to_list(move_on_chessboard)
-                move_list = [move_on[0] - actual_position[0], move_on[1] - actual_position[1]]
+                piece_next_case = whats_on_case(move_on_chessboard)
+                next_position = convert_to_list(move_on_chessboard)
+                move_list = [next_position[0] - actual_position[0], next_position[1] - actual_position[1]]
                 move_list_abs = [abs(move_list[0]), abs(move_list[1])]
                 sth_on_way = False
                 if move_list[0] > 0:
                     if move_list[1] > 0:
                         for case in range(1, move_list_abs[0]):
-                            if chessboard[list_actual_position[0] + case][chr(ord(list_actual_position[1]) + case)] != '.':
+                            if chessboard[list_actual_position[0] + case][
+                                chr(ord(list_actual_position[1]) + case)] != '.':
                                 sth_on_way = True
                     elif move_list[1] < 0:
                         for case in range(1, move_list_abs[0]):
@@ -465,10 +467,10 @@ class Queen(Piece):
                                 chr(ord(list_actual_position[1]) + case)] != '.':
                                 sth_on_way = True
                 if sth_on_way:
-                    print("There is something on the way of the Queen !")
-                    retry = input("Choose an another position : ")
-                    if_exit(retry)
-                    move = convert_to_list(verify_position(retry))
+                    print('error: something is on the way')
+                    move_on_chessboard = input("Choose an another position : ")
+                    if_exit(move_on_chessboard)
+                    move = verify_position(convert_to_list(move_on_chessboard))
                 else:
                     if piece_next_case == '.':
                         self.position = list_next_position[1] + str(list_next_position[0])
@@ -477,20 +479,21 @@ class Queen(Piece):
                         chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                         return chessboard
                     elif piece_next_case != '.':
-                        # must be free or other color / must move
-                        if piece_next_case.color == self.color or piece_next_case.position == actual_position:
-                            print('error: The queen is moving on the same position or the same color !')
-                            retry = input("Retry : ")
-                            if_exit(retry)
-                            move = convert_to_list(verify_position(retry))
+                        if piece_next_case.color == self.color or convert_to_list(
+                                piece_next_case.position) == actual_position:  # must be free or other color / must move
+                            print('error: the bishop cannot do this move')
+                            move_on_chessboard = input("Choose an another position : ")
+                            if_exit(move_on_chessboard)
+                            move = verify_position(convert_to_list(move_on_chessboard))
                         else:  # kills
-                            if chessboard[move[0]][alpha_string[move[1]]].name == 'K':
+                            if chessboard[move[0]][alpha_string[move[1]]].name == "K":
                                 chessboard[move[0]][alpha_string[move[1]]].is_dead()
                             piece_next_case.position = ''
                             self.position = list_next_position[1] + str(list_next_position[0])
-                            chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][
-                                list_actual_position[1]]
+                            chessboard[list_next_position[0]][list_next_position[1]] = chessboard[
+                                list_actual_position[0]][list_actual_position[1]]
                             chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+                            return chessboard
 
 
 class Knight(Piece):
@@ -546,8 +549,8 @@ class King(Piece):
         super().__init__("K", color, 0, id_piece)
 
     def is_dead(self):
-        if self.dead == 1:
-            pass                    # must break the while loop
+        if self.dead == 0:
+            self.dead = 1                # must break the while loop
 
     def __str__(self):
         if self.color == "black":
