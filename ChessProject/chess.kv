@@ -26,7 +26,7 @@ WindowManager:
 
 <ChessGame>:
     name: "game"
-    grid: "grid"
+    grid: "gri"
     label: "label"
 
     a1: "a1"
@@ -96,5 +96,12 @@ WindowManager:
 
     Label:
         id: "label"
-        text: root.text_label
+        text: "Choose the object you want to move"
         pos: 0, 250
+
+    Button:
+        text: "Change piece"
+        size_hint: None, None
+        size: 130, 70
+        pos: 320, 0
+        on_press: root.change_piece_to_play()

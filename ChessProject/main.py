@@ -80,40 +80,45 @@ class WindowManager(ScreenManager):
     pass
 
 
+
+
+
 class ChessGame(Screen):
     def __init__(self, **kwargs):
         super(ChessGame, self).__init__(**kwargs)
-        grid = GridLayout()
-        self.add_widget(grid)
+        self.grid = GridLayout()
+        self.add_widget(self.grid)
         self.number = 0
         self.pos = [0, 0]
+        self.sth_on_chessboard = False
         self.text_label = "Choose an object"
-        grid.cols = 8
-        grid.rows = 8
-        grid.padding = 100
-        grid.size = 600, 600
+        self.grid.cols = 8
+        self.grid.rows = 8
+        self.grid.padding = 100
+        self.grid.size = 600, 600
+        self.grid.id = "gri"
         max_eight = 0
         start()
         for i in range(len(list_of_position_chessboard)):
             btn = ""
             if max_eight < 8:
                 if i % 2 == 0:
-                    btn = Button(background_color=(0.95, 0.8, 0.5, 1))
-                    grid.add_widget(btn)
+                    btn = Button(background_color=(0.95, 0.8, 0.5, 1), background_normal="")
+                    self.grid.add_widget(btn)
                 else:
-                    btn = Button()
-                    grid.add_widget(btn)
+                    btn = Button(background_normal="")
+                    self.grid.add_widget(btn)
                 max_eight += 1
                 btn.id = list_of_position_chessboard[i]
                 btn.bind(on_press=self.move)
                 btn.background_normal = ""
             else:
                 if i % 2 == 0:
-                    btn = Button()
-                    grid.add_widget(btn)
+                    btn = Button(background_normal="")
+                    self.grid.add_widget(btn)
                 else:
-                    btn = Button(background_color=(0.95, 0.8, 0.5, 1), background_normal="./img/white_pawn.png")
-                    grid.add_widget(btn)
+                    btn = Button(background_color=(0.95, 0.8, 0.5, 1), background_normal="")
+                    self.grid.add_widget(btn)
                 if max_eight == 15:
                     max_eight = -1
                 max_eight += 1
@@ -124,29 +129,67 @@ class ChessGame(Screen):
         self.add_pieces_on_chessboard()
 
     def add_pieces_on_chessboard(self):
-        print(self.ids.a7)
-        # ChessGame.a7.background_normal = "./img/white_pawn.png"
+        for i in self.grid.children:
+            if self.sth_on_chessboard is False:
+                if i.id == "a2" or i.id == "b2" or i.id == "b2" or i.id == "c2" or i.id == "d2" or i.id == "e2" or \
+                        i.id == "f2" or i.id == "g2" or i.id == "h2":
+                    i.background_normal = "./img/black_pawn.png"
+                elif i.id == "a7" or i.id == "b7" or i.id == "b7" or i.id == "c7" or i.id == "d7" or i.id == "e7" or \
+                        i.id == "f7" or i.id == "g7" or i.id == "h7":
+                    i.background_normal = "./img/white_pawn.png"
+                elif i.id == "a1" or i.id == "h1":
+                    i.background_normal = "./img/black_rook.png"
+                elif i.id == "a8" or i.id == "h8":
+                    i.background_normal = "./img/white_rook.png"
+                elif i.id == "b1" or i.id == "g1":
+                    i.background_normal = "./img/black_knight.png"
+                elif i.id == "b8" or i.id == "g8":
+                    i.background_normal = "./img/white_knight.png"
+                elif i.id == "c1" or i.id == "f1":
+                    i.background_normal = "./img/black_bishop.png"
+                elif i.id == "c8" or i.id == "f8":
+                    i.background_normal = "./img/white_bishop.png"
+                elif i.id == "d1":
+                    i.background_normal = "./img/black_king.png"
+                elif i.id == "d8":
+                    i.background_normal = "./img/white_king.png"
+                elif i.id == "e1":
+                    i.background_normal = "./img/black_queen.png"
+                elif i.id == "e8":
+                    i.background_normal = "./img/white_queen.png"
+                if i.id == "a1":
+                    self.sth_on_chessboard = True
+            if self.sth_on_chessboard is True:
+                pass
 
     def move(self, button):
         letter = "abcdefgh"
-        rand = StringProperty()
         if self.number == 0:
-            # self.label.text = "Choose"
             self.pos = convert_to_list(button.id)
             self.number += 1
-            button.background_normal = ""
+            if chessboard[self.pos[0]][letter[self.pos[1]]] == ".":
+                self.number -= 1
+                print("This value is wrong because it's not an object's position !")
+                self.children[1].text = "This value is wrong because it's not an object's position !"
+            else:
+                self.children[1].text = "Choose the position where you want to put your piece !"
         elif self.number == 1:
-            self.number = 0
-            chessboard[self.pos[0]][letter[self.pos[1]]].move(button.id)
-            show_chessboard()
+            if chessboard[self.pos[0]][letter[self.pos[1]]].move(button.id) is True:
+                self.number = 0
+                show_chessboard()
+                self.children[1].text = "Choose the object you want to move"
+            else:
+                print("This value is wrong because it's not a correct position !")
+                self.children[1].text = "This value is wrong because it's not a correct position !"
 
-    def change_text(self):
-        self.text_label = 'Trol'
+    def change_piece_to_play(self):
+        self.number = 0
 
 
 class ChessApp(App):
     def build(self):
-        return Builder.load_file("chess.kv")
+        Builder.load_file("chess.kv")
+        ChessGame()
 
 
 if __name__ == "__main__":
