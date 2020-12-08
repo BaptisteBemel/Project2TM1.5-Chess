@@ -2,7 +2,7 @@
 from lib.utility.util import *
 from lib.classDir.class_file import creation_pieces, initial_game, pieces
 import kivy
-import multiprocessing
+import threading
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
@@ -12,6 +12,7 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.properties import StringProperty
 kivy.require('2.0.0')
 
 
@@ -24,51 +25,51 @@ list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
                                "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7",
                                "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"]
 
-
-def start_game():
-    position_want_to_play = ""
-    who_is_playing = 0
-    # Cache use to turn back in the game
-    cache = ""
-    # Temporary is use to have one game difference with the cache
-    temp_cache = chessboard
-    while True:
-        first_question = input("What do you want to do ? ('play' or 'exit') ")
-        if first_question == "play":
-            start()
-            while True:
-                if who_is_playing % 2 == 0:
-                    print("Player 1")
-                else:
-                    print("Player 2")
-                show_chessboard()
-                play = input("Which object do you want to play ? (use position name like 'd4') ")
-                if_exit(play)
-                play = is_object(play)
-                color = is_good_color(play)
-                if (who_is_playing % 2 == 0) & (color == "white"):
-                    position_want_to_play = verify_position(play)
-                    position_move = verify_position(input("Enter the position where you want to move the object : "))
-                    chessboard[int(position_want_to_play[1])][position_want_to_play[0]].move(position_move)
-                    cache = temp_cache
-                    temp_cache = chessboard
-                    who_is_playing += 1
-                elif (who_is_playing % 2 == 1) & (color == "black"):
-                    position_want_to_play = verify_position(play)
-                    position_move = verify_position(input("Enter the position where you want to move the object : "))
-                    chessboard[int(position_want_to_play[1])][position_want_to_play[0]].move(position_move)
-                    cache = temp_cache
-                    temp_cache = chessboard
-                    who_is_playing += 1
-                else:
-                    print("You can not move this color ! Retry !")
-                if (pieces["king"][0].dead == 1) | (pieces["king"][1].dead == 1):
-                    print("It's the end of this game ! We thank you for playing !")
-                    break
-        elif (first_question == "exit") | (first_question == "ex"):
-            exit()
-        else:
-            print("Your response is wrong please retry !")
+class game:
+    def start_game(self):
+        position_want_to_play = ""
+        who_is_playing = 0
+        # Cache use to turn back in the game
+        cache = ""
+        # Temporary is use to have one game difference with the cache
+        temp_cache = chessboard
+        while True:
+            first_question = input("What do you want to do ? ('play' or 'exit') ")
+            if first_question == "play":
+                start()
+                while True:
+                    if who_is_playing % 2 == 0:
+                        print("Player 1")
+                    else:
+                        print("Player 2")
+                    show_chessboard()
+                    play = input("Which object do you want to play ? (use position name like 'd4') ")
+                    if_exit(play)
+                    play = is_object(play)
+                    color = is_good_color(play)
+                    if (who_is_playing % 2 == 0) & (color == "white"):
+                        position_want_to_play = verify_position(play)
+                        position_move = verify_position(input("Enter the position where you want to move the object : "))
+                        chessboard[int(position_want_to_play[1])][position_want_to_play[0]].move(position_move)
+                        cache = temp_cache
+                        temp_cache = chessboard
+                        who_is_playing += 1
+                    elif (who_is_playing % 2 == 1) & (color == "black"):
+                        position_want_to_play = verify_position(play)
+                        position_move = verify_position(input("Enter the position where you want to move the object : "))
+                        chessboard[int(position_want_to_play[1])][position_want_to_play[0]].move(position_move)
+                        cache = temp_cache
+                        temp_cache = chessboard
+                        who_is_playing += 1
+                    else:
+                        print("You can not move this color ! Retry !")
+                    if (pieces["king"][0].dead == 1) | (pieces["king"][1].dead == 1):
+                        print("It's the end of this game ! We thank you for playing !")
+                        break
+            elif (first_question == "exit") | (first_question == "ex"):
+                exit()
+            else:
+                print("Your response is wrong please retry !")
 
 
 class MainWindow(Screen):
@@ -86,17 +87,18 @@ class ChessGame(Screen):
         self.add_widget(grid)
         self.number = 0
         self.pos = [0, 0]
-        self.pos_move = [0, 0]
+        self.text_label = "Choose an object"
         grid.cols = 8
         grid.rows = 8
         grid.padding = 100
         grid.size = 600, 600
         max_eight = 0
+        start()
         for i in range(len(list_of_position_chessboard)):
             btn = ""
             if max_eight < 8:
                 if i % 2 == 0:
-                    btn = Button(background_color=(1, 0, 0, 1))
+                    btn = Button(background_color=(0.95, 0.8, 0.5, 1))
                     grid.add_widget(btn)
                 else:
                     btn = Button()
@@ -104,30 +106,42 @@ class ChessGame(Screen):
                 max_eight += 1
                 btn.id = list_of_position_chessboard[i]
                 btn.bind(on_press=self.move)
+                btn.background_normal = ""
             else:
                 if i % 2 == 0:
                     btn = Button()
                     grid.add_widget(btn)
                 else:
-                    btn = Button(background_color=(1, 0, 0, 1), background_normal="./img/white_pawn.png")
+                    btn = Button(background_color=(0.95, 0.8, 0.5, 1), background_normal="./img/white_pawn.png")
                     grid.add_widget(btn)
                 if max_eight == 15:
                     max_eight = -1
                 max_eight += 1
                 btn.id = list_of_position_chessboard[i]
                 btn.bind(on_press=self.move)
+                btn.background_normal = ""
+                # btn.bind(on_release=self.change_text)
+        self.add_pieces_on_chessboard()
+
+    def add_pieces_on_chessboard(self):
+        print(self.ids.a7)
+        # ChessGame.a7.background_normal = "./img/white_pawn.png"
 
     def move(self, button):
+        letter = "abcdefgh"
+        rand = StringProperty()
         if self.number == 0:
+            # self.label.text = "Choose"
             self.pos = convert_to_list(button.id)
             self.number += 1
+            button.background_normal = ""
         elif self.number == 1:
-            self.pos_move = convert_to_list(button.id)
             self.number = 0
-            chessboard[int(self.pos[1])][self.pos[0]].move(self.pos_move)
+            chessboard[self.pos[0]][letter[self.pos[1]]].move(button.id)
+            show_chessboard()
 
-    def start_chess_game(self):
-        start_game()
+    def change_text(self):
+        self.text_label = 'Trol'
 
 
 class ChessApp(App):
@@ -137,4 +151,3 @@ class ChessApp(App):
 
 if __name__ == "__main__":
     ChessApp().run()
-    # start_game()
