@@ -1,1 +1,1 @@
-import socketclient_s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)addr_host = input()msg = bytes('UDP cli', 'utf-8')client_s.sendto(msg, ('127.0.0.1', 12345))data, addr = client_s.recvfrom(4096)print('srv says')print(str(data))client_s.close()
+import socketclient_s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)msg = bytes('UDP cli', 'utf-8')client_s.sendto(msg, ('192.168.0.16', 12345))data, addr = client_s.recvfrom(4096)print('srv says')print(str(data))client_s.close()
