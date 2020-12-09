@@ -1,6 +1,7 @@
 WindowManager:
     MainWindow:
     ChessGame:
+    SoloOrMulti:
 
 <MainWindow>:
     name: "main"
@@ -16,13 +17,11 @@ WindowManager:
             Button:
                 text: "Play"
                 on_release:
-                    app.root.current = "game"
-                    root.manager.transition.direction = "left"
+                    app.root.current = "solo"
+                    root.manager.transition.direction = "down"
 
             Button:
                 text: "Connect"
-
-
 
 <ChessGame>:
     name: "game"
@@ -105,3 +104,25 @@ WindowManager:
         size: 130, 70
         pos: 320, 0
         on_press: root.change_piece_to_play()
+
+<SoloOrMulti>:
+    name: "solo"
+
+    Button:
+        text: "Solo"
+        size_hint: None, None
+        size: 300, 200
+        pos: 250, 300
+        on_release:
+            app.root.current = "game"
+            root.manager.transition.direction = "left"
+
+    Button:
+        text: "Multiplayer"
+        size_hint: None, None
+        size: 300, 200
+        pos: 250, 100
+        on_release:
+            app.root.current = "game"
+            root.manager.transition.direction = "right"
+            on_press: root.launch_server()

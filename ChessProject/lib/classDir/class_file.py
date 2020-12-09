@@ -198,9 +198,6 @@ class Rook(Piece):
                     if chessboard[move[0]][alpha_string[abscissa]] != ".":
                         is_good_way = False
                         print("There is an object on the way of the rook !")
-                        retry = input("Choose an another position : ")
-                        if_exit(retry)
-                        move = convert_to_list(verify_position(retry))
                         break
             # Verify if the position where the object is moving is used by an other object with an opposite color
             if (chessboard[move[0]][alpha_string[move[1]]] != ".") & (is_good_way is True):
