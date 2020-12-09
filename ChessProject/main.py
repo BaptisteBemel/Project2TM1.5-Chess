@@ -12,7 +12,7 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import Screen, ScreenManager
-from kivy.properties import StringProperty
+from kivy.properties import ObjectProperty
 kivy.require('2.0.0')
 
 
@@ -80,9 +80,6 @@ class WindowManager(ScreenManager):
     pass
 
 
-
-
-
 class ChessGame(Screen):
     def __init__(self, **kwargs):
         super(ChessGame, self).__init__(**kwargs)
@@ -96,7 +93,7 @@ class ChessGame(Screen):
         self.grid.rows = 8
         self.grid.padding = 100
         self.grid.size = 600, 600
-        self.grid.id = "gri"
+        self.grid.id = "grid"
         max_eight = 0
         start()
         for i in range(len(list_of_position_chessboard)):
@@ -129,38 +126,88 @@ class ChessGame(Screen):
         self.add_pieces_on_chessboard()
 
     def add_pieces_on_chessboard(self):
-        for i in self.grid.children:
-            if self.sth_on_chessboard is False:
-                if i.id == "a2" or i.id == "b2" or i.id == "b2" or i.id == "c2" or i.id == "d2" or i.id == "e2" or \
-                        i.id == "f2" or i.id == "g2" or i.id == "h2":
-                    i.background_normal = "./img/black_pawn.png"
-                elif i.id == "a7" or i.id == "b7" or i.id == "b7" or i.id == "c7" or i.id == "d7" or i.id == "e7" or \
-                        i.id == "f7" or i.id == "g7" or i.id == "h7":
-                    i.background_normal = "./img/white_pawn.png"
-                elif i.id == "a1" or i.id == "h1":
-                    i.background_normal = "./img/black_rook.png"
-                elif i.id == "a8" or i.id == "h8":
-                    i.background_normal = "./img/white_rook.png"
-                elif i.id == "b1" or i.id == "g1":
-                    i.background_normal = "./img/black_knight.png"
-                elif i.id == "b8" or i.id == "g8":
-                    i.background_normal = "./img/white_knight.png"
-                elif i.id == "c1" or i.id == "f1":
-                    i.background_normal = "./img/black_bishop.png"
-                elif i.id == "c8" or i.id == "f8":
-                    i.background_normal = "./img/white_bishop.png"
-                elif i.id == "d1":
-                    i.background_normal = "./img/black_king.png"
-                elif i.id == "d8":
-                    i.background_normal = "./img/white_king.png"
-                elif i.id == "e1":
-                    i.background_normal = "./img/black_queen.png"
-                elif i.id == "e8":
-                    i.background_normal = "./img/white_queen.png"
-                if i.id == "a1":
+        if self.sth_on_chessboard is False:
+            for btn in self.grid.children:
+                if btn.id == "a2" or btn.id == "b2" or btn.id == "b2" or btn.id == "c2" or btn.id == "d2" or \
+                        btn.id == "e2" or btn.id == "f2" or btn.id == "g2" or btn.id == "h2":
+                    btn.background_normal = "./img/black_pawn.png"
+                elif btn.id == "a7" or btn.id == "b7" or btn.id == "b7" or btn.id == "c7" or btn.id == "d7" or \
+                        btn.id == "e7" or btn.id == "f7" or btn.id == "g7" or btn.id == "h7":
+                    btn.background_normal = "./img/white_pawn.png"
+                elif btn.id == "a1" or btn.id == "h1":
+                    btn.background_normal = "./img/black_rook.png"
+                elif btn.id == "a8" or btn.id == "h8":
+                    btn.background_normal = "./img/white_rook.png"
+                elif btn.id == "b1" or btn.id == "g1":
+                    btn.background_normal = "./img/black_knight.png"
+                elif btn.id == "b8" or btn.id == "g8":
+                    btn.background_normal = "./img/white_knight.png"
+                elif btn.id == "c1" or btn.id == "f1":
+                    btn.background_normal = "./img/black_bishop.png"
+                elif btn.id == "c8" or btn.id == "f8":
+                    btn.background_normal = "./img/white_bishop.png"
+                elif btn.id == "d1":
+                    btn.background_normal = "./img/black_king.png"
+                elif btn.id == "d8":
+                    btn.background_normal = "./img/white_king.png"
+                elif btn.id == "e1":
+                    btn.background_normal = "./img/black_queen.png"
+                elif btn.id == "e8":
+                    btn.background_normal = "./img/white_queen.png"
+                if btn.id == "a1":
                     self.sth_on_chessboard = True
-            if self.sth_on_chessboard is True:
-                pass
+        elif self.sth_on_chessboard is True:
+            pass
+
+    def update_chessboard_GUI(self):
+        child = self.children[2].children
+        for key_chessboard in list_of_position_chessboard:
+            if chessboard[int(key_chessboard[1])][key_chessboard[0]] == ".":
+                for btn in child:
+                    if btn.id == key_chessboard:
+                        btn.background_normal = ""
+            elif chessboard[int(key_chessboard[1])][key_chessboard[0]].name == "R":
+                for btn in child:
+                    if btn.id == key_chessboard:
+                        if chessboard[int(key_chessboard[1])][key_chessboard[0]].color == "black":
+                            btn.background_normal = "./img/black_rook.png"
+                        else:
+                            btn.background_normal = "./img/white_rook.png"
+            elif chessboard[int(key_chessboard[1])][key_chessboard[0]].name == "B":
+                for btn in child:
+                    if btn.id == key_chessboard:
+                        if chessboard[int(key_chessboard[1])][key_chessboard[0]].color == "black":
+                            btn.background_normal = "./img/black_bishop.png"
+                        else:
+                            btn.background_normal = "./img/white_bishop.png"
+            elif chessboard[int(key_chessboard[1])][key_chessboard[0]].name == "P":
+                for btn in child:
+                    if btn.id == key_chessboard:
+                        if chessboard[int(key_chessboard[1])][key_chessboard[0]].color == "black":
+                            btn.background_normal = "./img/black_pawn.png"
+                        else:
+                            btn.background_normal = "./img/white_pawn.png"
+            elif chessboard[int(key_chessboard[1])][key_chessboard[0]].name == "N":
+                for btn in child:
+                    if btn.id == key_chessboard:
+                        if chessboard[int(key_chessboard[1])][key_chessboard[0]].color == "black":
+                            btn.background_normal = "./img/black_knight.png"
+                        else:
+                            btn.background_normal = "./img/white_knight.png"
+            elif chessboard[int(key_chessboard[1])][key_chessboard[0]].name == "Q":
+                for btn in child:
+                    if btn.id == key_chessboard:
+                        if chessboard[int(key_chessboard[1])][key_chessboard[0]].color == "black":
+                            btn.background_normal = "./img/black_queen.png"
+                        else:
+                            btn.background_normal = "./img/white_queen.png"
+            elif chessboard[int(key_chessboard[1])][key_chessboard[0]].name == "K":
+                for btn in child:
+                    if btn.id == key_chessboard:
+                        if chessboard[int(key_chessboard[1])][key_chessboard[0]].color == "black":
+                            btn.background_normal = "./img/black_king.png"
+                        else:
+                            btn.background_normal = "./img/white_king.png"
 
     def move(self, button):
         letter = "abcdefgh"
@@ -177,6 +224,8 @@ class ChessGame(Screen):
             if chessboard[self.pos[0]][letter[self.pos[1]]].move(button.id) is True:
                 self.number = 0
                 show_chessboard()
+                # self.add_pieces_on_chessboard()
+                self.update_chessboard_GUI()
                 self.children[1].text = "Choose the object you want to move"
             else:
                 print("This value is wrong because it's not a correct position !")
