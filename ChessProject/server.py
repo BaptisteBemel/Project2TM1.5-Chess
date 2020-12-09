@@ -2,7 +2,7 @@ import socket
 
 srv_s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-srv_s.bind(('127.0.0.1', 12345))
+srv_s.bind((socket.gethostname(), 12345))
 
 while True:
     data, addr = srv_s.recvfrom(4096)
