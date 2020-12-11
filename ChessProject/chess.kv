@@ -2,6 +2,7 @@ WindowManager:
     MainWindow:
     ChessGame:
     SoloOrMulti:
+    ConnectWindow:
 
 <MainWindow>:
     name: "main"
@@ -22,6 +23,9 @@ WindowManager:
 
             Button:
                 text: "Connect"
+                on_release:
+                    app.root.current = "connect"
+                    root.manager.transition.direction = "up"
 
 <ChessGame>:
     name: "game"
@@ -126,3 +130,21 @@ WindowManager:
             app.root.current = "game"
             root.manager.transition.direction = "right"
             on_press: root.launch_server()
+
+<ConnectWindow>:
+    name: "connect"
+    input: "input"
+
+    GridLayout:
+        cols: 1
+
+        TextInput:
+            id: "input"
+            text: "Enter an adress ip to a connection LAN"
+            multiline: False
+
+        Button:
+            text: "Connect"
+            size_hint: None, None
+            size: 800, 200
+            padding: 50, 50

@@ -32,9 +32,11 @@ class WindowManager(ScreenManager):
 
 
 class SoloOrMulti(Screen):
-    """def launch_server(self):
-        path = os.path.abspath("./serveur.py")
-        os.system("python path")"""
+    def launch_server(self):
+        os.startfile("server.py")
+
+
+class ConnectWindow(Screen):
     pass
 
 
@@ -84,6 +86,10 @@ class ChessGame(Screen):
         self.add_pieces_on_chessboard()
 
     def add_pieces_on_chessboard(self):
+        """
+        This function add pieces on the interface of the chessboard (Kivy)
+        :return:
+        """
         for btn in self.grid.children:
             if btn.id == "a2" or btn.id == "b2" or btn.id == "b2" or btn.id == "c2" or btn.id == "d2" or \
                     btn.id == "e2" or btn.id == "f2" or btn.id == "g2" or btn.id == "h2":

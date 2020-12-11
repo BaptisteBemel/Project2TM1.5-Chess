@@ -20,11 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5a2c3b37-a2ef-4d18-a6f1-241793534692" name="Default Changelist" comment="up">
-      <change afterPath="$PROJECT_DIR$/kv.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chess.kv" beforeDir="false" afterPath="$PROJECT_DIR$/chess.kv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/classDir/class_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/classDir/class_file.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kv.py" beforeDir="false" afterPath="$PROJECT_DIR$/kv.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +56,7 @@
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.serveur">
+  <component name="RunManager" selected="Python.main">
     <configuration name="class_file" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ChessProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -144,6 +143,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ChessProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/server.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="serveur" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="ChessProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -165,35 +185,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="util" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ChessProject" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/lib/utility" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/lib/utility/util.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.serveur" />
         <item itemvalue="Python.kv" />
         <item itemvalue="Python.client" />
+        <item itemvalue="Python.server" />
+        <item itemvalue="Python.serveur" />
         <item itemvalue="Python.class_file" />
-        <item itemvalue="Python.util" />
       </list>
     </recent_temporary>
   </component>
@@ -268,26 +266,26 @@
     </state>
     <state x="526" y="193" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1604773754973" />
     <state x="739" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604766913505" />
-    <state width="1899" height="348" key="GridCell.Tab.0.bottom" timestamp="1607524152498">
+    <state width="1899" height="275" key="GridCell.Tab.0.bottom" timestamp="1607684341006">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="263" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1606392416875" />
-    <state width="1899" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1607524152498" />
-    <state width="1899" height="348" key="GridCell.Tab.0.center" timestamp="1607524152498">
+    <state width="1899" height="275" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1607684341006" />
+    <state width="1899" height="275" key="GridCell.Tab.0.center" timestamp="1607684341006">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="263" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1606392416875" />
-    <state width="1899" height="348" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1607524152498" />
-    <state width="1899" height="348" key="GridCell.Tab.0.left" timestamp="1607524152498">
+    <state width="1899" height="275" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1607684341006" />
+    <state width="1899" height="275" key="GridCell.Tab.0.left" timestamp="1607684341006">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="263" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1606392416875" />
-    <state width="1899" height="348" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1607524152498" />
-    <state width="1899" height="348" key="GridCell.Tab.0.right" timestamp="1607524152498">
+    <state width="1899" height="275" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1607684341006" />
+    <state width="1899" height="275" key="GridCell.Tab.0.right" timestamp="1607684341006">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="263" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1606392416875" />
-    <state width="1899" height="348" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1607524152498" />
+    <state width="1899" height="275" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1607684341006" />
     <state width="1899" height="348" key="GridCell.Tab.1.bottom" timestamp="1607524152499">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -304,11 +302,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1899" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1607524152499" />
-    <state x="134" y="12" key="SettingsEditor" timestamp="1605698969360">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="461" y="165" key="SettingsEditor" timestamp="1607594365711">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="134" y="12" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1605698969360" />
-    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1604766955940" />
+    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1607594365711" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1605799218808">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
