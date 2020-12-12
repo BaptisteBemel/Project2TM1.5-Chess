@@ -109,6 +109,15 @@ WindowManager:
         pos: 320, 0
         on_press: root.change_piece_to_play()
 
+    Button:
+        text: "Main Menu"
+        size_hint: None, None
+        size: 100, 100
+        pos: 0, 500
+        on_release:
+            app.root.current = "main"
+            root.manager.transition.direction = "right"
+
 <SoloOrMulti>:
     name: "solo"
 
@@ -129,7 +138,7 @@ WindowManager:
         on_release:
             app.root.current = "game"
             root.manager.transition.direction = "right"
-            on_press: root.launch_server()
+            on_press: root.run_server()
 
 <ConnectWindow>:
     name: "connect"
@@ -140,7 +149,7 @@ WindowManager:
 
         TextInput:
             id: "input"
-            text: "Enter an adress ip to a connection LAN"
+            text: "Enter an address ip to a connection LAN"
             multiline: False
 
         Button:
@@ -148,3 +157,4 @@ WindowManager:
             size_hint: None, None
             size: 800, 200
             padding: 50, 50
+            on_press: root.connect_to_server()

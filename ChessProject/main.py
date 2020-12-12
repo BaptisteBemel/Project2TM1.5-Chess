@@ -1,9 +1,9 @@
 # -*- coding: utf8 -*-
 from lib.utility.util import *
-from lib.classDir.class_file import creation_pieces, initial_game, pieces
-from kv import ChessApp
+from lib.classDir.class_file import pieces, Player
+from GUI.kv import ChessApp
 
-
+"""
 def start_game(self):
     position_want_to_play = ""
     who_is_playing = 0
@@ -47,7 +47,7 @@ def start_game(self):
         elif (first_question == "exit") | (first_question == "ex"):
             exit()
         else:
-            print("Your response is wrong please retry !")
+            print("Your response is wrong please retry !")"""
 
 
 if __name__ == "__main__":

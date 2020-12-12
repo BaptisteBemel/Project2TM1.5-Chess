@@ -1,6 +1,18 @@
 from lib.utility.util import *
 
 
+class Player:
+    def __init__(self, who=0, play=0):
+        self.who = who
+        self.who_is_playing = play
+
+    def next_player(self):
+        if self.who_is_playing == 0:
+            self.who_is_playing = 1
+        else:
+            self.who_is_playing = 0
+
+
 pieces = {'rook': {}, 'bishop': {}, 'pawn': {}, 'king': {}, 'knight': {}, 'queen': {}}
 
 

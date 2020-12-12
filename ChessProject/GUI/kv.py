@@ -1,4 +1,6 @@
+# -*- coding: utf8 -*-
 from lib.utility.util import *
+from lib.classDir.class_file import Player
 import kivy
 import threading
 from kivy.app import App
@@ -22,6 +24,8 @@ list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
                                "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7",
                                "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"]
 
+new_player = Player()
+
 
 class MainWindow(Screen):
     pass
@@ -32,12 +36,20 @@ class WindowManager(ScreenManager):
 
 
 class SoloOrMulti(Screen):
-    def launch_server(self):
+    def run_server(self):
         os.startfile("server.py")
 
 
 class ConnectWindow(Screen):
-    pass
+    def connect_to_server(self):
+        pass
+        if len(self.children[0].children[1].text) < 7 or len(self.children[0].children[1].text) > 15:
+            print("Bad Value !")
+        elif self.children[0].children[1].text.split(".") is False:
+            print("It is not an ip address !")
+        else:
+            self.manager.current = "game"
+            new_player.who = 1
 
 
 class ChessGame(Screen):
@@ -119,7 +131,7 @@ class ChessGame(Screen):
                 btn.background_normal = "./img/white_queen.png"
 
     def update_chessboard_GUI(self):
-        child = self.children[2].children
+        child = self.children[3].children
         for key_chessboard in list_of_position_chessboard:
             if chessboard[int(key_chessboard[1])][key_chessboard[0]] == ".":
                 for btn in child:
@@ -176,18 +188,27 @@ class ChessGame(Screen):
             if chessboard[self.pos[0]][letter[self.pos[1]]] == ".":
                 self.number -= 1
                 print("This value is wrong because it's not an object's position !")
-                self.children[1].text = "This value is wrong because it's not an object's position !"
+                self.children[2].text = "This value is wrong because it's not an object's position !"
+            elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and new_player.who_is_playing == 0) or \
+                    (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and new_player.who_is_playing == 1):
+                self.number -= 1
+                print("This value is wrong because it's the bad color !")
+                self.children[2].text = "This value is wrong because it's the bad color !"
             else:
-                self.children[1].text = "Choose the position where you want to put your piece !"
+                self.children[2].text = "Choose the position where you want to put your piece !"
         elif self.number == 1:
             if chessboard[self.pos[0]][letter[self.pos[1]]].move(button.id) is True:
                 self.number = 0
                 show_chessboard()
                 self.update_chessboard_GUI()
-                self.children[1].text = "Choose the object you want to move"
+                if new_player.who_is_playing == 0:
+                    new_player.who_is_playing = 1
+                else:
+                    new_player.who_is_playing = 0
+                self.children[2].text = "Choose the object you want to move"
             else:
                 print("This value is wrong because it's not a correct position !")
-                self.children[1].text = "This value is wrong because it's not a correct position !"
+                self.children[2].text = "This value is wrong because it's not a correct position !"
 
     def change_piece_to_play(self):
         self.number = 0
@@ -195,5 +216,5 @@ class ChessGame(Screen):
 
 class ChessApp(App):
     def build(self):
-        Builder.load_file("chess.kv")
+        Builder.load_file("./GUI/chess.kv")
         ChessGame()
