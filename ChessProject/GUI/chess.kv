@@ -1,6 +1,8 @@
 WindowManager:
     MainWindow:
     ChessGame:
+    SoloOrMulti:
+    ConnectWindow:
 
 <MainWindow>:
     name: "main"
@@ -16,13 +18,14 @@ WindowManager:
             Button:
                 text: "Play"
                 on_release:
-                    app.root.current = "game"
-                    root.manager.transition.direction = "left"
+                    app.root.current = "solo"
+                    root.manager.transition.direction = "down"
 
             Button:
                 text: "Connect"
-
-
+                on_release:
+                    app.root.current = "connect"
+                    root.manager.transition.direction = "up"
 
 <ChessGame>:
     name: "game"
@@ -105,3 +108,53 @@ WindowManager:
         size: 130, 70
         pos: 320, 0
         on_press: root.change_piece_to_play()
+
+    Button:
+        text: "Main Menu"
+        size_hint: None, None
+        size: 100, 100
+        pos: 0, 500
+        on_release:
+            app.root.current = "main"
+            root.manager.transition.direction = "right"
+
+<SoloOrMulti>:
+    name: "solo"
+
+    Button:
+        text: "Solo"
+        size_hint: None, None
+        size: 300, 200
+        pos: 250, 300
+        on_release:
+            app.root.current = "game"
+            root.manager.transition.direction = "left"
+
+    Button:
+        text: "Multiplayer"
+        size_hint: None, None
+        size: 300, 200
+        pos: 250, 100
+        on_release:
+            app.root.current = "game"
+            root.manager.transition.direction = "right"
+            on_press: root.run_server()
+
+<ConnectWindow>:
+    name: "connect"
+    input: "input"
+
+    GridLayout:
+        cols: 1
+
+        TextInput:
+            id: "input"
+            text: "Enter an address ip to a connection LAN"
+            multiline: False
+
+        Button:
+            text: "Connect"
+            size_hint: None, None
+            size: 800, 200
+            padding: 50, 50
+            on_press: root.connect_to_server()
