@@ -25,6 +25,12 @@ list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
                                "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"]
 
 new_player = Player()
+ip_address = "192.168.1.40"
+
+
+def change_name(nom):
+    ip_address = nom
+    os.startfile("client.py")
 
 
 class MainWindow(Screen):
@@ -50,6 +56,8 @@ class ConnectWindow(Screen):
         else:
             self.manager.current = "game"
             new_player.who = 1
+            change_name(self.children[0].children[1].text)
+
 
 
 class ChessGame(Screen):

@@ -3,10 +3,19 @@ from lib.utility.util import *
 
 class Player:
     def __init__(self, who=0, play=0):
+        """
+
+        :param who:
+        :param play:
+        """
         self.who = who
         self.who_is_playing = play
 
     def next_player(self):
+        """
+
+        :return:
+        """
         if self.who_is_playing == 0:
             self.who_is_playing = 1
         else:
@@ -40,6 +49,14 @@ def whats_on_case(pos):
 
 class Piece:
     def __init__(self, name, color, dead, id_piece, position=""):
+        """
+
+        :param name:
+        :param color:
+        :param dead:
+        :param id_piece:
+        :param position:
+        """
         self.color = color
         self.name = name
         self.dead = dead
@@ -49,16 +66,30 @@ class Piece:
 
 class Pawn(Piece):
     def __init__(self, color, id_piece):
+        """
+
+        :param color:
+        :param id_piece:
+        """
         super().__init__("P", color, 0, id_piece)
         self.nb_plays = 0
 
     def __str__(self):
+        """
+
+        :return:
+        """
         if self.color == "black":
             return str(self.name)
         else:
             return str(self.name)
 
     def move(self, nxt_position):
+        """
+
+        :param nxt_position:
+        :return:
+        """
         if_exit(nxt_position)
         actual_position = convert_to_list(pieces['pawn'][self.id_piece].position)
         list_actual_position = sorted(pieces['pawn'][self.id_piece].position)
@@ -128,15 +159,29 @@ class Pawn(Piece):
 
 class Rook(Piece):
     def __init__(self, color, id_piece):
+        """
+
+        :param color:
+        :param id_piece:
+        """
         super().__init__("R", color, 0, id_piece)
 
     def __str__(self):
+        """
+
+        :return:
+        """
         if self.color == "black":
             return str(self.name)
         else:
             return str(self.name)
 
     def move(self, move_on_chessboard):
+        """
+
+        :param move_on_chessboard:
+        :return:
+        """
         move = convert_to_list(move_on_chessboard)  # Convert the string (example 'h8') in list '[8, 7]
         actual_position = self.position
         alpha_string = "abcdefgh"
@@ -233,10 +278,20 @@ class Rook(Piece):
 
 class Bishop(Piece):
     def __init__(self, color, id_piece):
+        """
+
+        :param color:
+        :param id_piece:
+        """
         super().__init__("B", color, 0, id_piece)
 
 
     def move(self, nxt_position):
+        """
+
+        :param nxt_position:
+        :return:
+        """
         if_exit(nxt_position)
         actual_position = convert_to_list(pieces['bishop'][self.id_piece].position)
         list_actual_position = sorted(pieces['bishop'][self.id_piece].position)
@@ -292,6 +347,10 @@ class Bishop(Piece):
                     return True
 
     def __str__(self):
+        """
+
+        :return:
+        """
         if self.color == "black":
             return str(self.name)
         else:
@@ -300,15 +359,29 @@ class Bishop(Piece):
 
 class Queen(Piece):
     def __init__(self, color, id_piece):
+        """
+
+        :param color:
+        :param id_piece:
+        """
         super().__init__("Q", color, 0, id_piece)
 
     def __str__(self):
+        """
+
+        :return:
+        """
         if self.color == "black":
             return str(self.name)
         else:
             return str(self.name)
 
     def move(self, move_on_chessboard):
+        """
+
+        :param move_on_chessboard:
+        :return:
+        """
         move = convert_to_list(move_on_chessboard)
         actual_position = self.position
         alpha_string = "abcdefgh"
