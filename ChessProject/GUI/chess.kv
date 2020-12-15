@@ -117,6 +117,7 @@ WindowManager:
         on_release:
             app.root.current = "main"
             root.manager.transition.direction = "right"
+        on_press: root.reset_game()
 
 <SoloOrMulti>:
     name: "solo"
@@ -129,6 +130,7 @@ WindowManager:
         on_release:
             app.root.current = "game"
             root.manager.transition.direction = "left"
+        on_press: root.solo_game()
 
     Button:
         text: "Multiplayer"

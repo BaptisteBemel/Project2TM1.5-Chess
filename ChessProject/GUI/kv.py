@@ -44,6 +44,13 @@ class WindowManager(ScreenManager):
 class SoloOrMulti(Screen):
     def run_server(self):
         os.startfile("server.py")
+        new_player.kind_of_game = 1
+        start()
+        show_chessboard()
+
+    def solo_game(self):
+        start()
+        show_chessboard()
 
 
 class ConnectWindow(Screen):
@@ -56,8 +63,9 @@ class ConnectWindow(Screen):
         else:
             self.manager.current = "game"
             new_player.who = 1
+            new_player.kind_of_game = 2
+            start()
             change_name(self.children[0].children[1].text)
-
 
 
 class ChessGame(Screen):
@@ -200,6 +208,11 @@ class ChessGame(Screen):
             elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and new_player.who_is_playing == 0) or \
                     (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and new_player.who_is_playing == 1):
                 self.number -= 1
+                print("Not your turn !")
+                self.children[2].text = "Not your turn !"
+            elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and new_player.kind_of_game == 1) or \
+                    (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and new_player.kind_of_game == 2):
+                self.number -= 1
                 print("This value is wrong because it's the bad color !")
                 self.children[2].text = "This value is wrong because it's the bad color !"
             else:
@@ -209,6 +222,8 @@ class ChessGame(Screen):
                 self.number = 0
                 show_chessboard()
                 self.update_chessboard_GUI()
+                if new_player.kind_of_game == 2:
+                    os.startfile("client.py")
                 if new_player.who_is_playing == 0:
                     new_player.who_is_playing = 1
                 else:
@@ -220,6 +235,11 @@ class ChessGame(Screen):
 
     def change_piece_to_play(self):
         self.number = 0
+
+    def reset_game(self):
+        start()
+        self.update_chessboard_GUI()
+        new_player.who_is_playing = 0
 
 
 class ChessApp(App):

@@ -2,7 +2,7 @@ from lib.utility.util import *
 
 
 class Player:
-    def __init__(self, who=0, play=0):
+    def __init__(self, who=0, play=0, kind_of_game=0):
         """
 
         :param who:
@@ -10,6 +10,7 @@ class Player:
         """
         self.who = who
         self.who_is_playing = play
+        self.kind_of_game = kind_of_game    # 0 == solo, 1 == multi, 2 == connect
 
     def next_player(self):
         """
