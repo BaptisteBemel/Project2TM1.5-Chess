@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 from lib.utility.util import *
-from lib.classDir.class_file import Player, ip_addr
+from lib.classDir.class_file import Player, change_name
 import kivy
 import threading
 from kivy.app import App
@@ -21,17 +21,8 @@ list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
 
 new_player = Player()
 
-ip_addr =
 
 
-def change_name(name_ip):
-    """
-
-    :param name_ip: is a string which is a address ip
-    :return:
-    """
-    ip_addr = name_ip
-    os.startfile("client.py")
 
 
 class MainWindow(Screen):

@@ -1,10 +1,23 @@
 from lib.utility.util import *
+import os
 
 has_played = False
 
-ip_addr = "192.168.1.40"
+ip_addr = ""
+
+def change_name(name_ip):
+    """
+
+    :param name_ip: is a string which is a address ip
+    :return:
+    """
+    global ip_addr
+    ip_addr = name_ip
+    os.startfile("client.py")
+
 
 def change_has_played():
+    global has_played
     has_played = True
 
 

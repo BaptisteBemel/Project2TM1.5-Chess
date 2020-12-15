@@ -10,7 +10,14 @@ srv_s.bind((socket.gethostname(), 12345))
 
 
 while True:
-    if srv_s.recvfrom(4096):
+    data, addr = srv_s.recvfrom(4096)
+    print(data.decode())
+    srv_s.settimeout(1)
+    try:
+        recvpack, payload = srv_s.recvfrom(4096)
+    except socket.timeout:
+        recvpack = None
+    if recvpack is not None:
         data, addr = srv_s.recvfrom(4096)
         print(data.decode())
         data, addr = srv_s.recvfrom(4096)
@@ -26,12 +33,7 @@ while True:
         if isit_true_false == True:
             break
 
-    if pieces["king"][0].dead == 1:
-        msg_server = bytes(str(chessboard), 'utf-8')
-        true_false = bytes(str(True), 'utf-8')
 
-        srv_s.sendto(msg_server, addr)
-        srv_s.sendto(true_false, addr)
 
     if has_played == True:
         has_played = False
@@ -40,3 +42,4 @@ while True:
         true_false = bytes(str(False), 'utf-8')
         srv_s.sendto(msg_server, addr)
         srv_s.sendto(true_false, addr)
+
