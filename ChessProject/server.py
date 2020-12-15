@@ -10,18 +10,19 @@ srv_s.bind((socket.gethostname(), 12345))
 
 
 while True:
-    data, addr = srv_s.recvfrom(4096)
-    print(data.decode())
-    data, addr = srv_s.recvfrom(4096)
+    if srv_s.recvfrom(4096):
+        data, addr = srv_s.recvfrom(4096)
 
-    chessboard_received = eval(data)
-    chessboard = chessboard_received
+        chessboard_received = eval(data)
+        print(chessboard == chessboard_received)
+        chessboard = chessboard_received
 
-    data, addr = srv_s.recvfrom(4096)
-    isit_true_false = bool(data.decode())
 
-    if isit_true_false == True:
-        break
+        data, addr = srv_s.recvfrom(4096)
+        isit_true_false = bool(data.decode())
+
+        if isit_true_false == True:
+            break
 
     if pieces["king"][0].dead == 1:
         msg_server = bytes(str(chessboard), 'utf-8')
