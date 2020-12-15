@@ -14,6 +14,7 @@ class Player:
 
     def next_player(self):
         """
+        Set the value to the other player
 
         :return:
         """
@@ -32,7 +33,7 @@ symbol_to_name = {'P': 'pawn', 'R': 'rook', 'B': 'bishop', 'Q': 'queen', 'N': 'k
 def whats_on_case(pos):
     """
 
-    :param pos:
+    :param pos: it's an position (example : 'a7')
     :return:
     """
     position = sorted(pos)
@@ -53,10 +54,10 @@ class Piece:
         """
 
         :param name:
-        :param color:
+        :param color: there are only two color (black or white)
         :param dead:
         :param id_piece:
-        :param position:
+        :param position: the actual position where is place the piece
         """
         self.color = color
         self.name = name
@@ -78,7 +79,7 @@ class Pawn(Piece):
     def __str__(self):
         """
 
-        :return:
+        :return: return a string with the name of the piece
         """
         if self.color == "black":
             return str(self.name)
@@ -170,7 +171,7 @@ class Rook(Piece):
     def __str__(self):
         """
 
-        :return:
+        :return: return a string with the name of the piece
         """
         if self.color == "black":
             return str(self.name)
@@ -350,7 +351,7 @@ class Bishop(Piece):
     def __str__(self):
         """
 
-        :return:
+        :return: return a string with the name of the piece
         """
         if self.color == "black":
             return str(self.name)
@@ -370,7 +371,7 @@ class Queen(Piece):
     def __str__(self):
         """
 
-        :return:
+        :return: return a string with the name of the piece
         """
         if self.color == "black":
             return str(self.name)
@@ -581,6 +582,10 @@ class Knight(Piece):
             return False
 
     def __str__(self):
+        """
+
+        :return: return a string with the name of the piece
+        """
         if self.color == "black":
             return str(self.name)
         else:
@@ -596,6 +601,11 @@ class King(Piece):
             self.dead = 1                # must break the while loop
 
     def __str__(self):
+        """
+
+        :return: return a string with the name of the piece
+
+        """
         if self.color == "black":
             return str(self.name)
         else:
@@ -642,6 +652,11 @@ class King(Piece):
 
 # Creation of the pieces instead of creating 32 objects one by one
 def creation_pieces():
+    """
+    This method is used to create all the object of the chessboard
+
+    :return:
+    """
     for i in range(16):
         if i == 0:
             pieces['rook'][i] = Rook('white', i)
