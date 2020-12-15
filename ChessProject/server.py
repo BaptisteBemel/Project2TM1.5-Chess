@@ -1,8 +1,7 @@
 # -*- coding: utf8 -*-
 import socket
 from lib.utility.util import chessboard
-from lib.classDir.class_file import pieces
-from GUI.kv import has_played
+from lib.classDir.class_file import pieces, has_played
 
 
 srv_s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
