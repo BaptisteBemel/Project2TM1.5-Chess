@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 from lib.utility.util import *
-from lib.classDir.class_file import Player
+from lib.classDir.class_file import Player, ip
 import kivy
 import threading
 from kivy.app import App
@@ -36,7 +36,7 @@ def change_name(name_ip):
     :param name_ip: is a string which is a address ip
     :return:
     """
-    ip_address = name_ip
+    ip = name_ip
     os.startfile("client.py")
 
 
@@ -204,6 +204,7 @@ class ChessGame(Screen):
                             btn.background_normal = "./img/white_king.png"
 
     def move(self, button):
+        # self.update_chessboard_GUI()
         letter = "abcdefgh"
         if self.number == 0:
             self.pos = convert_to_list(button.id)
