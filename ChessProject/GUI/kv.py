@@ -218,8 +218,8 @@ class ChessGame(Screen):
                 self.number -= 1
                 print("Not your turn !")
                 self.children[2].text = "Not your turn !"
-            elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and new_player.kind_of_game == 1) or \
-                    (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and new_player.kind_of_game == 2):
+            elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and new_player.kind_of_game == 2) or \
+                    (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and new_player.kind_of_game == 1):
                 self.number -= 1
                 print("This value is wrong because it's the bad color !")
                 self.children[2].text = "This value is wrong because it's the bad color !"
