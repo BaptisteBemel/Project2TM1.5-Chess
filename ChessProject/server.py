@@ -11,7 +11,7 @@ srv_s.bind((socket.gethostname(), 12345))
 
 while True:
     data, addr = srv_s.recvfrom(4096)
-<<<<<<< Updated upstream
+
     chessboard_received = eval(data)
     chessboard = chessboard_received
 
@@ -35,14 +35,3 @@ while True:
         true_false = bytes(str(False), 'utf-8')
         srv_s.sendto(msg_server, addr)
         srv_s.sendto(true_false, addr)
-=======
-    print(data)
-    '''new_player.who_is_playing = int(data[len(data) - 1])
-    temp = ""
-    for value in range(len(data) - 1):
-        temp += value
-    chessboard = temp
-    if new_player.who_is_playing == 1:
-        change_msg_server(chessboard)'''
-    srv_s.sendto(msg_server, addr)
->>>>>>> Stashed changes
