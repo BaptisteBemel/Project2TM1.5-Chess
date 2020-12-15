@@ -2,7 +2,7 @@ from lib.utility.util import *
 
 has_played = False
 
-ip = "192.168.1.40"
+ip_addr = "192.168.1.40"
 
 def change_has_played():
     has_played = True
