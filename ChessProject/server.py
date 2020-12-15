@@ -12,6 +12,8 @@ srv_s.bind((socket.gethostname(), 12345))
 while True:
     if srv_s.recvfrom(4096):
         data, addr = srv_s.recvfrom(4096)
+        print(data.decode())
+        data, addr = srv_s.recvfrom(4096)
 
         chessboard_received = eval(data)
         print(chessboard == chessboard_received)
