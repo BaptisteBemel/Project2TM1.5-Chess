@@ -2,6 +2,7 @@
 import socket
 from lib.utility.util import chessboard
 from lib.classDir.class_file import pieces
+from GUI.kv import has_played
 
 
 srv_s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -10,6 +11,8 @@ srv_s.bind((socket.gethostname(), 12345))
 
 
 while True:
+    data, addr = srv_s.recvfrom(4096)
+    print(data.decode())
     data, addr = srv_s.recvfrom(4096)
 
     chessboard_received = eval(data)
