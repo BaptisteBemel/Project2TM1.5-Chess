@@ -27,11 +27,7 @@ list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
 new_player = Player()
 ip_address = "192.168.1.40"
 
-has_played = False
 
-
-def change_has_played():
-    has_played = True
 
 
 def change_name(name_ip):
@@ -233,7 +229,6 @@ class ChessGame(Screen):
                 self.number = 0
                 show_chessboard()
                 self.update_chessboard_GUI()
-                change_has_played()
                 self.children[2].text = "Choose the object you want to move"
             else:
                 print("This value is wrong because it's not a correct position !")

@@ -1,5 +1,11 @@
 from lib.utility.util import *
 
+has_played = False
+
+
+def change_has_played():
+    has_played = True
+
 
 class Player:
     def __init__(self, who=0, play=0, kind_of_game=0):
@@ -131,6 +137,7 @@ class Pawn(Piece):
                         chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
                         chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                         self.nb_plays = self.nb_plays + 1                 # The pawn has played, it won't be its first play again
+                        change_has_played()
                         return True
                 else:
                     print('error: this pawn cannot do this move')
@@ -146,6 +153,7 @@ class Pawn(Piece):
                             chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
                             chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                             self.nb_plays = self.nb_plays + 1
+                            change_has_played()
                             return True
                         elif self.nb_plays > 0:
                             print('error: this pawn cannot do this move')
@@ -156,6 +164,7 @@ class Pawn(Piece):
                             list_actual_position[0]][list_actual_position[1]]
                         chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                         self.nb_plays = self.nb_plays + 1
+                        change_has_played()
                         return True
 
 
@@ -226,11 +235,13 @@ class Rook(Piece):
                         actual_position[0]]
                     chessboard[int(actual_position[1])][actual_position[0]] = "."
                     self.position = str(alpha_string[move[1]]) + str(move[0])
+                    change_has_played()
                     return True
             elif is_good_way is True:
                 chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][actual_position[0]]
                 chessboard[int(actual_position[1])][actual_position[0]] = "."
                 self.position = str(alpha_string[move[1]]) + str(move[0])
+                change_has_played()
                 return True
         # Verify if the object is moving on the abscissa
         elif (move[0] == int(actual_position[1])) & (alpha_string[move[1]] != actual_position[0]):
@@ -270,11 +281,13 @@ class Rook(Piece):
                         actual_position[0]]
                     chessboard[int(actual_position[1])][actual_position[0]] = "."
                     self.position = str(alpha_string[move[1]]) + str(move[0])
+                    change_has_played()
                     return True
             elif is_good_way is True:
                 chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][actual_position[0]]
                 chessboard[int(actual_position[1])][actual_position[0]] = "."
                 self.position = str(alpha_string[move[1]]) + str(move[0])
+                change_has_played()
                 return True
 
 
@@ -336,6 +349,7 @@ class Bishop(Piece):
                 self.position = list_next_position[1] + str(list_next_position[0])
                 chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
                 chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+                change_has_played()
                 return True
             elif piece_next_case != '.':
                 if piece_next_case.color == self.color or convert_to_list(piece_next_case.position) == actual_position: #must be free or other color / must move
@@ -346,6 +360,7 @@ class Bishop(Piece):
                     self.position = list_next_position[1] + str(list_next_position[0])
                     chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
                     chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+                    change_has_played()
                     return True
 
     def __str__(self):
@@ -426,11 +441,13 @@ class Queen(Piece):
                         actual_position[0]]
                     chessboard[int(actual_position[1])][actual_position[0]] = "."
                     self.position = str(alpha_string[move[1]]) + str(move[0])
+                    change_has_played()
                     return True
             elif is_good_way is True:
                 chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][actual_position[0]]
                 chessboard[int(actual_position[1])][actual_position[0]] = "."
                 self.position = str(alpha_string[move[1]]) + str(move[0])
+                change_has_played()
                 return True
         # Verify if the object is moving on the abscissa
         elif (move[0] == int(actual_position[1])) & (alpha_string[move[1]] != actual_position[0]):
@@ -473,11 +490,13 @@ class Queen(Piece):
                         actual_position[0]]
                     chessboard[int(actual_position[1])][actual_position[0]] = "."
                     self.position = str(alpha_string[move[1]]) + str(move[0])
+                    change_has_played()
                     return True
             elif is_good_way is True:
                 chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_position[1])][actual_position[0]]
                 chessboard[int(actual_position[1])][actual_position[0]] = "."
                 self.position = str(alpha_string[move[1]]) + str(move[0])
+                change_has_played()
                 return True
         # Verify it's a diagonal movement
         elif (move[0] != int(actual_position[1])) & (alpha_string[move[1]] != actual_position[0]):
@@ -524,6 +543,7 @@ class Queen(Piece):
                     chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][
                         list_actual_position[1]]
                     chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+                    change_has_played()
                     return True
                 elif piece_next_case != '.':
                     if piece_next_case.color == self.color or convert_to_list(
@@ -538,6 +558,7 @@ class Queen(Piece):
                         chessboard[list_next_position[0]][list_next_position[1]] = chessboard[
                             list_actual_position[0]][list_actual_position[1]]
                         chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+                        change_has_played()
                         return True
 
 
@@ -565,6 +586,7 @@ class Knight(Piece):
                 self.position = list_next_position[1] + str(list_next_position[0])
                 chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
                 chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+                change_has_played()
                 return True
             else:
                 if piece_next_case.color == self.color or convert_to_list(piece_next_case.position) == actual_position: #must be free or other color / must move
@@ -576,6 +598,7 @@ class Knight(Piece):
                     self.position = list_next_position[1] + str(list_next_position[0])
                     chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
                     chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
+                    change_has_played()
                     return True
         else:
             print('error: the knight cannot do this move')
@@ -641,12 +664,14 @@ class King(Piece):
                 chessboard[int(actual_pos[1])][actual_pos[0]] = '.'
                 self.position = str(alpha_string[move[1]]) + str(move[0])
                 print("Player x has played ! Next !")
+                change_has_played()
                 return True
         else:
             chessboard[move[0]][alpha_string[move[1]]] = chessboard[int(actual_pos[1])][actual_pos[0]]
             chessboard[int(actual_pos[1])][actual_pos[0]] = '.'
             self.position = str(alpha_string[move[1]]) + str(move[0])
             print("Player x has played ! Next !")
+            change_has_played()
             return True
 
 
