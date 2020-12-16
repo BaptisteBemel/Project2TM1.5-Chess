@@ -5,7 +5,7 @@ chessboard = {1: {"a": "T", "b": "C", "c": "F", "d": "K", "e": "Q", "f": "F", "g
               4: {"a": "x", "b": "x", "c": "x", "d": "x", "e": "x", "f": "x", "g": "x", "h": "x"},
               5: {"a": "x", "b": "x", "c": "x", "d": "x", "e": "x", "f": "x", "g": "x", "h": "x"},
               6: {"a": "x", "b": "x", "c": "x", "d": "x", "e": "x", "f": "x", "g": "x", "h": "x"},
-              7: {"a": "p", "b": "P", "c": "P", "d": "P", "e": "P", "f": "P", "g": "P", "h": "P"},
+              7: {"a": "P", "b": "P", "c": "P", "d": "P", "e": "P", "f": "P", "g": "P", "h": "P"},
               8: {"a": "T", "b": "C", "c": "F", "d": "K", "e": "Q", "f": "F", "g": "C", "h": "T"}}
 
 
@@ -32,9 +32,9 @@ def start():
     """
     from lib.classDir.class_file import creation_pieces, initial_game
     creation_pieces()
-    initial_game()
     print("Welcome to our chess game ! Good luck and you can start the game !")
     print("(You can enter 'exit' anytime you want to quit the game) \n")
+    return initial_game()
 
 
 def verify_position(position):

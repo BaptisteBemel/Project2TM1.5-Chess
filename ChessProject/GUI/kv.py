@@ -1,6 +1,10 @@
 # -*- coding: utf8 -*-
 from lib.utility.util import *
+<<<<<<< HEAD
 from lib.classDir.class_file import Player, change_name
+=======
+from lib.classDir.class_file import Player, change_name, pieces, has_played, ip_addr, call_sub
+>>>>>>> 5b3f4ccdd6f22c6203895f7e22ee57b96d62019f
 import kivy
 import threading
 from kivy.app import App
@@ -9,6 +13,10 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager
 import os
+import sys
+import subprocess
+import time
+
 
 list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
                                "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2",
@@ -22,6 +30,10 @@ list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
 new_player = Player()
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5b3f4ccdd6f22c6203895f7e22ee57b96d62019f
 class MainWindow(Screen):
     pass
 
@@ -60,7 +72,7 @@ class ConnectWindow(Screen):
             new_player.who = 1
             new_player.kind_of_game = 2
             start()
-            change_name(self.children[0].children[1].text)
+            ip_addr = change_name(self.children[0].children[1].text)
 
 
 class ChessGame(Screen):
@@ -219,14 +231,18 @@ class ChessGame(Screen):
             else:
                 self.children[2].text = "Choose the position where you want to put your piece !"
         elif self.number == 1:
+            trigger_var = False
             if chessboard[self.pos[0]][letter[self.pos[1]]].move(button.id) is True:
                 self.number = 0
                 show_chessboard()
                 self.update_chessboard_GUI()
                 self.children[2].text = "Choose the object you want to move"
+                trigger_var = True
             else:
                 print("This value is wrong because it's not a correct position !")
                 self.children[2].text = "This value is wrong because it's not a correct position !"
+            if trigger_var:
+                call_sub(self.pos, button.id)
 
     def change_piece_to_play(self):
         """
