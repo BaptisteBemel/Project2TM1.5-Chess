@@ -1,11 +1,16 @@
 from lib.utility.util import *
 import os
-
-
-ip_addr = "192.168.1.40"
 import lib.classDir.class_file
 import os
 import subprocess
+
+
+ip_addr = "192.168.1.40"
+
+def update_gui_srv():
+    from GUI.kv import ChessGame
+    toto = True
+    ChessGame(toto)
 
 
 def change_name(name_ip):

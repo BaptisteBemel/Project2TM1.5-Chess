@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 import socket
 from lib.utility.util import *
-from lib.classDir.class_file import pieces, has_played
+from lib.classDir.class_file import pieces, has_played, update_gui_srv
 
 chessboard_srv = start()
 
@@ -10,7 +10,6 @@ str_alpha = 'abcdefgh'
 srv_s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 srv_s.bind((socket.gethostname(), 12345))
-
 while True:
 
     data, addr = srv_s.recvfrom(4096)
@@ -20,16 +19,19 @@ while True:
 
     pos_initial_received = eval(pos_initial_received)
     chessboard_srv[pos_initial_received[0]][str_alpha[pos_initial_received[1]]].move(nxt_pos_received)
-    print(chessboard_srv)
 
-    if has_played == 'True':
-        has_played = 'False'
 
-        pos_initial_tosend = bytes(pos_initial, 'utf-8')
-        nxt_pos_tosend = bytes(nxt_pos, 'utf-8')
 
-        srv_s.sendto(pos_initial_tosend, addr)
-        srv_s.sendto(nxt_pos_tosend, addr)
+    while True:
+        update_gui_srv()
+        if has_played == 'True':
+            has_played = 'False'
+
+            pos_initial_tosend = bytes(pos_initial, 'utf-8')
+            nxt_pos_tosend = bytes(nxt_pos, 'utf-8')
+
+            srv_s.sendto(pos_initial_tosend, addr)
+            srv_s.sendto(nxt_pos_tosend, addr)
 
 
 
