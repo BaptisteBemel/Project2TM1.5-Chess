@@ -1,6 +1,4 @@
 # -*- coding: utf8 -*-
-from lib.utility.util import *
-from lib.classDir.class_file import pieces, Player
 from GUI.kv import ChessApp
 
 """

@@ -22,9 +22,6 @@ list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
 new_player = Player()
 
 
-
-
-
 class MainWindow(Screen):
     pass
 
@@ -35,6 +32,9 @@ class WindowManager(ScreenManager):
 
 class SoloOrMulti(Screen):
     def run_server(self):
+        """
+        It's used to initialise the game of the server part
+        """
         os.startfile("server.py")
         new_player.kind_of_game = 1
         start()
@@ -47,6 +47,9 @@ class SoloOrMulti(Screen):
 
 class ConnectWindow(Screen):
     def connect_to_server(self):
+        """
+        It connects the server we want with the client
+        """
         pass
         if len(self.children[0].children[1].text) < 7 or len(self.children[0].children[1].text) > 15:
             print("Bad Value !")
@@ -62,6 +65,9 @@ class ConnectWindow(Screen):
 
 class ChessGame(Screen):
     def __init__(self, **kwargs):
+        """
+        It initialises the chessboard with the button and their own position
+        """
         super(ChessGame, self).__init__(**kwargs)
         self.grid = GridLayout()
         self.add_widget(self.grid)
@@ -108,7 +114,6 @@ class ChessGame(Screen):
     def add_pieces_on_chessboard(self):
         """
         This function add pieces on the interface of the chessboard (Kivy)
-        :return:
         """
         for btn in self.grid.children:
             if btn.id == "a2" or btn.id == "b2" or btn.id == "b2" or btn.id == "c2" or btn.id == "d2" or \
@@ -139,6 +144,9 @@ class ChessGame(Screen):
                 btn.background_normal = "./img/white_queen.png"
 
     def update_chessboard_GUI(self):
+        """
+        It updates the interface of the chessboard
+        """
         child = self.children[3].children
         for key_chessboard in list_of_position_chessboard:
             if chessboard[int(key_chessboard[1])][key_chessboard[0]] == ".":
@@ -221,7 +229,12 @@ class ChessGame(Screen):
                 self.children[2].text = "This value is wrong because it's not a correct position !"
 
     def change_piece_to_play(self):
+        """
+        Change the number to 0 to can change the piece you want to play
+        """
+
         self.number = 0
+        self.update_chessboard_GUI()
 
     def reset_game(self):
         start()
@@ -231,5 +244,8 @@ class ChessGame(Screen):
 
 class ChessApp(App):
     def build(self):
+        """
+        Load the '.kv' file and the method who initialise the game with the position of the buttons on the chessboard
+        """
         Builder.load_file("./GUI/chess.kv")
         ChessGame()

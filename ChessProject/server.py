@@ -35,7 +35,7 @@ while True:
 
 
 
-    if has_played == True:
+    if new_play.has_played == True:
         has_played = False
 
         msg_server = bytes(str(chessboard), "utf-8")

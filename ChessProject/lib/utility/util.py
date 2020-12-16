@@ -10,6 +10,9 @@ chessboard = {1: {"a": "T", "b": "C", "c": "F", "d": "K", "e": "Q", "f": "F", "g
 
 
 def show_chessboard():
+    """
+    This show the chessboard into the correct form of it in the console
+    """
     stri = "  A B C D E F G H  \n"
     for id_in_chessboard in range(1, 9):
         stri += str(id_in_chessboard) + " " + str(chessboard[id_in_chessboard]["a"]) + " " + \
@@ -23,6 +26,10 @@ def show_chessboard():
 
 
 def start():
+    """
+    Here, we start the initialisation with the creation of objects (pawn, rook,...) and put them on their correct place
+    on the chessboard (console)
+    """
     from lib.classDir.class_file import creation_pieces, initial_game
     creation_pieces()
     initial_game()
@@ -31,6 +38,12 @@ def start():
 
 
 def verify_position(position):
+    """
+    We find if the string entered is a correct form for the methods we will call later
+
+    :param position: it's a string verify in this method
+    :return: it return the correct form of the string
+    """
     while True:
         if_exit(position)
         if len(position) == 2:
@@ -60,6 +73,12 @@ def verify_position(position):
 
 
 def convert_to_list(string):
+    """
+    It convert the string of the position to a list of number which represent the letter and the number
+
+    :param string: the string is the position
+    :return: It return the list
+    """
     alpha_string = "abcdefgh"
     return_list = [int(string[1])]
     for letter in range(8):
@@ -70,18 +89,27 @@ def convert_to_list(string):
 
 
 def if_exit(string):
+    """
+    If the string is equal to 'exit' it quit
+    """
     if (string == "exit") | (string == "ex"):
         exit()
     return 1
 
 
 def if_change_object(string):
+    """
+    If the string is equal to 'change' or 'ch' it change the piece we want to play
+    """
     if (string == "change") | (string == "ch"):
         position = input("Change your object you wanted to play : ")
         return position
 
 
 def is_object(position):
+    """
+    Verify if the position equal the position of an object. If True, it return the position
+    """
     position = verify_position(position)
     if position == "":
         while True:
@@ -101,6 +129,9 @@ def is_object(position):
 
 
 def is_good_color(pos):
+    """
+    Find if the color of the target is black or white
+    """
     if chessboard[int(pos[1])][pos[0]].color == 'black':
         return "black"
     else:

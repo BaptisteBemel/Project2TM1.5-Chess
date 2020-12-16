@@ -1,9 +1,11 @@
 from lib.utility.util import *
 import os
 
+
+ip_addr = "192.168.1.40"
+
 has_played = False
 
-ip_addr = ""
 
 def change_name(name_ip):
     """
@@ -151,7 +153,7 @@ class Pawn(Piece):
                         chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
                         chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                         self.nb_plays = self.nb_plays + 1                 # The pawn has played, it won't be its first play again
-                        change_has_played()
+                        has_played = True
                         return True
                 else:
                     print('error: this pawn cannot do this move')
@@ -167,7 +169,7 @@ class Pawn(Piece):
                             chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
                             chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                             self.nb_plays = self.nb_plays + 1
-                            change_has_played()
+                            has_played = True
                             return True
                         elif self.nb_plays > 0:
                             print('error: this pawn cannot do this move')
@@ -178,7 +180,7 @@ class Pawn(Piece):
                             list_actual_position[0]][list_actual_position[1]]
                         chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                         self.nb_plays = self.nb_plays + 1
-                        change_has_played()
+                        has_played = True
                         return True
 
 
