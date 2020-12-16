@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 from lib.utility.util import *
-from lib.classDir.class_file import Player, ip
+from lib.classDir.class_file import Player, change_name, pieces, has_played
 import kivy
 import threading
 from kivy.app import App
@@ -14,6 +14,9 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.properties import ObjectProperty
 import os
+import sys
+import shlex
+
 
 list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
                                "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2",
@@ -26,17 +29,6 @@ list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
 
 new_player = Player()
 
-
-
-
-def change_name(name_ip):
-    """
-
-    :param name_ip: is a string which is a address ip
-    :return:
-    """
-    ip = name_ip
-    os.startfile("client.py")
 
 
 class MainWindow(Screen):
@@ -71,7 +63,7 @@ class ConnectWindow(Screen):
             new_player.who = 1
             new_player.kind_of_game = 2
             start()
-            change_name(self.children[0].children[1].text)
+            ip_addr = change_name(self.children[0].children[1].text)
 
 
 class ChessGame(Screen):

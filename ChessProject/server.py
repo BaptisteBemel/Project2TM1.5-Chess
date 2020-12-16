@@ -8,16 +8,40 @@ srv_s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 srv_s.bind((socket.gethostname(), 12345))
 
-
 while True:
+
     data, addr = srv_s.recvfrom(4096)
-    print(data.decode())
+    chessboard_received = eval(data)
+    print(chessboard == chessboard_received)
+    print(chessboard_received)
+    chessboard = chessboard_received
+
+
+    data, addr = srv_s.recvfrom(4096)
+    isit_true_false = data.decode()
+
+    if isit_true_false == 'True':
+        break
+
+    if has_played == 'True':
+        has_played = 'False'
+
+    msg_server = bytes(str(chessboard), "utf-8")
+    srv_s.sendto(msg_server, addr)
+
+
+
+
+'''
+while True:
+    # data, addr = srv_s.recvfrom(4096)
     srv_s.settimeout(1)
     try:
         recvpack, payload = srv_s.recvfrom(4096)
     except socket.timeout:
         recvpack = None
     if recvpack is not None:
+        print(recvpack)
         data, addr = srv_s.recvfrom(4096)
         print(data.decode())
         data, addr = srv_s.recvfrom(4096)
@@ -34,7 +58,6 @@ while True:
             break
 
 
-
     if has_played == True:
         has_played = False
 
@@ -42,4 +65,4 @@ while True:
         true_false = bytes(str(False), 'utf-8')
         srv_s.sendto(msg_server, addr)
         srv_s.sendto(true_false, addr)
-
+'''

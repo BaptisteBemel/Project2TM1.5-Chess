@@ -1,11 +1,27 @@
 from lib.utility.util import *
+import os
+import subprocess
 
-has_played = False
 
-ip = "192.168.1.40"
+has_played = 'False'
+
+ip_addr = "xxx.xxx.xxx.xxx"
+
 
 def change_has_played():
-    has_played = True
+    global has_played
+    has_played = 'True'
+
+
+def change_name(name_ip):
+    """
+
+    :param name_ip: is a string which is a address ip
+    :return:
+    """
+    global ip_addr
+    ip_addr = name_ip
+    return ip_addr
 
 
 class Player:
@@ -155,6 +171,10 @@ class Pawn(Piece):
                             chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                             self.nb_plays = self.nb_plays + 1
                             change_has_played()
+                            if has_played == 'True' and self.color == "white":
+                                print(chessboard[2]['a'] + (chessboard[2]['a'].id_piece)) # ['a'], bytes(chessboard[2]['a'], 'utf-8'), bytes(chessboard[2]['a'], 'utf-8').decode() CA NE MARCHE PAS C4EST NORMAL
+                                subprocess.call(["python", "client.py", ip_addr, bytes(str(chessboard), 'utf-8')]) #BUT : FAIRE UNE FONCTION QUI TRANSFORME LE CHESSBOARD EN BYTES DE BYTES DE BYTES QU ON POURRA PEUT ETRE DECODER
+                                # os.system("python client.py %s" %ip_addr)
                             return True
                         elif self.nb_plays > 0:
                             print('error: this pawn cannot do this move')
