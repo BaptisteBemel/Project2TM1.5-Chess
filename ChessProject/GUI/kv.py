@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 from lib.utility.util import *
-from lib.classDir.class_file import Player, change_name, pieces, has_played
+from lib.classDir.class_file import Player, change_name, pieces, has_played, ip_addr, call_sub
 import kivy
 import threading
 from kivy.app import App
@@ -15,7 +15,8 @@ from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.properties import ObjectProperty
 import os
 import sys
-import shlex
+import subprocess
+import time
 
 
 list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
@@ -217,14 +218,18 @@ class ChessGame(Screen):
             else:
                 self.children[2].text = "Choose the position where you want to put your piece !"
         elif self.number == 1:
+            trigger_var = False
             if chessboard[self.pos[0]][letter[self.pos[1]]].move(button.id) is True:
                 self.number = 0
                 show_chessboard()
                 self.update_chessboard_GUI()
                 self.children[2].text = "Choose the object you want to move"
+                trigger_var = True
             else:
                 print("This value is wrong because it's not a correct position !")
                 self.children[2].text = "This value is wrong because it's not a correct position !"
+            if trigger_var:
+                call_sub(self.pos, button.id)
 
     def change_piece_to_play(self):
         self.number = 0

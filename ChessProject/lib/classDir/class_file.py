@@ -1,4 +1,5 @@
 from lib.utility.util import *
+import lib.classDir.class_file
 import os
 import subprocess
 
@@ -22,6 +23,11 @@ def change_name(name_ip):
     global ip_addr
     ip_addr = name_ip
     return ip_addr
+
+
+def call_sub(act_pos, nxt_pos):
+    subprocess.call(["python", "client.py", bytes(ip_addr, 'utf-8'), bytes(str(act_pos), 'utf-8'),
+                     bytes(nxt_pos, 'utf-8')])
 
 
 class Player:
@@ -171,10 +177,6 @@ class Pawn(Piece):
                             chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                             self.nb_plays = self.nb_plays + 1
                             change_has_played()
-                            if has_played == 'True' and self.color == "white":
-                                print(chessboard[2]['a'] + (chessboard[2]['a'].id_piece)) # ['a'], bytes(chessboard[2]['a'], 'utf-8'), bytes(chessboard[2]['a'], 'utf-8').decode() CA NE MARCHE PAS C4EST NORMAL
-                                subprocess.call(["python", "client.py", ip_addr, bytes(str(chessboard), 'utf-8')]) #BUT : FAIRE UNE FONCTION QUI TRANSFORME LE CHESSBOARD EN BYTES DE BYTES DE BYTES QU ON POURRA PEUT ETRE DECODER
-                                # os.system("python client.py %s" %ip_addr)
                             return True
                         elif self.nb_plays > 0:
                             print('error: this pawn cannot do this move')
@@ -888,3 +890,4 @@ def initial_game(black_or_white = "white"):
     for numbers_x in range(3, 7):
         for numbers_in_letters in list_of_letter:
             chessboard[numbers_x][numbers_in_letters] = "."
+    return chessboard
