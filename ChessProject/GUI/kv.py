@@ -69,55 +69,52 @@ class ConnectWindow(Screen):
 
 
 class ChessGame(Screen):
-    def __init__(self, var=False, **kwargs):
+    def __init__(self, **kwargs):
         """
         It initialises the chessboard with the button and their own position
         """
-        super(ChessGame, self).__init__(var=False, **kwargs)
-        if var:
-            self.update_chessboard_GUI()
-        else:
-            self.grid = GridLayout()
-            self.add_widget(self.grid)
-            self.number = 0
-            self.pos = [0, 0]
-            self.sth_on_chessboard = False
-            self.text_label = "Choose an object"
-            self.grid.cols = 8
-            self.grid.rows = 8
-            self.grid.padding = 100
-            self.grid.size = 600, 600
-            self.grid.id = "grid"
-            max_eight = 0
-            start()
-            for i in range(len(list_of_position_chessboard)):
-                btn = ""
-                if max_eight < 8:
-                    if i % 2 == 0:
-                        btn = Button(background_color=(0.95, 0.8, 0.5, 1), background_normal="")
-                        self.grid.add_widget(btn)
-                    else:
-                        btn = Button(background_normal="")
-                        self.grid.add_widget(btn)
-                    max_eight += 1
-                    btn.id = list_of_position_chessboard[i]
-                    btn.bind(on_press=self.move)
-                    btn.background_normal = ""
+        super(ChessGame, self).__init__(**kwargs)
+        self.grid = GridLayout()
+        self.add_widget(self.grid)
+        self.number = 0
+        self.pos = [0, 0]
+        self.sth_on_chessboard = False
+        self.text_label = "Choose an object"
+        self.grid.cols = 8
+        self.grid.rows = 8
+        self.grid.padding = 100
+        self.grid.size = 600, 600
+        self.grid.id = "grid"
+        max_eight = 0
+        start()
+        for i in range(len(list_of_position_chessboard)):
+            btn = ""
+            if max_eight < 8:
+                if i % 2 == 0:
+                    btn = Button(background_color=(0.95, 0.8, 0.5, 1), background_normal="")
+                    self.grid.add_widget(btn)
                 else:
-                    if i % 2 == 0:
-                        btn = Button(background_normal="")
-                        self.grid.add_widget(btn)
-                    else:
-                        btn = Button(background_color=(0.95, 0.8, 0.5, 1), background_normal="")
-                        self.grid.add_widget(btn)
-                    if max_eight == 15:
-                        max_eight = -1
-                    max_eight += 1
-                    btn.id = list_of_position_chessboard[i]
-                    btn.bind(on_press=self.move)
-                    btn.background_normal = ""
-                    # btn.bind(on_release=self.change_text)
-            self.add_pieces_on_chessboard()
+                    btn = Button(background_normal="")
+                    self.grid.add_widget(btn)
+                max_eight += 1
+                btn.id = list_of_position_chessboard[i]
+                btn.bind(on_press=self.move)
+                btn.background_normal = ""
+            else:
+                if i % 2 == 0:
+                    btn = Button(background_normal="")
+                    self.grid.add_widget(btn)
+                else:
+                    btn = Button(background_color=(0.95, 0.8, 0.5, 1), background_normal="")
+                    self.grid.add_widget(btn)
+                if max_eight == 15:
+                    max_eight = -1
+                max_eight += 1
+                btn.id = list_of_position_chessboard[i]
+                btn.bind(on_press=self.move)
+                btn.background_normal = ""
+                # btn.bind(on_release=self.change_text)
+        self.add_pieces_on_chessboard()
 
     def add_pieces_on_chessboard(self):
         """
@@ -151,11 +148,14 @@ class ChessGame(Screen):
             elif btn.id == "e8":
                 btn.background_normal = "./img/white_queen.png"
 
-    def update_chessboard_GUI(self):
+    def update_chessboard_GUI(self, is_serv=False):
         """
         It updates the interface of the chessboard
         """
-        child = self.children[4].children
+        if is_serv:
+            child = self.children[0].children
+        else:
+            child = self.children[4].children
         for key_chessboard in list_of_position_chessboard:
             if chessboard[int(key_chessboard[1])][key_chessboard[0]] == ".":
                 for btn in child:

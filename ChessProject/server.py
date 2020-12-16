@@ -20,10 +20,9 @@ while True:
     pos_initial_received = eval(pos_initial_received)
     chessboard_srv[pos_initial_received[0]][str_alpha[pos_initial_received[1]]].move(nxt_pos_received)
 
-
+    update_gui_srv()
 
     while True:
-        update_gui_srv()
         if has_played == 'True':
             has_played = 'False'
 

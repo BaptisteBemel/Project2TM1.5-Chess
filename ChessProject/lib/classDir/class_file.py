@@ -9,8 +9,8 @@ ip_addr = "192.168.1.40"
 
 def update_gui_srv():
     from GUI.kv import ChessGame
-    toto = True
-    ChessGame(toto)
+    is_serv = True
+    ChessGame(is_serv).update_chessboard_GUI(is_serv))
 
 
 def change_name(name_ip):
