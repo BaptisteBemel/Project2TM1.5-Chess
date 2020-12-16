@@ -233,6 +233,10 @@ class ChessGame(Screen):
                 show_chessboard()
                 self.update_chessboard_GUI()
                 self.children[2].text = "Choose the object you want to move"
+                if new_player.who_is_playing == 1:
+                    new_player.who_is_playing = 0
+                else:
+                    new_player.who_is_playing = 1
                 if new_player.kind_of_game == 2:
                     trigger_var = True
             else:
