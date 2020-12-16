@@ -1,17 +1,12 @@
 from lib.utility.util import *
-<<<<<<< HEAD
 import os
 
 
 ip_addr = "192.168.1.40"
-=======
 import lib.classDir.class_file
 import os
 import subprocess
->>>>>>> 5b3f4ccdd6f22c6203895f7e22ee57b96d62019f
 
-
-<<<<<<< HEAD
 
 def change_name(name_ip):
     """
@@ -22,18 +17,15 @@ def change_name(name_ip):
     global ip_addr
     ip_addr = name_ip
     os.startfile("client.py")
-=======
+
 has_played = 'False'
 
 ip_addr = "xxx.xxx.xxx.xxx"
->>>>>>> 5b3f4ccdd6f22c6203895f7e22ee57b96d62019f
 
 
 def change_has_played():
     global has_played
-<<<<<<< HEAD
     has_played = True
-=======
     has_played = 'True'
 
 
@@ -51,8 +43,6 @@ def change_name(name_ip):
 def call_sub(act_pos, nxt_pos):
     subprocess.call(["python", "client.py", bytes(ip_addr, 'utf-8'), bytes(str(act_pos), 'utf-8'),
                      bytes(nxt_pos, 'utf-8')])
->>>>>>> 5b3f4ccdd6f22c6203895f7e22ee57b96d62019f
-
 
 class Player:
     def __init__(self, who=0, play=0, kind_of_game=0):

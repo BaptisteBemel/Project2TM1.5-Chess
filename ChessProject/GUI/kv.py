@@ -1,10 +1,7 @@
 # -*- coding: utf8 -*-
 from lib.utility.util import *
-<<<<<<< HEAD
 from lib.classDir.class_file import Player, change_name
-=======
 from lib.classDir.class_file import Player, change_name, pieces, has_played, ip_addr, call_sub
->>>>>>> 5b3f4ccdd6f22c6203895f7e22ee57b96d62019f
 import kivy
 import threading
 from kivy.app import App
@@ -30,10 +27,6 @@ list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
 new_player = Player()
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5b3f4ccdd6f22c6203895f7e22ee57b96d62019f
 class MainWindow(Screen):
     pass
 
@@ -159,7 +152,7 @@ class ChessGame(Screen):
         """
         It updates the interface of the chessboard
         """
-        child = self.children[3].children
+        child = self.children[4].children
         for key_chessboard in list_of_position_chessboard:
             if chessboard[int(key_chessboard[1])][key_chessboard[0]] == ".":
                 for btn in child:
@@ -237,7 +230,8 @@ class ChessGame(Screen):
                 show_chessboard()
                 self.update_chessboard_GUI()
                 self.children[2].text = "Choose the object you want to move"
-                trigger_var = True
+                if new_player.kind_of_game == 2:
+                    trigger_var = True
             else:
                 print("This value is wrong because it's not a correct position !")
                 self.children[2].text = "This value is wrong because it's not a correct position !"
@@ -250,12 +244,14 @@ class ChessGame(Screen):
         """
 
         self.number = 0
-        self.update_chessboard_GUI()
 
     def reset_game(self):
         start()
         self.update_chessboard_GUI()
         new_player.who_is_playing = 0
+
+    def up(self):
+        return self.update_chessboard_GUI()
 
 
 class ChessApp(App):
