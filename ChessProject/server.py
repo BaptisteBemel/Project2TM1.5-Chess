@@ -26,8 +26,8 @@ while True:
         if has_played == 'True':
             has_played = 'False'
 
-            pos_initial_tosend = bytes(pos_initial, 'utf-8')
-            nxt_pos_tosend = bytes(nxt_pos, 'utf-8')
+            pos_initial_tosend = bytes(fonctionquireturnlaposinitial(), 'utf-8')
+            nxt_pos_tosend = bytes(fonctionquireturnlanxtpos(), 'utf-8')
 
             srv_s.sendto(pos_initial_tosend, addr)
             srv_s.sendto(nxt_pos_tosend, addr)
