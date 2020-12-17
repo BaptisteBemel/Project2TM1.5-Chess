@@ -7,10 +7,16 @@ import subprocess
 
 ip_addr = "192.168.1.40"
 
+
 def update_gui_srv():
     from GUI.kv import ChessGame
+<<<<<<< HEAD
     is_serv = True
     ChessGame(is_serv).update_chessboard_GUI(is_serv)
+=======
+    is_serv = "True"
+    ChessGame(is_serv)
+>>>>>>> f8740907a43552f4d715171feb62e3b1376d5d2b
 
 
 def change_name(name_ip):
@@ -71,6 +77,7 @@ class Player:
         else:
             self.who_is_playing = 0
 
+new_player = Player()
 
 pieces = {'rook': {}, 'bishop': {}, 'pawn': {}, 'king': {}, 'knight': {}, 'queen': {}}
 

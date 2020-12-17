@@ -1,7 +1,6 @@
 # -*- coding: utf8 -*-
 from lib.utility.util import *
-from lib.classDir.class_file import Player, change_name
-from lib.classDir.class_file import Player, change_name, pieces, has_played, ip_addr, call_sub
+from lib.classDir.class_file import new_player, change_name, pieces, has_played, ip_addr, call_sub
 import kivy
 import threading
 from kivy.app import App
@@ -9,6 +8,7 @@ from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.properties import StringProperty
 import os
 import sys
 import subprocess
@@ -23,8 +23,6 @@ list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
                                "a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6",
                                "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7",
                                "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"]
-
-new_player = Player()
 
 
 class MainWindow(Screen):
@@ -69,52 +67,58 @@ class ConnectWindow(Screen):
 
 
 class ChessGame(Screen):
-    def __init__(self, **kwargs):
+    true_false = StringProperty('')
+
+    def __init__(self, bool_is_true="False", **kwargs):
         """
         It initialises the chessboard with the button and their own position
         """
         super(ChessGame, self).__init__(**kwargs)
-        self.grid = GridLayout()
-        self.add_widget(self.grid)
-        self.number = 0
-        self.pos = [0, 0]
-        self.sth_on_chessboard = False
-        self.text_label = "Choose an object"
-        self.grid.cols = 8
-        self.grid.rows = 8
-        self.grid.padding = 100
-        self.grid.size = 600, 600
-        self.grid.id = "grid"
-        max_eight = 0
-        start()
-        for i in range(len(list_of_position_chessboard)):
-            btn = ""
-            if max_eight < 8:
-                if i % 2 == 0:
-                    btn = Button(background_color=(0.95, 0.8, 0.5, 1), background_normal="")
-                    self.grid.add_widget(btn)
+        self.true_false = bool_is_true
+        if self.true_false == "True":
+            self.update_chessboard_GUI()
+        else:
+            self.grid = GridLayout()
+            self.add_widget(self.grid)
+            self.number = 0
+            self.pos = [0, 0]
+            self.sth_on_chessboard = False
+            self.text_label = "Choose an object"
+            self.grid.cols = 8
+            self.grid.rows = 8
+            self.grid.padding = 100
+            self.grid.size = 600, 600
+            self.grid.id = "grid"
+            max_eight = 0
+            start()
+            for i in range(len(list_of_position_chessboard)):
+                btn = ""
+                if max_eight < 8:
+                    if i % 2 == 0:
+                        btn = Button(background_color=(0.95, 0.8, 0.5, 1), background_normal="")
+                        self.grid.add_widget(btn)
+                    else:
+                        btn = Button(background_normal="")
+                        self.grid.add_widget(btn)
+                    max_eight += 1
+                    btn.id = list_of_position_chessboard[i]
+                    btn.bind(on_press=self.move)
+                    btn.background_normal = ""
                 else:
-                    btn = Button(background_normal="")
-                    self.grid.add_widget(btn)
-                max_eight += 1
-                btn.id = list_of_position_chessboard[i]
-                btn.bind(on_press=self.move)
-                btn.background_normal = ""
-            else:
-                if i % 2 == 0:
-                    btn = Button(background_normal="")
-                    self.grid.add_widget(btn)
-                else:
-                    btn = Button(background_color=(0.95, 0.8, 0.5, 1), background_normal="")
-                    self.grid.add_widget(btn)
-                if max_eight == 15:
-                    max_eight = -1
-                max_eight += 1
-                btn.id = list_of_position_chessboard[i]
-                btn.bind(on_press=self.move)
-                btn.background_normal = ""
-                # btn.bind(on_release=self.change_text)
-        self.add_pieces_on_chessboard()
+                    if i % 2 == 0:
+                        btn = Button(background_normal="")
+                        self.grid.add_widget(btn)
+                    else:
+                        btn = Button(background_color=(0.95, 0.8, 0.5, 1), background_normal="")
+                        self.grid.add_widget(btn)
+                    if max_eight == 15:
+                        max_eight = -1
+                    max_eight += 1
+                    btn.id = list_of_position_chessboard[i]
+                    btn.bind(on_press=self.move)
+                    btn.background_normal = ""
+                    # btn.bind(on_release=self.change_text)
+            self.add_pieces_on_chessboard()
 
     def add_pieces_on_chessboard(self):
         """
@@ -210,15 +214,12 @@ class ChessGame(Screen):
         if self.number == 0:
             self.pos = convert_to_list(button.id)
             self.number += 1
+            print(new_player.who_is_playing)
             if chessboard[self.pos[0]][letter[self.pos[1]]] == ".":
                 self.number -= 1
                 print("This value is wrong because it's not an object's position !")
                 self.children[2].text = "This value is wrong because it's not an object's position !"
-            elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and new_player.who_is_playing == 0) or \
-                    (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and new_player.who_is_playing == 1):
-                self.number -= 1
-                print("Not your turn !")
-                self.children[2].text = "Not your turn !"
+
             elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and new_player.kind_of_game == 2) or \
                     (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and new_player.kind_of_game == 1):
                 self.number -= 1
@@ -233,6 +234,7 @@ class ChessGame(Screen):
                 show_chessboard()
                 self.update_chessboard_GUI()
                 self.children[2].text = "Choose the object you want to move"
+                print(new_player.who_is_playing, "2")
                 if new_player.who_is_playing == 1:
                     new_player.who_is_playing = 0
                 else:

@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 import socket
 from lib.utility.util import *
-from lib.classDir.class_file import pieces, has_played, update_gui_srv
+from lib.classDir.class_file import pieces, has_played, update_gui_srv, new_player
 
 chessboard_srv = start()
 
@@ -19,15 +19,26 @@ while True:
 
     pos_initial_received = eval(pos_initial_received)
     chessboard_srv[pos_initial_received[0]][str_alpha[pos_initial_received[1]]].move(nxt_pos_received)
+    new_player.who_is_playing = 1
+    print(new_player.who_is_playing)
 
-    update_gui_srv()
+
+    # update_gui_srv()
 
     while True:
+        chessboard = chessboard_srv
+        show_chessboard()
         if has_played == 'True':
+            new_player.who_is_playing = 0
             has_played = 'False'
 
+<<<<<<< HEAD
             pos_initial_tosend = bytes(fonctionquireturnlaposinitial(), 'utf-8')
             nxt_pos_tosend = bytes(fonctionquireturnlanxtpos(), 'utf-8')
+=======
+            pos_initial_tosend = bytes(pos_initial_tosend, 'utf-8')
+            nxt_pos_tosend = bytes(nxt_pos_tosend, 'utf-8')
+>>>>>>> f8740907a43552f4d715171feb62e3b1376d5d2b
 
             srv_s.sendto(pos_initial_tosend, addr)
             srv_s.sendto(nxt_pos_tosend, addr)
