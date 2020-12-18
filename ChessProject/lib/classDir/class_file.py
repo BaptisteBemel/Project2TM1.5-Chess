@@ -1,6 +1,5 @@
 from lib.utility.util import *
 import os
-import lib.classDir.class_file
 import os
 import subprocess
 
@@ -16,13 +15,15 @@ def update_gui_srv():
 
 def change_name(name_ip):
     """
+    It takes the value of the ip entered in the connection input and modify the right variable
 
-    :param name_ip: is a string which is a address ip
+    :param name_ip: is a string which is an address ip
     :return:
     """
     global ip_addr
     ip_addr = name_ip
     os.startfile("client.py")
+
 
 has_played = 'False'
 
@@ -47,30 +48,36 @@ def change_name(name_ip):
 
 
 def call_sub(act_pos, nxt_pos):
+    """
+    Use to call a subprocess to load the client and send arguments to it
+
+    :param act_pos: It's the actual position of the first 'click' on the chessboard
+    :param nxt_pos: It's the actual position of the second 'click' on the chessboard
+    """
     subprocess.call(["python", "client.py", bytes(ip_addr, 'utf-8'), bytes(str(act_pos), 'utf-8'),
                      bytes(nxt_pos, 'utf-8')])
 
-class Player:
-    def __init__(self, who=0, play=0, kind_of_game=0):
-        """
 
-        :param who:
-        :param play:
+class Player:
+    def __init__(self, play=0, kind_of_game=0):
         """
-        self.who = who
+        This class is use to define which part of the game it is (solo, client, who should play now,...)
+
+        :param play: Who may play now
+        :param kind_of_game: Define if your are a solo player, client or server
+        """
         self.who_is_playing = play
         self.kind_of_game = kind_of_game    # 0 == solo, 1 == multi, 2 == connect
 
     def next_player(self):
         """
-        Set the value to the other player
-
-        :return:
+        Set the value of who may play now
         """
         if self.who_is_playing == 0:
             self.who_is_playing = 1
         else:
             self.who_is_playing = 0
+
 
 new_player = Player()
 
@@ -102,12 +109,11 @@ def whats_on_case(pos):
 class Piece:
     def __init__(self, name, color, dead, id_piece, position=""):
         """
-
-        :param name:
-        :param color: there are only two color (black or white)
-        :param dead:
-        :param id_piece:
-        :param position: the actual position where is place the piece
+        :param name: A string with the little name of the piece
+        :param color: There are only two color (black or white)
+        :param dead: Define if the piece is dead or not (0 == not dead and 1 == is dead)
+        :param id_piece: The id is use in the pieces dictionary
+        :param position: The actual position where is place the piece on the chessboard
         """
         self.color = color
         self.name = name
@@ -119,17 +125,14 @@ class Piece:
 class Pawn(Piece):
     def __init__(self, color, id_piece):
         """
-
-        :param color:
-        :param id_piece:
+        The number of plays is a id variable use for the 'move' function
         """
         super().__init__("P", color, 0, id_piece)
         self.nb_plays = 0
 
     def __str__(self):
         """
-
-        :return: return a string with the name of the piece
+        :return: Return a string with the name of the piece
         """
         if self.color == "black":
             return str(self.name)
@@ -139,8 +142,8 @@ class Pawn(Piece):
     def move(self, nxt_position):
         """
 
-        :param nxt_position:
-        :return:
+        :param nxt_position: The next position is where we want to send the pawn on the chessboard
+        :return: Return False or True according to the end of the function (if the position is not good == False)
         """
         if_exit(nxt_position)
         actual_position = convert_to_list(pieces['pawn'][self.id_piece].position)
@@ -161,26 +164,29 @@ class Pawn(Piece):
             return False
         else:
             move_list_abs = [abs(move_list[0]), abs(move_list[1])]
-            if len(move_list_abs) != 2:                                    #Wrong move
+            if len(move_list_abs) != 2:                                    # Wrong move
                 print('error: 2 arguments needed')
                 return False
             elif move_list_abs[1] > 1 or move_list_abs[0] > 2 or move_list_abs[0] < 1 or move_list_abs[1] < 0:
                 print('error: this move is impossible for a pawn')
                 return False
             elif move_list_abs[1] == 1:
-                if move_list_abs[0] == 1:                                  # If this kills another piece - no piece of the same color + piece of the other color needed
+                # If this kills another piece - no piece of the same color + piece of the other color needed
+                if move_list_abs[0] == 1:
                     if chessboard[next_position[0]][list_next_position[1]] == '.':
                         print('error: this move is impossible for a pawn')
                         return False
                     elif piece_next_case.color == self.color:           # if that's the same color
                         print('error: there is already another piece of the same color on this case')
                         return False
-                    elif piece_next_case.color != self.color:              # Other color: it can kill it, the piece which moves take its position and the other disappears
+                    # Other color: it can kill it, the piece which moves take its position and the other disappears
+                    elif piece_next_case.color != self.color:
                         self.position = list_next_position[1] + str(list_next_position[0])
                         piece_next_case.position = ''
-                        chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                        chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][
+                            list_actual_position[1]]
                         chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
-                        self.nb_plays = self.nb_plays + 1                 # The pawn has played, it won't be its first play again
+                        self.nb_plays = self.nb_plays + 1        # The pawn has played, it won't be its first play again
                         has_played = True
                         return True
                 else:
@@ -192,9 +198,10 @@ class Pawn(Piece):
                     return False
                 else:
                     if move_list_abs[0] == 2:
-                        if self.nb_plays == 0:                              # First time this pawn plays, it can advance 2 cases
+                        if self.nb_plays == 0:                      # First time this pawn plays, it can advance 2 cases
                             self.position = list_next_position[1] + str(list_next_position[0])
-                            chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                            chessboard[list_next_position[0]][list_next_position[1]] = chessboard[
+                                list_actual_position[0]][list_actual_position[1]]
                             chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                             self.nb_plays = self.nb_plays + 1
                             has_played = True
@@ -214,17 +221,11 @@ class Pawn(Piece):
 
 class Rook(Piece):
     def __init__(self, color, id_piece):
-        """
-
-        :param color:
-        :param id_piece:
-        """
         super().__init__("R", color, 0, id_piece)
 
     def __str__(self):
         """
-
-        :return: return a string with the name of the piece
+        :return: Return a string with the name of the piece
         """
         if self.color == "black":
             return str(self.name)
@@ -233,9 +234,8 @@ class Rook(Piece):
 
     def move(self, move_on_chessboard):
         """
-
-        :param move_on_chessboard:
-        :return:
+        :param move_on_chessboard: It is where we want to send the pawn on the chessboard
+        :return: Return False or True according to the end of the function (if the position is not good == False)
         """
         move = convert_to_list(move_on_chessboard)  # Convert the string (example 'h8') in list '[8, 7]
         actual_position = self.position
@@ -337,19 +337,12 @@ class Rook(Piece):
 
 class Bishop(Piece):
     def __init__(self, color, id_piece):
-        """
-
-        :param color:
-        :param id_piece:
-        """
         super().__init__("B", color, 0, id_piece)
-
 
     def move(self, nxt_position):
         """
-
-        :param nxt_position:
-        :return:
+        :param nxt_position: The next position is where we want to send the pawn on the chessboard
+        :return: Return False or True according to the end of the function (if the position is not good == False)
         """
         if_exit(nxt_position)
         actual_position = convert_to_list(pieces['bishop'][self.id_piece].position)
@@ -382,7 +375,7 @@ class Bishop(Piece):
                     if chessboard[list_actual_position[0] - case][chr(ord(list_actual_position[1]) + case)] != '.':
                         sth_on_way = True
 
-        if move_list_abs[0] != move_list_abs[1]: #must be a diagonal
+        if move_list_abs[0] != move_list_abs[1]:    # must be a diagonal
             print('error: the bishop cannot do this move')
             return False
         elif sth_on_way:
@@ -391,26 +384,28 @@ class Bishop(Piece):
         else:
             if piece_next_case == '.':
                 self.position = list_next_position[1] + str(list_next_position[0])
-                chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][
+                    list_actual_position[1]]
                 chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                 change_has_played()
                 return True
             elif piece_next_case != '.':
-                if piece_next_case.color == self.color or convert_to_list(piece_next_case.position) == actual_position: #must be free or other color / must move
+                # must be free or other color / must move
+                if piece_next_case.color == self.color or convert_to_list(piece_next_case.position) == actual_position:
                     print('error: the bishop cannot do this move')
                     return False
-                else:        #kills
+                else:        # kills
                     piece_next_case.position = ''
                     self.position = list_next_position[1] + str(list_next_position[0])
-                    chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                    chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][
+                        list_actual_position[1]]
                     chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                     change_has_played()
                     return True
 
     def __str__(self):
         """
-
-        :return: return a string with the name of the piece
+        :return: Return a string with the name of the piece
         """
         if self.color == "black":
             return str(self.name)
@@ -420,17 +415,11 @@ class Bishop(Piece):
 
 class Queen(Piece):
     def __init__(self, color, id_piece):
-        """
-
-        :param color:
-        :param id_piece:
-        """
         super().__init__("Q", color, 0, id_piece)
 
     def __str__(self):
         """
-
-        :return: return a string with the name of the piece
+        :return: Return a string with the name of the piece
         """
         if self.color == "black":
             return str(self.name)
@@ -440,8 +429,8 @@ class Queen(Piece):
     def move(self, move_on_chessboard):
         """
 
-        :param move_on_chessboard:
-        :return:
+        :param move_on_chessboard: It is where we want to send the pawn on the chessboard
+        :return: Return False or True according to the end of the function (if the position is not good == False)
         """
         move = convert_to_list(move_on_chessboard)
         actual_position = self.position
@@ -558,24 +547,20 @@ class Queen(Piece):
             if move_list[0] > 0:
                 if move_list[1] > 0:
                     for case in range(1, move_list_abs[0]):
-                        if chessboard[list_actual_position[0] + case][
-                            chr(ord(list_actual_position[1]) + case)] != '.':
+                        if chessboard[list_actual_position[0] + case][chr(ord(list_actual_position[1]) + case)] != '.':
                             sth_on_way = True
                 elif move_list[1] < 0:
                     for case in range(1, move_list_abs[0]):
-                        if chessboard[list_actual_position[0] + case][
-                            chr(ord(list_actual_position[1]) - case)] != '.':
+                        if chessboard[list_actual_position[0] + case][chr(ord(list_actual_position[1]) - case)] != '.':
                             sth_on_way = True
             elif move_list[0] < 0:
                 if move_list[1] < 0:
                     for case in range(1, move_list_abs[0]):
-                        if chessboard[list_actual_position[0] - case][
-                            chr(ord(list_actual_position[1]) - case)] != '.':
+                        if chessboard[list_actual_position[0] - case][chr(ord(list_actual_position[1]) - case)] != '.':
                             sth_on_way = True
                 elif move_list[1] > 0:
                     for case in range(1, move_list_abs[0]):
-                        if chessboard[list_actual_position[0] - case][
-                            chr(ord(list_actual_position[1]) + case)] != '.':
+                        if chessboard[list_actual_position[0] - case][chr(ord(list_actual_position[1]) + case)] != '.':
                             sth_on_way = True
             if sth_on_way:
                 print('error: something is on the way')
@@ -611,12 +596,15 @@ class Knight(Piece):
         super().__init__("N", color, 0, id_piece)
 
     def move(self, nxt_position):
+        """
+        :param nxt_position: The next position is where we want to send the pawn on the chessboard
+        :return: Return False or True according to the end of the function (if the position is not good == False)
+        """
         if_exit(nxt_position)
         actual_position = convert_to_list(pieces['knight'][self.id_piece].position)
         list_actual_position = sorted(pieces['knight'][self.id_piece].position)
         list_actual_position[0] = int(list_actual_position[0])
 
-            
         if_exit(nxt_position)
         list_next_position = sorted(nxt_position)
         list_next_position[0] = int(list_next_position[0])
@@ -628,19 +616,22 @@ class Knight(Piece):
         if move_list_abs[0] == 2 and move_list_abs[1] == 1 or move_list_abs[0] == 1 and move_list_abs[1] == 2:
             if piece_next_case == '.':
                 self.position = list_next_position[1] + str(list_next_position[0])
-                chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][
+                    list_actual_position[1]]
                 chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                 change_has_played()
                 return True
             else:
-                if piece_next_case.color == self.color or convert_to_list(piece_next_case.position) == actual_position: #must be free or other color / must move
+                # must be free or other color / must move
+                if piece_next_case.color == self.color or convert_to_list(piece_next_case.position) == actual_position:
                     print(piece_next_case)
                     print('error: there is already a piece there')
                     return False
-                else:        #kills
+                else:        # kills
                     piece_next_case.position = ''
                     self.position = list_next_position[1] + str(list_next_position[0])
-                    chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][list_actual_position[1]]
+                    chessboard[list_next_position[0]][list_next_position[1]] = chessboard[list_actual_position[0]][
+                        list_actual_position[1]]
                     chessboard[list_actual_position[0]][list_actual_position[1]] = '.'
                     change_has_played()
                     return True
@@ -650,7 +641,6 @@ class Knight(Piece):
 
     def __str__(self):
         """
-
         :return: return a string with the name of the piece
         """
         if self.color == "black":
@@ -664,14 +654,15 @@ class King(Piece):
         super().__init__("K", color, 0, id_piece)
 
     def is_dead(self):
+        """
+        It is function use to set the value of the dead on 1 to say 'He is dead'
+        """
         if self.dead == 0:
             self.dead = 1                # must break the while loop
 
     def __str__(self):
         """
-
-        :return: return a string with the name of the piece
-
+        :return: Return a string with the name of the piece
         """
         if self.color == "black":
             return str(self.name)
@@ -679,6 +670,10 @@ class King(Piece):
             return str(self.name)
 
     def move(self, move_on_chessboard):
+        """
+        :param move_on_chessboard: It is where we want to send the pawn on the chessboard
+        :return: Return False or True according to the end of the function (if the position is not good == False)
+        """
         move = convert_to_list(move_on_chessboard)  # convert
         actual_pos = self.position
         alpha_string = "abcdefgh"
@@ -722,9 +717,7 @@ class King(Piece):
 # Creation of the pieces instead of creating 32 objects one by one
 def creation_pieces():
     """
-    This method is used to create all the object of the chessboard
-
-    :return:
+    This method is used to create all the object of the chessboard and put them in the pieces dictionary
     """
     for i in range(16):
         if i == 0:
@@ -752,7 +745,7 @@ def creation_pieces():
             pieces['pawn'][i] = Pawn('black', i)
 
 
-def initial_game(black_or_white = "white"):
+def initial_game(black_or_white="white"):
     """
     :param black_or_white: decide what is the color which is going to play the first player
     First we verify if it's white or black (or false value)

@@ -35,11 +35,9 @@ class SoloOrMulti(Screen):
         """
         os.startfile("server.py")
         new_player.kind_of_game = 1
-        start()
         show_chessboard()
 
     def solo_game(self):
-        start()
         show_chessboard()
 
 
@@ -55,9 +53,7 @@ class ConnectWindow(Screen):
             print("It is not an ip address !")
         else:
             self.manager.current = "game"
-            new_player.who = 1
             new_player.kind_of_game = 2
-            start()
             ip_addr = change_name(self.children[0].children[1].text)
 
 
@@ -215,18 +211,20 @@ class ChessGame(Screen):
             if self.number == 0:
                 self.pos = convert_to_list(button.id)
                 self.number += 1
-                print(new_player.who_is_playing)
                 if chessboard[self.pos[0]][letter[self.pos[1]]] == ".":
                     self.number -= 1
                     print("This value is wrong because it's not an object's position !")
                     self.children[2].text = "This value is wrong because it's not an object's position !"
-                elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and new_player.who_is_playing == 0) or \
-                        (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and new_player.who_is_playing == 1):
+                elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and
+                      new_player.who_is_playing == 0) or \
+                        (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and
+                         new_player.who_is_playing == 1):
                     self.number -= 1
                     print("You cannot play !")
                     self.children[2].text = "you cannot play !"
-                elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and new_player.kind_of_game == 2) or \
-                        (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and new_player.kind_of_game == 1):
+                elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and new_player.kind_of_game == 2) \
+                        or (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and
+                            new_player.kind_of_game == 1):
                     self.number -= 1
                     print("This value is wrong because it's the bad color !")
                     self.children[2].text = "This value is wrong because it's the bad color !"
@@ -239,7 +237,6 @@ class ChessGame(Screen):
                     show_chessboard()
                     self.update_chessboard_GUI()
                     self.children[2].text = "Choose the object you want to move"
-                    print(new_player.who_is_playing, "2")
                     if new_player.who_is_playing == 1:
                         new_player.who_is_playing = 0
                     else:
