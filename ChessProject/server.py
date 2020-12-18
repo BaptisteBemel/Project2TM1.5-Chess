@@ -28,7 +28,7 @@ while True:
     print(new_player.who_is_playing)
     chessboard = chessboard_srv
     show_chessboard()
-    update_gui_srv()
+    #update_gui_srv()
 
     while True:
         # If the serveur has played, it sends the data to the client
@@ -44,94 +44,4 @@ while True:
             srv_s.sendto(nxt_pos_tosend, addr)
 
 
-<<<<<<< HEAD
 
-
-'''
-            pos_initial_tosend = bytes(fonctionquireturnlaposinitial(), 'utf-8')
-            nxt_pos_tosend = bytes(fonctionquireturnlanxtpos(), 'utf-8')
-            '''
-
-
-
-
-
-
-
-
-'''
-while True:
-    # data, addr = srv_s.recvfrom(4096)
-    srv_s.settimeout(1)
-    try:
-        recvpack, payload = srv_s.recvfrom(4096)
-    except socket.timeout:
-        recvpack = None
-    if recvpack is not None:
-        print(recvpack)
-        data, addr = srv_s.recvfrom(4096)
-        print(data.decode())
-        data, addr = srv_s.recvfrom(4096)
-
-        chessboard_received = eval(data)
-        print(chessboard == chessboard_received)
-        chessboard = chessboard_received
-
-
-        data, addr = srv_s.recvfrom(4096)
-        isit_true_false = bool(data.decode())
-
-        if isit_true_false == True:
-            break
-
-
-<<<<<<< HEAD
-
-    if new_play.has_played == True:
-=======
-    if has_played == True:
->>>>>>> 5b3f4ccdd6f22c6203895f7e22ee57b96d62019f
-        has_played = False
-
-        msg_server = bytes(str(chessboard), "utf-8")
-        true_false = bytes(str(False), 'utf-8')
-        srv_s.sendto(msg_server, addr)
-        srv_s.sendto(true_false, addr)
-'''
-=======
-    '''
-    while True:
-        # data, addr = srv_s.recvfrom(4096)
-        srv_s.settimeout(1)
-        try:
-            recvpack, payload = srv_s.recvfrom(4096)
-        except socket.timeout:
-            recvpack = None
-        if recvpack is not None:
-            print(recvpack)
-            data, addr = srv_s.recvfrom(4096)
-            print(data.decode())
-            data, addr = srv_s.recvfrom(4096)
-    
-            chessboard_received = eval(data)
-            print(chessboard == chessboard_received)
-            chessboard = chessboard_received
-    
-    
-            data, addr = srv_s.recvfrom(4096)
-            isit_true_false = bool(data.decode())
-    
-            if isit_true_false == True:
-                break
-    
-    
-        if new_play.has_played == True:
-        if has_played == True:
-            has_played = False
-    
-            msg_server = bytes(str(chessboard), "utf-8")
-            true_false = bytes(str(False), 'utf-8')
-            srv_s.sendto(msg_server, addr)
-            srv_s.sendto(true_false, addr)
-            '''
->>>>>>> 985441af1d41ae7ae6878210bf6587aadda49026
