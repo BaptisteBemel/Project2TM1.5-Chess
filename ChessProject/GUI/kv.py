@@ -246,8 +246,10 @@ class ChessGame(Screen):
                 else:
                     print("This value is wrong because it's not a correct position !")
                     self.children[2].text = "This value is wrong because it's not a correct position !"
+
                 if trigger_var:
                     call_sub(self.pos, button.id)
+
                 if pieces["king"][0].dead == 1:
                     print("The game end, the black pieces win ! You can go to the 'Main menu' !")
                     self.children[2].text = "The game end, the black pieces win ! You can go to the 'Main menu' !"
