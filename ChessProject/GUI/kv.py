@@ -206,6 +206,7 @@ class ChessGame(Screen):
 
         :param button: The button is the button which is clicked just now
         """
+        print("toto")
         letter = "abcdefgh"
         if (pieces["king"][0].dead == 0) & (pieces["king"][1].dead == 0):
             if self.number == 0:

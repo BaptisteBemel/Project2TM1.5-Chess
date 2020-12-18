@@ -28,7 +28,7 @@ while True:
     print(new_player.who_is_playing)
     chessboard = chessboard_srv
     show_chessboard()
-    update_gui_srv()
+    # update_gui_srv()
 
     while True:
         # If the serveur has played, it sends the data to the client
@@ -39,18 +39,16 @@ while True:
             pos_initial_tosend = bytes(pos_initial_tosend, 'utf-8')
             nxt_pos_tosend = bytes(nxt_pos_tosend, 'utf-8')
 
-
             srv_s.sendto(pos_initial_tosend, addr)
             srv_s.sendto(nxt_pos_tosend, addr)
 
 
-<<<<<<< HEAD
 
 
 '''
             pos_initial_tosend = bytes(fonctionquireturnlaposinitial(), 'utf-8')
             nxt_pos_tosend = bytes(fonctionquireturnlanxtpos(), 'utf-8')
-            '''
+            
 
 
 
@@ -59,7 +57,6 @@ while True:
 
 
 
-'''
 while True:
     # data, addr = srv_s.recvfrom(4096)
     srv_s.settimeout(1)
@@ -97,9 +94,8 @@ while True:
         true_false = bytes(str(False), 'utf-8')
         srv_s.sendto(msg_server, addr)
         srv_s.sendto(true_false, addr)
-'''
-=======
-    '''
+
+
     while True:
         # data, addr = srv_s.recvfrom(4096)
         srv_s.settimeout(1)
@@ -134,4 +130,3 @@ while True:
             srv_s.sendto(msg_server, addr)
             srv_s.sendto(true_false, addr)
             '''
->>>>>>> 985441af1d41ae7ae6878210bf6587aadda49026
