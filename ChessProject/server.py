@@ -1,33 +1,37 @@
 # -*- coding: utf8 -*-
 import socket
 from lib.utility.util import *
-from lib.classDir.class_file import pieces, has_played, update_gui_srv, new_player
+from lib.classDir.class_file import pieces, has_played, update_gui_srv, new_player\
 
+
+# Gets the return of initial_game() which his the right chessboard
 chessboard_srv = start()
 
 str_alpha = 'abcdefgh'
 
+# Create a UDP socket for IPv4
 srv_s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
+# Bind the socket to the address
 srv_s.bind((socket.gethostname(), 12345))
 while True:
-
+    # Receive data from the client
     data, addr = srv_s.recvfrom(4096)
     pos_initial_received = data.decode() # att list str
     data, addr = srv_s.recvfrom(4096)
     nxt_pos_received = data.decode()
 
     pos_initial_received = eval(pos_initial_received)
+    # Move the piece that the client played
     chessboard_srv[pos_initial_received[0]][str_alpha[pos_initial_received[1]]].move(nxt_pos_received)
     new_player.who_is_playing = 1
     print(new_player.who_is_playing)
-
-
-    # update_gui_srv()
+    chessboard = chessboard_srv
+    show_chessboard()
+    update_gui_srv()
 
     while True:
-        chessboard = chessboard_srv
-        show_chessboard()
+        # If the serveur has played, it sends the data to the client
         if has_played == 'True':
             new_player.who_is_playing = 0
             has_played = 'False'
@@ -35,10 +39,66 @@ while True:
             pos_initial_tosend = bytes(pos_initial_tosend, 'utf-8')
             nxt_pos_tosend = bytes(nxt_pos_tosend, 'utf-8')
 
+
             srv_s.sendto(pos_initial_tosend, addr)
             srv_s.sendto(nxt_pos_tosend, addr)
 
 
+<<<<<<< HEAD
+
+
+'''
+            pos_initial_tosend = bytes(fonctionquireturnlaposinitial(), 'utf-8')
+            nxt_pos_tosend = bytes(fonctionquireturnlanxtpos(), 'utf-8')
+            '''
+
+
+
+
+
+
+
+
+'''
+while True:
+    # data, addr = srv_s.recvfrom(4096)
+    srv_s.settimeout(1)
+    try:
+        recvpack, payload = srv_s.recvfrom(4096)
+    except socket.timeout:
+        recvpack = None
+    if recvpack is not None:
+        print(recvpack)
+        data, addr = srv_s.recvfrom(4096)
+        print(data.decode())
+        data, addr = srv_s.recvfrom(4096)
+
+        chessboard_received = eval(data)
+        print(chessboard == chessboard_received)
+        chessboard = chessboard_received
+
+
+        data, addr = srv_s.recvfrom(4096)
+        isit_true_false = bool(data.decode())
+
+        if isit_true_false == True:
+            break
+
+
+<<<<<<< HEAD
+
+    if new_play.has_played == True:
+=======
+    if has_played == True:
+>>>>>>> 5b3f4ccdd6f22c6203895f7e22ee57b96d62019f
+        has_played = False
+
+        msg_server = bytes(str(chessboard), "utf-8")
+        true_false = bytes(str(False), 'utf-8')
+        srv_s.sendto(msg_server, addr)
+        srv_s.sendto(true_false, addr)
+'''
+=======
     '''
     while True:
         # data, addr = srv_s.recvfrom(4096)
@@ -74,3 +134,4 @@ while True:
             srv_s.sendto(msg_server, addr)
             srv_s.sendto(true_false, addr)
             '''
+>>>>>>> 985441af1d41ae7ae6878210bf6587aadda49026

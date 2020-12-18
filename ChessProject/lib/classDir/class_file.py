@@ -13,6 +13,7 @@ def update_gui_srv():
     ChessGame(is_serv)
 
 
+
 def change_name(name_ip):
     """
     It takes the value of the ip entered in the connection input and modify the right variable
