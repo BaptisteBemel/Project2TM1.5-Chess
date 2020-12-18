@@ -1,8 +1,6 @@
 # -*- coding: utf8 -*-
 from lib.utility.util import *
-from lib.classDir.class_file import new_player, change_name, pieces, has_played, ip_addr, call_sub
-import kivy
-import threading
+from lib.classDir.class_file import pieces, new_player, change_name, call_sub
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
@@ -10,9 +8,6 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.properties import StringProperty
 import os
-import sys
-import subprocess
-import time
 
 
 list_of_position_chessboard = ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
@@ -155,6 +150,7 @@ class ChessGame(Screen):
     def update_chessboard_GUI(self, is_serv=False):
         """
         It updates the interface of the chessboard
+        The same use that the show_chessboard() for the console
         """
         if is_serv:
             child = self.children[0].children
@@ -209,52 +205,69 @@ class ChessGame(Screen):
                             btn.background_normal = "./img/white_king.png"
 
     def move(self, button):
-        # self.update_chessboard_GUI()
-        letter = "abcdefgh"
-        if self.number == 0:
-            self.pos = convert_to_list(button.id)
-            self.number += 1
-            print(new_player.who_is_playing)
-            if chessboard[self.pos[0]][letter[self.pos[1]]] == ".":
-                self.number -= 1
-                print("This value is wrong because it's not an object's position !")
-                self.children[2].text = "This value is wrong because it's not an object's position !"
+        """
+        This function is use to manage the movement of the graphical chess
 
-            elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and new_player.kind_of_game == 2) or \
-                    (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and new_player.kind_of_game == 1):
-                self.number -= 1
-                print("This value is wrong because it's the bad color !")
-                self.children[2].text = "This value is wrong because it's the bad color !"
-            else:
-                self.children[2].text = "Choose the position where you want to put your piece !"
-        elif self.number == 1:
-            trigger_var = False
-            if chessboard[self.pos[0]][letter[self.pos[1]]].move(button.id) is True:
-                self.number = 0
-                show_chessboard()
-                self.update_chessboard_GUI()
-                self.children[2].text = "Choose the object you want to move"
-                print(new_player.who_is_playing, "2")
-                if new_player.who_is_playing == 1:
-                    new_player.who_is_playing = 0
+        :param button: The button is the button which is clicked just now
+        """
+        letter = "abcdefgh"
+        if (pieces["king"][0].dead == 0) & (pieces["king"][1].dead == 0):
+            if self.number == 0:
+                self.pos = convert_to_list(button.id)
+                self.number += 1
+                print(new_player.who_is_playing)
+                if chessboard[self.pos[0]][letter[self.pos[1]]] == ".":
+                    self.number -= 1
+                    print("This value is wrong because it's not an object's position !")
+                    self.children[2].text = "This value is wrong because it's not an object's position !"
+                elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and new_player.who_is_playing == 0) or \
+                        (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and new_player.who_is_playing == 1):
+                    self.number -= 1
+                    print("You cannot play !")
+                    self.children[2].text = "you cannot play !"
+                elif (chessboard[self.pos[0]][letter[self.pos[1]]].color == "black" and new_player.kind_of_game == 2) or \
+                        (chessboard[self.pos[0]][letter[self.pos[1]]].color == "white" and new_player.kind_of_game == 1):
+                    self.number -= 1
+                    print("This value is wrong because it's the bad color !")
+                    self.children[2].text = "This value is wrong because it's the bad color !"
                 else:
-                    new_player.who_is_playing = 1
-                if new_player.kind_of_game == 2:
-                    trigger_var = True
-            else:
-                print("This value is wrong because it's not a correct position !")
-                self.children[2].text = "This value is wrong because it's not a correct position !"
-            if trigger_var:
-                call_sub(self.pos, button.id)
+                    self.children[2].text = "Choose the position where you want to put your piece !"
+            elif self.number == 1:
+                trigger_var = False
+                if chessboard[self.pos[0]][letter[self.pos[1]]].move(button.id) is True:
+                    self.number = 0
+                    show_chessboard()
+                    self.update_chessboard_GUI()
+                    self.children[2].text = "Choose the object you want to move"
+                    print(new_player.who_is_playing, "2")
+                    if new_player.who_is_playing == 1:
+                        new_player.who_is_playing = 0
+                    else:
+                        new_player.who_is_playing = 1
+                    if new_player.kind_of_game == 2:
+                        trigger_var = True
+                else:
+                    print("This value is wrong because it's not a correct position !")
+                    self.children[2].text = "This value is wrong because it's not a correct position !"
+                if trigger_var:
+                    call_sub(self.pos, button.id)
+                if pieces["king"][0].dead == 1:
+                    print("The game end, the black pieces win ! You can go to the 'Main menu' !")
+                    self.children[2].text = "The game end, the black pieces win ! You can go to the 'Main menu' !"
+                elif pieces["king"][1].dead == 1:
+                    print("The game end, the white pieces win ! You can go to the 'Main menu' !")
+                    self.children[2].text = "The game end, the white pieces win ! You can go to the 'Main menu' !"
 
     def change_piece_to_play(self):
         """
         Change the number to 0 to can change the piece you want to play
         """
-
         self.number = 0
 
     def reset_game(self):
+        """
+        It is call when we go to the main menu (the game is not save)
+        """
         start()
         self.update_chessboard_GUI()
         new_player.who_is_playing = 0
