@@ -1,6 +1,5 @@
 from lib.utility.util import *
 import os
-import os
 import subprocess
 
 

@@ -151,7 +151,7 @@ class ChessGame(Screen):
         if is_serv:
             child = self.children[0].children
         else:
-            child = self.children[4].children
+            child = self.children[3].children
         for key_chessboard in list_of_position_chessboard:
             if chessboard[int(key_chessboard[1])][key_chessboard[0]] == ".":
                 for btn in child:
@@ -271,9 +271,6 @@ class ChessGame(Screen):
         start()
         self.update_chessboard_GUI()
         new_player.who_is_playing = 0
-
-    def up(self):
-        return self.update_chessboard_GUI()
 
 
 class ChessApp(App):
